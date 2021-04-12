@@ -1,19 +1,30 @@
 package application;
 
 import config.Config;
+import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.stage.Stage;
+import logic.GameState;
 import utility.Logger;
-import utility.ResourceManager;
-import utility.ResourceManager.SceneResource;
 
 public class Main extends Application {
 	@Override
 	public void start(Stage stage) {
 		stage.setTitle(Config.GAME_TITLE);
-		stage.setScene(ResourceManager.getScene(SceneResource.MENU));
 		stage.setResizable(false);
+		stage.setScene(GameState.getScene());
 		stage.show();
+		AnimationTimer animation = new AnimationTimer() {
+
+			@Override
+			public void handle(long now) {
+				if (GameState.isSceneChange()) {
+					stage.setScene(GameState.getScene());
+					stage.show();
+				}
+			}
+		};
+		animation.start();
 	}
 
 	public static void main(String[] args) {

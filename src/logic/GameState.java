@@ -1,19 +1,30 @@
 package logic;
 
+import javafx.scene.Scene;
+import utility.Logger;
+import utility.ResourceManager;
+import utility.ResourceManager.SceneResource;
+
 public class GameState {
 
-	public enum Screen {
-		Menu, Setting, Playing
+	private static SceneResource sceneResource = SceneResource.MENU;
+	private static boolean isSceneChange = false;
+
+	public static void setSceneResource(SceneResource sceneResource) {
+		if (GameState.sceneResource != sceneResource) {
+			Logger.log("Change Scene To " + sceneResource.name());
+			GameState.sceneResource = sceneResource;
+			GameState.isSceneChange = true;
+		}
 	}
 
-	private static Screen screen = Screen.Menu;
-
-	public static Screen getState() {
-		return GameState.screen;
+	public static boolean isSceneChange() {
+		return isSceneChange;
 	}
 
-	public static void setState(Screen screen) {
-		GameState.screen = screen;
+	public static Scene getScene() {
+		isSceneChange = false;
+		return ResourceManager.getScene(sceneResource);
 	}
 
 }

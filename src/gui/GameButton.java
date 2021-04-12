@@ -1,18 +1,14 @@
 package gui;
 
-import javafx.event.EventHandler;
-import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
-import utility.Logger;
 import utility.ResourceManager;
 import utility.ResourceManager.ImageResource;
 
 public class GameButton extends Button {
 
-	public GameButton(ImageResource imageResource) {
-		ImageView imageView = ResourceManager.getImage(imageResource);
+	public GameButton(ImageResource imageResource, int width, int height) {
+		ImageView imageView = ResourceManager.getImageView(imageResource, width, height);
 
 		this.setGraphic(imageView);
 		this.setMinWidth(imageView.getFitWidth());
