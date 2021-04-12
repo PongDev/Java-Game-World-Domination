@@ -2,18 +2,18 @@ package logic;
 
 public class GameState {
 
-	public enum State {
+	public enum Screen {
 		Menu, Setting, Playing
 	}
 
-	private static State state = State.Menu;
+	private static Screen screen = Screen.Menu;
 
-	public static State getState() {
-		return state;
+	public static Screen getState() {
+		return GameState.screen;
 	}
 
-	public static void setState(State state) {
-		GameState.state = state;
+	public static void setState(Screen screen) {
+		GameState.screen = screen;
 	}
 
 }
