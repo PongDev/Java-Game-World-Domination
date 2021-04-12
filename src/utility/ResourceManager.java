@@ -4,11 +4,13 @@ import java.util.*;
 
 import config.Config;
 import gui.GameButton;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import utility.ResourceManager.ImageResource;
@@ -63,15 +65,26 @@ public class ResourceManager {
 
 	private static void loadScene() {
 		Logger.log("Start Loading Scene");
+		// Title Scene
 		{
 			GameButton btnNewGame = new GameButton(ImageResource.BTN_NEWGAME);
+			btnNewGame.setOnMouseClicked((e) -> {
+				Logger.log("Button New Game Click");
+			});
 			GameButton btnLoadGame = new GameButton(ImageResource.BTN_LOADGAME);
+			btnLoadGame.setOnMouseClicked((e) -> {
+				Logger.log("Button Load Game Click");
+			});
 			GameButton btnExitGame = new GameButton(ImageResource.BTN_EXITGAME);
+			btnExitGame.setOnMouseClicked((e) -> {
+				Logger.log("Button Exit Game Click");
+			});
 
 			VBox menuBar = new VBox();
-			menuBar.setSpacing(10);
+			menuBar.setSpacing(Config.TITLE_BTN_SPACING);
 			menuBar.getChildren().addAll(btnNewGame, btnLoadGame, btnExitGame);
 			menuBar.setAlignment(Pos.CENTER);
+			menuBar.setTranslateY(Config.SCREEN_H / 4);
 
 			StackPane root = new StackPane();
 			root.getChildren().addAll(ResourceManager.getImage(ImageResource.BG_TITLE), menuBar);

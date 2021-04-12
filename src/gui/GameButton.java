@@ -19,12 +19,6 @@ public class GameButton extends Button {
 		this.setMaxWidth(imageView.getFitWidth());
 		this.setMinHeight(imageView.getFitHeight());
 		this.setMaxHeight(imageView.getFitHeight());
-		this.setOnMouseClicked(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent e) {
-				Logger.log("Button Click");
-			}
-		});
 	}
 
 }
