@@ -1,24 +1,15 @@
 package utility;
 
+import java.io.InputStream;
 import java.util.*;
 
 import config.Config;
-import gui.GameButton;
-import gui.GameText;
 import gui.ModeSelectScenePane;
 import gui.PlayScenePane;
 import gui.TitleScenePane;
-import javafx.event.EventHandler;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
-import logic.GameState;
-import utility.ResourceManager.ImageResource;
 
 public class ResourceManager {
 
@@ -93,6 +84,10 @@ public class ResourceManager {
 
 	public static Scene getScene(SceneResource scene) {
 		return sceneResource.get(scene);
+	}
+
+	public static InputStream getFontResourceStream() {
+		return ClassLoader.getSystemResourceAsStream(Config.fontPath);
 	}
 
 }

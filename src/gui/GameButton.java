@@ -32,7 +32,7 @@ public class GameButton extends Button {
 
 	public GameButton(String text, ImageResource imageResource, int width, int height) {
 		this(imageResource, width, height);
-		this.setFont(new Font(height / 2));
+		this.setFont(Font.loadFont(ResourceManager.getFontResourceStream(), height / 2));
 		this.setTextFill(Color.BLACK);
 		this.setText(text);
 	}

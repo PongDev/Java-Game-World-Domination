@@ -13,4 +13,6 @@ public class Config {
 	public static final String GAME_TITLE = "That Time I Got Reincarnated as a World Dominator";
 
 	public static final boolean ENABLE_LOGGER = true;
+
+	public static final String fontPath = "font/Berlin_Sans_FB_Regular.ttf";
 }
