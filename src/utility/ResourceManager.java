@@ -14,7 +14,8 @@ import javafx.scene.image.ImageView;
 public class ResourceManager {
 
 	public enum ImageResource {
-		BG_TITLE, BTN, BTN_HOVER, BTN_NEWGAME, BTN_LOADGAME, BTN_EXITGAME, BTN_PLAY, BTN_BACK, BTN_NEXT, BTN_PREVIOUS
+		BG_TITLE, BTN, BTN_HOVER, BTN_NEWGAME, BTN_LOADGAME, BTN_EXITGAME, BTN_PLAY, BTN_BACK, BTN_NEXT, BTN_PREVIOUS,
+		TILE_FLOOR, TILE_WALL
 	}
 
 	public enum SceneResource {
@@ -51,6 +52,8 @@ public class ResourceManager {
 		imageResource.put(ImageResource.BTN_BACK, getImage("btn/back.png"));
 		imageResource.put(ImageResource.BTN_NEXT, getImage("btn/next.png"));
 		imageResource.put(ImageResource.BTN_PREVIOUS, getImage("btn/previous.png"));
+		imageResource.put(ImageResource.TILE_FLOOR, getImage("tile/tile_floor.png"));
+		imageResource.put(ImageResource.TILE_WALL, getImage("tile/tile_wall.png"));
 		Logger.log("Complete Loading Image");
 	}
 

@@ -24,10 +24,8 @@ public class GameButton extends Button {
 				new BackgroundSize(width, height, false, false, false, false)));
 
 		this.setBackground(background);
-		this.setMinWidth(width);
-		this.setMaxWidth(width);
-		this.setMinHeight(height);
-		this.setMaxHeight(height);
+		this.setPrefWidth(width);
+		this.setPrefHeight(height);
 	}
 
 	public GameButton(String text, ImageResource imageResource, int width, int height) {
