@@ -4,6 +4,7 @@ import config.Config;
 import javafx.geometry.Pos;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import logic.GameState;
 import utility.Logger;
 import utility.ResourceManager;
@@ -23,6 +24,7 @@ public class ModeSelectScenePane extends StackPane implements Updatable {
 		textGameMode.setTranslateY(-Config.SCREEN_H / 3);
 
 		btnPlay = new GameButton("Play", ImageResource.BTN, Config.TITLE_BTN_W, Config.TITLE_BTN_H);
+		btnPlay.setTextFill(Color.WHITE);
 		btnPlay.setOnMouseClicked((e) -> {
 			Logger.log("Button Play Game Click");
 			GameState.setSceneResource(SceneResource.PLAYING);

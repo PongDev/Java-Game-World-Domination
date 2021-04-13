@@ -4,9 +4,11 @@ public class Config {
 	public static final int SCREEN_W = 800;
 	public static final int SCREEN_H = 500;
 
+	public static final String TITLE_LABEL1 = "That Time I Got Reincarnated as a";
+	public static final String TITLE_LABEL2 = "World Dominator";
 	public static final int TITLE_BTN_W = 200;
 	public static final int TITLE_BTN_H = 50;
-	public static final int TITLE_BTN_SPACING = 10;
+	public static final int TITLE_BTN_SPACING = 15;
 
 	public static final int MODE_SELECT_BTN_SIZE = 50;
 
