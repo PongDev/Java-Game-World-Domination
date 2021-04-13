@@ -5,6 +5,9 @@ import java.util.*;
 import config.Config;
 import gui.GameButton;
 import gui.GameText;
+import gui.ModeSelectScenePane;
+import gui.PlayScenePane;
+import gui.TitleScenePane;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -24,7 +27,7 @@ public class ResourceManager {
 	}
 
 	public enum SceneResource {
-		MENU, SETTING, MODE_SELECTING, PLAYING
+		TITLE, SETTING, MODE_SELECTING, PLAYING
 	}
 
 	private static Map<SceneResource, Scene> sceneResource = new HashMap<SceneResource, Scene>();
@@ -61,102 +64,17 @@ public class ResourceManager {
 
 	private static void loadScene() {
 		Logger.log("Start Loading Scene");
+
 		// Title Scene
-		{
-			GameText textGameName = new GameText(Config.GAME_TITLE, Config.SCREEN_H / 15);
-			textGameName.setAlignment(Pos.CENTER);
-			textGameName.setTranslateY(-Config.SCREEN_H / 3);
-			GameButton btnNewGame = new GameButton("New game", ImageResource.BTN, Config.TITLE_BTN_W,
-					Config.TITLE_BTN_H);
-			btnNewGame.setOnMouseClicked((e) -> {
-				Logger.log("Button New Game Click");
-				GameState.setSceneResource(SceneResource.MODE_SELECTING);
-			});
-			GameButton btnLoadGame = new GameButton("Load game", ImageResource.BTN, Config.TITLE_BTN_W,
-					Config.TITLE_BTN_H);
-			btnLoadGame.setOnMouseClicked((e) -> {
-				Logger.log("Button Load Game Click");
-			});
-			GameButton btnExitGame = new GameButton("Exit", ImageResource.BTN, Config.TITLE_BTN_W, Config.TITLE_BTN_H);
-			btnExitGame.setOnMouseClicked((e) -> {
-				Logger.log("Button Exit Game Click");
-				GameState.closeGameStage();
-			});
-
-			VBox menuBar = new VBox();
-			menuBar.setSpacing(Config.TITLE_BTN_SPACING);
-			menuBar.getChildren().addAll(btnNewGame, btnLoadGame, btnExitGame);
-			menuBar.setAlignment(Pos.CENTER);
-			menuBar.setTranslateY(Config.SCREEN_H / 4);
-
-			StackPane root = new StackPane();
-			root.getChildren().addAll(
-					ResourceManager.getImageView(ImageResource.BG_TITLE, Config.SCREEN_W, Config.SCREEN_H), menuBar,
-					textGameName);
-
-			Scene scene = new Scene(root, Config.SCREEN_W, Config.SCREEN_H);
-			sceneResource.put(SceneResource.MENU, scene);
-		}
+		sceneResource.put(SceneResource.TITLE, new Scene(new TitleScenePane(), Config.SCREEN_W, Config.SCREEN_H));
 
 		// Mode Select Scene
-		{
-			GameText textGameMode = new GameText(GameState.getGameMode().getGameModeName(), Config.SCREEN_H / 15);
-			textGameMode.setAlignment(Pos.CENTER);
-			textGameMode.setTranslateY(-Config.SCREEN_H / 3);
-			GameButton btnPlay = new GameButton("Play", ImageResource.BTN, Config.TITLE_BTN_W, Config.TITLE_BTN_H);
-			btnPlay.setOnMouseClicked((e) -> {
-				Logger.log("Button Play Game Click");
-				GameState.setSceneResource(SceneResource.PLAYING);
-			});
-			GameButton btnBack = new GameButton(ImageResource.BTN_BACK, Config.MODE_SELECT_BTN_SIZE,
-					Config.MODE_SELECT_BTN_SIZE);
-			btnBack.setOnMouseClicked((e) -> {
-				Logger.log("Button Back Click");
-				GameState.setSceneResource(SceneResource.MENU);
-			});
-			btnBack.setTranslateX(-Config.SCREEN_W / 3);
-			btnBack.setTranslateY(-Config.SCREEN_H / 3);
-			GameButton btnNext = new GameButton(ImageResource.BTN_NEXT, Config.MODE_SELECT_BTN_SIZE,
-					Config.MODE_SELECT_BTN_SIZE);
-			btnNext.setOnMouseClicked((e) -> {
-				Logger.log("Button Next Click");
-				GameState.setGameMode(GameState.getGameMode().getNextGameMode());
-			});
-			btnNext.setTranslateX(Config.SCREEN_W / 3);
-			btnNext.setTranslateY(Config.SCREEN_H / 4);
-			GameButton btnPrevious = new GameButton(ImageResource.BTN_PREVIOUS, Config.MODE_SELECT_BTN_SIZE,
-					Config.MODE_SELECT_BTN_SIZE);
-			btnPrevious.setOnMouseClicked((e) -> {
-				Logger.log("Button Previous Click");
-				GameState.setGameMode(GameState.getGameMode().getPreviousGameMode());
-			});
-			btnPrevious.setTranslateX(-Config.SCREEN_W / 3);
-			btnPrevious.setTranslateY(Config.SCREEN_H / 4);
-
-			VBox playBar = new VBox();
-			playBar.setSpacing(Config.TITLE_BTN_SPACING);
-			playBar.getChildren().addAll(btnPlay);
-			playBar.setAlignment(Pos.CENTER);
-			playBar.setTranslateY(Config.SCREEN_H / 4);
-
-			StackPane root = new StackPane();
-			root.getChildren().addAll(
-					ResourceManager.getImageView(ImageResource.BG_TITLE, Config.SCREEN_W, Config.SCREEN_H), playBar,
-					btnBack, btnNext, btnPrevious, textGameMode);
-
-			Scene scene = new Scene(root, Config.SCREEN_W, Config.SCREEN_H);
-			sceneResource.put(SceneResource.MODE_SELECTING, scene);
-		}
+		sceneResource.put(SceneResource.MODE_SELECTING,
+				new Scene(new ModeSelectScenePane(), Config.SCREEN_W, Config.SCREEN_H));
 
 		// Playing Scene
-		{
-			StackPane root = new StackPane();
-			root.getChildren()
-					.addAll(ResourceManager.getImageView(ImageResource.BG_TITLE, Config.SCREEN_W, Config.SCREEN_H));
+		sceneResource.put(SceneResource.PLAYING, new Scene(new PlayScenePane(), Config.SCREEN_W, Config.SCREEN_H));
 
-			Scene scene = new Scene(root, Config.SCREEN_W, Config.SCREEN_H);
-			sceneResource.put(SceneResource.PLAYING, scene);
-		}
 		Logger.log("Complete Loading Scene");
 	}
 

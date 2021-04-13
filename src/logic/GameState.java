@@ -34,8 +34,10 @@ public class GameState {
 	}
 
 	private static Stage gameStage;
-	private static SceneResource sceneResource = SceneResource.MENU;
+	private static SceneResource sceneResource = SceneResource.TITLE;
 	private static boolean isSceneChange = false;
+	private static boolean isRequestSceneUpdate = false;
+
 	private static GameMode gameMode = GameMode.NORMAL;
 
 	public static void setGameStage(Stage gameStage) {
@@ -72,6 +74,14 @@ public class GameState {
 			GameState.gameMode = gameMode;
 			Logger.log("Game Mode Change To " + GameState.gameMode.name());
 		}
+	}
+	
+	public static boolean isRequestSceneUpdate() {
+		return isRequestSceneUpdate;
+	}
+
+	public static void setRequestSceneUpdate(boolean isRequestSceneUpdate) {
+		GameState.isRequestSceneUpdate = isRequestSceneUpdate;
 	}
 
 }

@@ -1,6 +1,7 @@
 package application;
 
 import config.Config;
+import gui.Updatable;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -22,6 +23,9 @@ public class Main extends Application {
 				if (GameState.isSceneChange()) {
 					stage.setScene(GameState.getScene());
 					stage.show();
+				}
+				if (GameState.isRequestSceneUpdate() && stage.getScene().getRoot() instanceof Updatable) {
+					((Updatable) stage.getScene().getRoot()).update();
 				}
 			}
 		};
