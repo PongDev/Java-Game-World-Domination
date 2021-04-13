@@ -1,18 +1,14 @@
 package gui;
 
-import config.Config;
-import javafx.scene.layout.GridPane;
-import utility.ResourceManager;
-import utility.ResourceManager.ImageResource;
+import javafx.scene.Group;
 
-public class PlayScenePane extends GridPane {
+public class PlayScenePane extends Group {
 
 	Map map;
 
 	public PlayScenePane() {
 		map = new Map();
-		this.getChildren()
-				.addAll(ResourceManager.getImageView(ImageResource.BG_TITLE, Config.SCREEN_W, Config.SCREEN_H), map);
+		this.getChildren().addAll(map);
 	}
 
 }

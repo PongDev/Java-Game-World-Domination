@@ -1,25 +1,32 @@
 package gui;
 
 import java.util.ArrayList;
+
+import com.sun.media.jfxmedia.logging.Logger;
+
 import config.Config;
-import javafx.geometry.Pos;
-import javafx.scene.layout.GridPane;
-import javafx.scene.shape.Rectangle;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 import logic.GameState;
+import render.Renderable;
 import utility.ResourceManager;
 import utility.ResourceManager.ImageResource;
 
-public class Map extends GridPane {
+public class Map extends Canvas implements Renderable {
 
-	private ArrayList<Tile> mapData = new ArrayList<Tile>();
-	private Rectangle screenClip;
+	private Tile[][] mapData;
+	private int mapPosX, mapPosY, mapCenterX, mapCenterY;
+	private GraphicsContext gc;
 
 	public Map() {
-		screenClip = new Rectangle(Config.SCREEN_W, Config.SCREEN_H);
-		this.setMinWidth(GameState.getMapWidth() * Config.TILE_W);
-		this.setMaxWidth(GameState.getMapWidth() * Config.TILE_W);
-		this.setMinHeight(GameState.getMapHeight() * Config.TILE_H);
-		this.setMaxHeight(GameState.getMapHeight() * Config.TILE_H);
+		super(Config.SCREEN_W, Config.SCREEN_H);
+		gc = this.getGraphicsContext2D();
+		mapCenterX = (int) (Config.TILE_W * 1.5);
+		mapCenterY = (GameState.getMapHeight() * Config.TILE_H) / 2;
+		calculateMapPos();
+
+		mapData = new Tile[GameState.getMapHeight()][GameState.getMapWidth()];
 		for (int rowPos = 0; rowPos < GameState.getMapHeight(); rowPos++) {
 			for (int colPos = 0; colPos < GameState.getMapWidth(); colPos++) {
 				ImageResource tileImage;
@@ -43,13 +50,30 @@ public class Map extends GridPane {
 					break;
 				}
 
-				Tile tile = new Tile(tileImage, tileCode);
-
-				mapData.add(tile);
-				this.add(tile, colPos, rowPos);
+				mapData[rowPos][colPos] = new Tile(tileImage, tileCode);
 			}
 		}
-		this.setTranslateY((Config.SCREEN_H / 2) - ((GameState.getMapHeight() * Config.TILE_H) / 2));
+		render();
+	}
+
+	private void calculateMapPos() {
+		mapPosX = mapCenterX - (Config.SCREEN_W / 2);
+		mapPosY = mapCenterY - (Config.SCREEN_H / 2);
+	}
+
+	public void render() {
+		for (int rowPos = 0; rowPos < GameState.getMapHeight(); rowPos++) {
+			for (int colPos = 0; colPos < GameState.getMapWidth(); colPos++) {
+				if ((-mapPosX + (colPos * Config.TILE_W) <= Config.SCREEN_W
+						&& -mapPosY + (rowPos * Config.TILE_H) <= Config.SCREEN_H)
+						|| (-mapPosX + (colPos * Config.TILE_W) + Config.TILE_W >= 0
+								&& -mapPosY + (rowPos * Config.TILE_H) + Config.TILE_H >= 0)) {
+					gc.drawImage(ResourceManager.getImage(mapData[rowPos][colPos].getImageResource()),
+							-mapPosX + (colPos * Config.TILE_W), -mapPosY + (rowPos * Config.TILE_H), Config.TILE_W,
+							Config.TILE_H);
+				}
+			}
+		}
 	}
 
 }

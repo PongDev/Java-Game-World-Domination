@@ -21,8 +21,8 @@ public class Config {
 	public static final int TILE_W = 48;
 	public static final int TILE_H = 48;
 
-	public static final int MAP_TILE_W = 16;
-	public static final int MAP_TILE_H = 10;
+	public static final int SCREEN_TILE_W = 16;
+	public static final int SCREEN_TILE_H = 10;
 
 	public static final String MAP_PATH = "map/map.csv";
 }
