@@ -4,6 +4,7 @@ import java.util.*;
 
 import config.Config;
 import gui.GameButton;
+import gui.GameText;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -62,6 +63,9 @@ public class ResourceManager {
 		Logger.log("Start Loading Scene");
 		// Title Scene
 		{
+			GameText textGameName = new GameText(Config.GAME_TITLE, Config.SCREEN_H / 15);
+			textGameName.setAlignment(Pos.CENTER);
+			textGameName.setTranslateY(-Config.SCREEN_H / 3);
 			GameButton btnNewGame = new GameButton("New game", ImageResource.BTN, Config.TITLE_BTN_W,
 					Config.TITLE_BTN_H);
 			btnNewGame.setOnMouseClicked((e) -> {
@@ -76,6 +80,7 @@ public class ResourceManager {
 			GameButton btnExitGame = new GameButton("Exit", ImageResource.BTN, Config.TITLE_BTN_W, Config.TITLE_BTN_H);
 			btnExitGame.setOnMouseClicked((e) -> {
 				Logger.log("Button Exit Game Click");
+				GameState.closeGameStage();
 			});
 
 			VBox menuBar = new VBox();
@@ -86,7 +91,8 @@ public class ResourceManager {
 
 			StackPane root = new StackPane();
 			root.getChildren().addAll(
-					ResourceManager.getImageView(ImageResource.BG_TITLE, Config.SCREEN_W, Config.SCREEN_H), menuBar);
+					ResourceManager.getImageView(ImageResource.BG_TITLE, Config.SCREEN_W, Config.SCREEN_H), menuBar,
+					textGameName);
 
 			Scene scene = new Scene(root, Config.SCREEN_W, Config.SCREEN_H);
 			sceneResource.put(SceneResource.MENU, scene);
@@ -94,6 +100,9 @@ public class ResourceManager {
 
 		// Mode Select Scene
 		{
+			GameText textGameMode = new GameText(GameState.getGameMode().getGameModeName(), Config.SCREEN_H / 15);
+			textGameMode.setAlignment(Pos.CENTER);
+			textGameMode.setTranslateY(-Config.SCREEN_H / 3);
 			GameButton btnPlay = new GameButton("Play", ImageResource.BTN, Config.TITLE_BTN_W, Config.TITLE_BTN_H);
 			btnPlay.setOnMouseClicked((e) -> {
 				Logger.log("Button Play Game Click");
@@ -111,6 +120,7 @@ public class ResourceManager {
 					Config.MODE_SELECT_BTN_SIZE);
 			btnNext.setOnMouseClicked((e) -> {
 				Logger.log("Button Next Click");
+				GameState.setGameMode(GameState.getGameMode().getNextGameMode());
 			});
 			btnNext.setTranslateX(Config.SCREEN_W / 3);
 			btnNext.setTranslateY(Config.SCREEN_H / 4);
@@ -118,6 +128,7 @@ public class ResourceManager {
 					Config.MODE_SELECT_BTN_SIZE);
 			btnPrevious.setOnMouseClicked((e) -> {
 				Logger.log("Button Previous Click");
+				GameState.setGameMode(GameState.getGameMode().getPreviousGameMode());
 			});
 			btnPrevious.setTranslateX(-Config.SCREEN_W / 3);
 			btnPrevious.setTranslateY(Config.SCREEN_H / 4);
@@ -131,7 +142,7 @@ public class ResourceManager {
 			StackPane root = new StackPane();
 			root.getChildren().addAll(
 					ResourceManager.getImageView(ImageResource.BG_TITLE, Config.SCREEN_W, Config.SCREEN_H), playBar,
-					btnBack, btnNext, btnPrevious);
+					btnBack, btnNext, btnPrevious, textGameMode);
 
 			Scene scene = new Scene(root, Config.SCREEN_W, Config.SCREEN_H);
 			sceneResource.put(SceneResource.MODE_SELECTING, scene);

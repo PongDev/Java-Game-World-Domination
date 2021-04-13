@@ -10,6 +10,7 @@ import utility.Logger;
 public class Main extends Application {
 	@Override
 	public void start(Stage stage) {
+		GameState.setGameStage(stage);
 		stage.setTitle(Config.GAME_TITLE);
 		stage.setResizable(false);
 		stage.setScene(GameState.getScene());
@@ -30,5 +31,6 @@ public class Main extends Application {
 	public static void main(String[] args) {
 		Logger.log("Application Launch");
 		launch(args);
+		Logger.log("Application Close");
 	}
 }

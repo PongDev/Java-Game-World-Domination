@@ -1,14 +1,50 @@
 package logic;
 
 import javafx.scene.Scene;
+import javafx.stage.Stage;
 import utility.Logger;
 import utility.ResourceManager;
 import utility.ResourceManager.SceneResource;
 
 public class GameState {
 
+	public enum GameMode {
+		NORMAL(0, "Normal"), ENDLESS(1, "Endless");
+
+		private final int gameModeCode;
+		private final String gameModeName;
+		private static final GameMode[] gameModeArray = { GameMode.NORMAL, GameMode.ENDLESS };
+
+		private GameMode(int gameModeCode, String gameModeName) {
+			this.gameModeCode = gameModeCode;
+			this.gameModeName = gameModeName;
+		}
+
+		public GameMode getNextGameMode() {
+			return (gameModeCode == gameModeArray.length - 1) ? gameModeArray[0] : gameModeArray[gameModeCode + 1];
+		}
+
+		public GameMode getPreviousGameMode() {
+			return (gameModeCode == 0) ? gameModeArray[gameModeArray.length - 1] : gameModeArray[gameModeCode - 1];
+		}
+
+		public String getGameModeName() {
+			return gameModeName;
+		}
+	}
+
+	private static Stage gameStage;
 	private static SceneResource sceneResource = SceneResource.MENU;
 	private static boolean isSceneChange = false;
+	private static GameMode gameMode = GameMode.NORMAL;
+
+	public static void setGameStage(Stage gameStage) {
+		GameState.gameStage = gameStage;
+	}
+
+	public static void closeGameStage() {
+		GameState.gameStage.close();
+	}
 
 	public static void setSceneResource(SceneResource sceneResource) {
 		if (GameState.sceneResource != sceneResource) {
@@ -25,6 +61,17 @@ public class GameState {
 	public static Scene getScene() {
 		isSceneChange = false;
 		return ResourceManager.getScene(sceneResource);
+	}
+
+	public static GameMode getGameMode() {
+		return gameMode;
+	}
+
+	public static void setGameMode(GameMode gameMode) {
+		if (GameState.gameMode != gameMode) {
+			GameState.gameMode = gameMode;
+			Logger.log("Game Mode Change To " + GameState.gameMode.name());
+		}
 	}
 
 }
