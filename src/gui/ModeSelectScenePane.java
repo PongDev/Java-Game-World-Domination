@@ -15,6 +15,7 @@ import utility.ResourceManager.SceneResource;
 public class ModeSelectScenePane extends StackPane implements Updatable {
 
 	private GameText textGameMode;
+	private GameText infoText;
 	private GameButton btnPlay, btnBack, btnNext, btnPrevious;
 	private VBox playBar;
 	private ImageView infoImage;
@@ -24,6 +25,10 @@ public class ModeSelectScenePane extends StackPane implements Updatable {
 		textGameMode = new GameText(GameState.getGameMode().getGameModeName(), Config.SCREEN_H / 15);
 		textGameMode.setAlignment(Pos.CENTER);
 		textGameMode.setTranslateY(-Config.SCREEN_H / 3);
+		
+		infoText = new GameText(GameState.getGameMode().getGameModeInfoText(), Config.SCREEN_H / 18, Color.BLACK);
+		infoText.setAlignment(Pos.CENTER);
+		infoText.setTranslateY(Config.SCREEN_H / 7);
 
 		btnPlay = new GameButton("Play", ImageResource.BTN, Config.TITLE_BTN_W, Config.TITLE_BTN_H);
 		btnPlay.setTextFill(Color.WHITE);
@@ -71,12 +76,13 @@ public class ModeSelectScenePane extends StackPane implements Updatable {
 
 		this.getChildren().addAll(
 				ResourceManager.getImageView(ImageResource.BG_TITLE, Config.SCREEN_W, Config.SCREEN_H), infoImage,
-				playBar, btnBack, btnNext, btnPrevious, textGameMode);
+				playBar, btnBack, btnNext, btnPrevious, textGameMode, infoText);
 	}
 
 	public void update() {
 		textGameMode.setText(GameState.getGameMode().getGameModeName());
 		infoImage.setImage(ResourceManager.getImage(GameState.getGameMode().getGameModeInfoImageResource()));
+		infoText.setText(GameState.getGameMode().getGameModeInfoText());
 	}
 
 }

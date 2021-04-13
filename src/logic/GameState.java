@@ -10,17 +10,22 @@ import utility.ResourceManager.SceneResource;
 public class GameState {
 
 	public enum GameMode {
-		NORMAL(0, "Normal", ImageResource.INFO_NORMALMODE), ENDLESS(1, "Endless", ImageResource.INFO_ENDLESSMODE);
+		NORMAL(0, "Normal", ImageResource.INFO_NORMALMODE, "Survive 30 waves to win\n"
+				+ "Elite enemies every 10 waves"), 
+		ENDLESS(1, "Endless", ImageResource.INFO_ENDLESSMODE, "Survive as long as you can!\n"
+				+ "Elite enemies every 15 waves");
 
 		private final int gameModeCode;
 		private final String gameModeName;
-		private final ImageResource infoImage;
+		private final String gameModeInfoText;
+		private final ImageResource gameModeinfoImage;
 		private static final GameMode[] gameModeArray = { GameMode.NORMAL, GameMode.ENDLESS };
 
-		private GameMode(int gameModeCode, String gameModeName, ImageResource infoPicture) {
+		private GameMode(int gameModeCode, String gameModeName, ImageResource gameModeinfoPicture, String gameModeInfoText) {
 			this.gameModeCode = gameModeCode;
 			this.gameModeName = gameModeName;
-			this.infoImage = infoPicture;
+			this.gameModeinfoImage = gameModeinfoPicture;
+			this.gameModeInfoText = gameModeInfoText;
 		}
 
 		public GameMode getNextGameMode() {
@@ -36,7 +41,11 @@ public class GameState {
 		}
 		
 		public ImageResource getGameModeInfoImageResource() {
-			return infoImage;
+			return gameModeinfoImage;
+		}
+		
+		public String getGameModeInfoText() {
+			return gameModeInfoText;
 		}
 	}
 
