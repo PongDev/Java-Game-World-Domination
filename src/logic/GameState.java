@@ -39,7 +39,7 @@ public class GameState {
 		public String getGameModeName() {
 			return gameModeName;
 		}
-		
+
 		public ImageResource getGameModeInfoImageResource() {
 			return gameModeinfoImage;
 		}
@@ -53,8 +53,22 @@ public class GameState {
 	private static SceneResource sceneResource = SceneResource.TITLE;
 	private static boolean isSceneChange = false;
 	private static boolean isRequestSceneUpdate = false;
-
 	private static GameMode gameMode = GameMode.NORMAL;
+	private static int mapWidth;
+	private static int mapHeight;
+
+	public static void setMapSize(int width, int height) {
+		mapWidth = width;
+		mapHeight = height;
+	}
+
+	public static int getMapWidth() {
+		return mapWidth;
+	}
+
+	public static int getMapHeight() {
+		return mapHeight;
+	}
 
 	public static void setGameStage(Stage gameStage) {
 		GameState.gameStage = gameStage;
@@ -91,7 +105,7 @@ public class GameState {
 			Logger.log("Game Mode Change To " + GameState.gameMode.name());
 		}
 	}
-	
+
 	public static boolean isRequestSceneUpdate() {
 		return isRequestSceneUpdate;
 	}

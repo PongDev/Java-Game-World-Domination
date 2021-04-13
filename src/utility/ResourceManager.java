@@ -1,6 +1,9 @@
 package utility;
 
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.*;
 
 import config.Config;
@@ -10,12 +13,13 @@ import gui.TitleScenePane;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import logic.GameState;
 
 public class ResourceManager {
 
 	public enum ImageResource {
-		BG_TITLE, INFO_NORMALMODE, INFO_ENDLESSMODE, BTN, BTN_HOVER, BTN_NEWGAME, BTN_LOADGAME, BTN_EXITGAME, BTN_PLAY, BTN_BACK, BTN_NEXT, BTN_PREVIOUS,
-		TILE_FLOOR, TILE_WALL
+		BG_TITLE, INFO_NORMALMODE, INFO_ENDLESSMODE, BTN, BTN_HOVER, BTN_NEWGAME, BTN_LOADGAME, BTN_EXITGAME, BTN_PLAY,
+		BTN_BACK, BTN_NEXT, BTN_PREVIOUS, TILE_FLOOR, TILE_WALL
 	}
 
 	public enum SceneResource {
@@ -24,10 +28,12 @@ public class ResourceManager {
 
 	private static Map<SceneResource, Scene> sceneResource = new HashMap<SceneResource, Scene>();
 	private static Map<ImageResource, Image> imageResource = new HashMap<ImageResource, Image>();
+	private static String[][] mapResource;
 
 	static {
 		Logger.log("Initializing ResourceManager");
 		loadImage();
+		loadMap();
 		loadScene();
 		Logger.log("ResourceManager Initialized");
 	}
@@ -57,6 +63,29 @@ public class ResourceManager {
 		imageResource.put(ImageResource.TILE_FLOOR, getImage("tile/tile_floor.png"));
 		imageResource.put(ImageResource.TILE_WALL, getImage("tile/tile_wall.png"));
 		Logger.log("Complete Loading Image");
+	}
+	
+	private static void loadMap() {
+		try {
+			Logger.log("Start Loading Map");
+			InputStream inputStream = ClassLoader.getSystemResourceAsStream(Config.MAP_PATH);
+			InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "UTF-8");
+			BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+			ArrayList<String[]> data = new ArrayList<String[]>();
+			String lineInput;
+			
+			while ((lineInput = bufferedReader.readLine()) != null) {
+				data.add(lineInput.split(","));
+			}
+			
+			mapResource = data.toArray(new String[data.size()][]);
+			GameState.setMapSize(mapResource[0].length, mapResource.length);
+			Logger.log(String.format("Map Size W x H = %d x %d", mapResource[0].length, mapResource.length));
+		} catch (IOException e) {
+			Logger.error("Load Map Failed");
+			e.printStackTrace();
+		}
+		Logger.log("Complete Loading Map");
 	}
 
 	private static void loadScene() {
@@ -92,7 +121,11 @@ public class ResourceManager {
 	}
 
 	public static InputStream getFontResourceStream() {
-		return ClassLoader.getSystemResourceAsStream(Config.fontPath);
+		return ClassLoader.getSystemResourceAsStream(Config.FONT_PATH);
+	}
+
+	public static String[][] getMap() {
+		return mapResource;
 	}
 
 }
