@@ -2,6 +2,7 @@ package gui;
 
 import config.Config;
 import javafx.geometry.Pos;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -16,6 +17,7 @@ public class ModeSelectScenePane extends StackPane implements Updatable {
 	private GameText textGameMode;
 	private GameButton btnPlay, btnBack, btnNext, btnPrevious;
 	private VBox playBar;
+	private ImageView infoImage;
 
 	public ModeSelectScenePane() {
 
@@ -46,7 +48,7 @@ public class ModeSelectScenePane extends StackPane implements Updatable {
 			GameState.setRequestSceneUpdate(true);
 		});
 		btnNext.setTranslateX(Config.SCREEN_W / 3);
-		btnNext.setTranslateY(Config.SCREEN_H / 4);
+		btnNext.setTranslateY(Config.SCREEN_H / 3.15);
 
 		btnPrevious = new GameButton(ImageResource.BTN_PREVIOUS, Config.MODE_SELECT_BTN_SIZE,
 				Config.MODE_SELECT_BTN_SIZE);
@@ -56,21 +58,25 @@ public class ModeSelectScenePane extends StackPane implements Updatable {
 			GameState.setRequestSceneUpdate(true);
 		});
 		btnPrevious.setTranslateX(-Config.SCREEN_W / 3);
-		btnPrevious.setTranslateY(Config.SCREEN_H / 4);
+		btnPrevious.setTranslateY(Config.SCREEN_H / 3.15);
 
 		playBar = new VBox();
 		playBar.setSpacing(Config.TITLE_BTN_SPACING);
 		playBar.getChildren().addAll(btnPlay);
 		playBar.setAlignment(Pos.CENTER);
-		playBar.setTranslateY(Config.SCREEN_H / 4);
+		playBar.setTranslateY(Config.SCREEN_H / 3.15);
+
+		infoImage = ResourceManager.getImageView(ImageResource.INFO_NORMALMODE,
+				(int) (Config.SCREEN_W / 1.25), (int) (Config.SCREEN_H / 1.25));
 
 		this.getChildren().addAll(
-				ResourceManager.getImageView(ImageResource.BG_TITLE, Config.SCREEN_W, Config.SCREEN_H), playBar,
-				btnBack, btnNext, btnPrevious, textGameMode);
+				ResourceManager.getImageView(ImageResource.BG_TITLE, Config.SCREEN_W, Config.SCREEN_H), infoImage,
+				playBar, btnBack, btnNext, btnPrevious, textGameMode);
 	}
 
 	public void update() {
 		textGameMode.setText(GameState.getGameMode().getGameModeName());
+		infoImage.setImage(ResourceManager.getImage(GameState.getGameMode().getGameModeInfoImageResource()));
 	}
 
 }

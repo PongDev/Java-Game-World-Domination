@@ -4,20 +4,23 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import utility.Logger;
 import utility.ResourceManager;
+import utility.ResourceManager.ImageResource;
 import utility.ResourceManager.SceneResource;
 
 public class GameState {
 
 	public enum GameMode {
-		NORMAL(0, "Normal"), ENDLESS(1, "Endless");
+		NORMAL(0, "Normal", ImageResource.INFO_NORMALMODE), ENDLESS(1, "Endless", ImageResource.INFO_ENDLESSMODE);
 
 		private final int gameModeCode;
 		private final String gameModeName;
+		private final ImageResource infoImage;
 		private static final GameMode[] gameModeArray = { GameMode.NORMAL, GameMode.ENDLESS };
 
-		private GameMode(int gameModeCode, String gameModeName) {
+		private GameMode(int gameModeCode, String gameModeName, ImageResource infoPicture) {
 			this.gameModeCode = gameModeCode;
 			this.gameModeName = gameModeName;
+			this.infoImage = infoPicture;
 		}
 
 		public GameMode getNextGameMode() {
@@ -30,6 +33,10 @@ public class GameState {
 
 		public String getGameModeName() {
 			return gameModeName;
+		}
+		
+		public ImageResource getGameModeInfoImageResource() {
+			return infoImage;
 		}
 	}
 
