@@ -21,11 +21,14 @@ public class ModeSelectScenePane extends StackPane implements Updatable {
 		textGameMode = new GameText(GameState.getGameMode().getGameModeName(), Config.SCREEN_H / 15);
 		textGameMode.setAlignment(Pos.CENTER);
 		textGameMode.setTranslateY(-Config.SCREEN_H / 3);
+
 		btnPlay = new GameButton("Play", ImageResource.BTN, Config.TITLE_BTN_W, Config.TITLE_BTN_H);
 		btnPlay.setOnMouseClicked((e) -> {
 			Logger.log("Button Play Game Click");
 			GameState.setSceneResource(SceneResource.PLAYING);
 		});
+		btnPlay.setOnHoverBackground(ImageResource.BTN_HOVER);
+
 		btnBack = new GameButton(ImageResource.BTN_BACK, Config.MODE_SELECT_BTN_SIZE, Config.MODE_SELECT_BTN_SIZE);
 		btnBack.setOnMouseClicked((e) -> {
 			Logger.log("Button Back Click");
@@ -33,6 +36,7 @@ public class ModeSelectScenePane extends StackPane implements Updatable {
 		});
 		btnBack.setTranslateX(-Config.SCREEN_W / 3);
 		btnBack.setTranslateY(-Config.SCREEN_H / 3);
+
 		btnNext = new GameButton(ImageResource.BTN_NEXT, Config.MODE_SELECT_BTN_SIZE, Config.MODE_SELECT_BTN_SIZE);
 		btnNext.setOnMouseClicked((e) -> {
 			Logger.log("Button Next Click");
@@ -41,6 +45,7 @@ public class ModeSelectScenePane extends StackPane implements Updatable {
 		});
 		btnNext.setTranslateX(Config.SCREEN_W / 3);
 		btnNext.setTranslateY(Config.SCREEN_H / 4);
+
 		btnPrevious = new GameButton(ImageResource.BTN_PREVIOUS, Config.MODE_SELECT_BTN_SIZE,
 				Config.MODE_SELECT_BTN_SIZE);
 		btnPrevious.setOnMouseClicked((e) -> {

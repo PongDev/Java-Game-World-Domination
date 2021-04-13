@@ -13,8 +13,13 @@ import utility.ResourceManager.ImageResource;
 
 public class GameButton extends Button {
 
+	private Background background, onHoverBackground;
+	private int width, height;
+
 	public GameButton(ImageResource imageResource, int width, int height) {
-		Background background = new Background(new BackgroundImage(ResourceManager.getImage(imageResource),
+		this.width = width;
+		this.height = height;
+		background = new Background(new BackgroundImage(ResourceManager.getImage(imageResource),
 				BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
 				new BackgroundSize(width, height, false, false, false, false)));
 
@@ -30,6 +35,19 @@ public class GameButton extends Button {
 		this.setFont(new Font(height / 2));
 		this.setTextFill(Color.BLACK);
 		this.setText(text);
+	}
+
+	public void setOnHoverBackground(ImageResource imageResource) {
+		onHoverBackground = new Background(new BackgroundImage(ResourceManager.getImage(imageResource),
+				BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+				new BackgroundSize(width, height, false, false, false, false)));
+
+		this.setOnMouseEntered((e) -> {
+			this.setBackground(onHoverBackground);
+		});
+		this.setOnMouseExited((e) -> {
+			this.setBackground(background);
+		});
 	}
 
 }

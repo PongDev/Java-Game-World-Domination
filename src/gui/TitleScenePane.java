@@ -26,17 +26,20 @@ public class TitleScenePane extends StackPane {
 			Logger.log("Button New Game Click");
 			GameState.setSceneResource(SceneResource.MODE_SELECTING);
 		});
+		btnNewGame.setOnHoverBackground(ImageResource.BTN_HOVER);
 
 		btnLoadGame = new GameButton("Load game", ImageResource.BTN, Config.TITLE_BTN_W, Config.TITLE_BTN_H);
 		btnLoadGame.setOnMouseClicked((e) -> {
 			Logger.log("Button Load Game Click");
 		});
+		btnLoadGame.setOnHoverBackground(ImageResource.BTN_HOVER);
 
 		btnExitGame = new GameButton("Exit", ImageResource.BTN, Config.TITLE_BTN_W, Config.TITLE_BTN_H);
 		btnExitGame.setOnMouseClicked((e) -> {
 			Logger.log("Button Exit Game Click");
 			GameState.closeGameStage();
 		});
+		btnExitGame.setOnHoverBackground(ImageResource.BTN_HOVER);
 
 		menuBar = new VBox();
 		menuBar.setSpacing(Config.TITLE_BTN_SPACING);

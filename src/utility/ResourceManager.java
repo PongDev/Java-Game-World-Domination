@@ -23,7 +23,7 @@ import utility.ResourceManager.ImageResource;
 public class ResourceManager {
 
 	public enum ImageResource {
-		BG_TITLE, BTN, BTN_NEWGAME, BTN_LOADGAME, BTN_EXITGAME, BTN_PLAY, BTN_BACK, BTN_NEXT, BTN_PREVIOUS
+		BG_TITLE, BTN, BTN_HOVER, BTN_NEWGAME, BTN_LOADGAME, BTN_EXITGAME, BTN_PLAY, BTN_BACK, BTN_NEXT, BTN_PREVIOUS
 	}
 
 	public enum SceneResource {
@@ -52,6 +52,7 @@ public class ResourceManager {
 		Logger.log("Start Loading Image");
 		imageResource.put(ImageResource.BG_TITLE, getImage("bg/title.png"));
 		imageResource.put(ImageResource.BTN, getImage("btn/button.png"));
+		imageResource.put(ImageResource.BTN_HOVER, getImage("btn/button_hover.png"));
 		imageResource.put(ImageResource.BTN_NEWGAME, getImage("btn/new_game.png"));
 		imageResource.put(ImageResource.BTN_LOADGAME, getImage("btn/load_game.png"));
 		imageResource.put(ImageResource.BTN_EXITGAME, getImage("btn/exit_game.png"));
