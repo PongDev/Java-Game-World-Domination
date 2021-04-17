@@ -2,8 +2,8 @@ package utility;
 
 public class Position {
 
-	public int X;
-	public int Y;
+	public double X;
+	public double Y;
 
 	public Position() {
 		this(0, 0);
@@ -13,12 +13,12 @@ public class Position {
 		this(pos.X, pos.Y);
 	}
 
-	public Position(int X, int Y) {
+	public Position(double X, double Y) {
 		this.X = X;
 		this.Y = Y;
 	}
 
-	public void move(int deltaX, int deltaY) {
+	public void move(double deltaX, double deltaY) {
 		this.X += deltaX;
 		this.Y += deltaY;
 	}

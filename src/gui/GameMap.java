@@ -102,9 +102,9 @@ public class GameMap extends Canvas implements Renderable {
 		return mapPos;
 	}
 
-	public boolean isCollide(int posX, int posY) {
-		int posRow = posY / Config.TILE_H;
-		int posCol = posX / Config.TILE_W;
+	public boolean isCollide(double posX, double posY) {
+		int posRow = (int) (posY / Config.TILE_H);
+		int posCol = (int) (posX / Config.TILE_W);
 
 		return mapData[posRow][posCol].isWalkable();
 	}
