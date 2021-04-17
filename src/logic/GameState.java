@@ -1,5 +1,6 @@
 package logic;
 
+import gui.GameMap;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import utility.Logger;
@@ -10,10 +11,10 @@ import utility.ResourceManager.SceneResource;
 public class GameState {
 
 	public enum GameMode {
-		NORMAL(0, "Normal", ImageResource.INFO_NORMALMODE, "Survive 30 waves to win\n"
-				+ "Elite enemies every 10 waves"), 
-		ENDLESS(1, "Endless", ImageResource.INFO_ENDLESSMODE, "Survive as long as you can!\n"
-				+ "Elite enemies every 15 waves");
+		NORMAL(0, "Normal", ImageResource.INFO_NORMALMODE,
+				"Survive 30 waves to win\n" + "Elite enemies every 10 waves"),
+		ENDLESS(1, "Endless", ImageResource.INFO_ENDLESSMODE,
+				"Survive as long as you can!\n" + "Elite enemies every 15 waves");
 
 		private final int gameModeCode;
 		private final String gameModeName;
@@ -21,7 +22,8 @@ public class GameState {
 		private final ImageResource gameModeinfoImage;
 		private static final GameMode[] gameModeArray = { GameMode.NORMAL, GameMode.ENDLESS };
 
-		private GameMode(int gameModeCode, String gameModeName, ImageResource gameModeinfoPicture, String gameModeInfoText) {
+		private GameMode(int gameModeCode, String gameModeName, ImageResource gameModeinfoPicture,
+				String gameModeInfoText) {
 			this.gameModeCode = gameModeCode;
 			this.gameModeName = gameModeName;
 			this.gameModeinfoImage = gameModeinfoPicture;
@@ -43,12 +45,13 @@ public class GameState {
 		public ImageResource getGameModeInfoImageResource() {
 			return gameModeinfoImage;
 		}
-		
+
 		public String getGameModeInfoText() {
 			return gameModeInfoText;
 		}
 	}
 
+	private static boolean isRunning = false;
 	private static Stage gameStage;
 	private static SceneResource sceneResource = SceneResource.TITLE;
 	private static boolean isSceneChange = false;
@@ -56,6 +59,7 @@ public class GameState {
 	private static GameMode gameMode = GameMode.NORMAL;
 	private static int mapWidth;
 	private static int mapHeight;
+	private static GameMap gameMap;
 
 	public static void setMapSize(int width, int height) {
 		mapWidth = width;
@@ -70,12 +74,21 @@ public class GameState {
 		return mapHeight;
 	}
 
+	public static GameMap getGameMap() {
+		return gameMap;
+	}
+
+	public static void setGameMap(GameMap gameMap) {
+		GameState.gameMap = gameMap;
+	}
+
 	public static void setGameStage(Stage gameStage) {
 		GameState.gameStage = gameStage;
 	}
 
 	public static void closeGameStage() {
 		GameState.gameStage.close();
+		isRunning = false;
 	}
 
 	public static void setSceneResource(SceneResource sceneResource) {
@@ -84,6 +97,10 @@ public class GameState {
 			GameState.sceneResource = sceneResource;
 			GameState.isSceneChange = true;
 		}
+	}
+
+	public static SceneResource getSceneResource() {
+		return sceneResource;
 	}
 
 	public static boolean isSceneChange() {
@@ -112,6 +129,14 @@ public class GameState {
 
 	public static void setRequestSceneUpdate(boolean isRequestSceneUpdate) {
 		GameState.isRequestSceneUpdate = isRequestSceneUpdate;
+	}
+
+	public static boolean isRunning() {
+		return isRunning;
+	}
+
+	public static void setRunning(boolean isRunning) {
+		GameState.isRunning = isRunning;
 	}
 
 }

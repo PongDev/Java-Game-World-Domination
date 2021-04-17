@@ -4,7 +4,10 @@ public interface Renderable {
 
 	public void render();
 
-	boolean isVisible();
+	public boolean isAllowRender();
 
-	boolean isDestroy();
+	public boolean isDestroyed();
+
+	public int getZ();
+
 }

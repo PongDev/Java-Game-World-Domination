@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import java.util.*;
 
 import config.Config;
+import gui.GameMap;
 import gui.ModeSelectScenePane;
 import gui.PlayScenePane;
 import gui.TitleScenePane;
@@ -14,6 +15,7 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import logic.GameState;
+import render.RenderManager;
 
 public class ResourceManager {
 
@@ -64,7 +66,7 @@ public class ResourceManager {
 		imageResource.put(ImageResource.TILE_WALL, getImage("tile/tile_wall.png"));
 		Logger.log("Complete Loading Image");
 	}
-	
+
 	private static void loadMap() {
 		try {
 			Logger.log("Start Loading Map");
@@ -73,18 +75,20 @@ public class ResourceManager {
 			BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
 			ArrayList<String[]> data = new ArrayList<String[]>();
 			String lineInput;
-			
+
 			while ((lineInput = bufferedReader.readLine()) != null) {
 				data.add(lineInput.split(","));
 			}
-			
+
 			mapResource = data.toArray(new String[data.size()][]);
 			GameState.setMapSize(mapResource[0].length, mapResource.length);
+			GameState.setGameMap(new GameMap());
 			Logger.log(String.format("Map Size W x H = %d x %d", mapResource[0].length, mapResource.length));
 		} catch (IOException e) {
 			Logger.error("Load Map Failed");
 			e.printStackTrace();
 		}
+		RenderManager.add(GameState.getGameMap());
 		Logger.log("Complete Loading Map");
 	}
 
@@ -124,7 +128,7 @@ public class ResourceManager {
 		return ClassLoader.getSystemResourceAsStream(Config.FONT_PATH);
 	}
 
-	public static String[][] getMap() {
+	public static String[][] getMapResource() {
 		return mapResource;
 	}
 

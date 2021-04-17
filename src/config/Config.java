@@ -25,4 +25,8 @@ public class Config {
 	public static final int SCREEN_TILE_H = 10;
 
 	public static final String MAP_PATH = "map/map.csv";
+
+	public static final int FPS = 60;
+
+	public static final int ZINDEX_MAP = 0;
 }

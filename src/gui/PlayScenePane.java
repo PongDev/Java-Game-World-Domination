@@ -1,14 +1,12 @@
 package gui;
 
 import javafx.scene.Group;
+import logic.GameState;
 
 public class PlayScenePane extends Group {
 
-	Map map;
-
 	public PlayScenePane() {
-		map = new Map();
-		this.getChildren().addAll(map);
+		this.getChildren().addAll(GameState.getGameMap());
 	}
 
 }

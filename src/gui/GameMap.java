@@ -1,27 +1,21 @@
 package gui;
 
-import java.util.ArrayList;
-
-import com.sun.media.jfxmedia.logging.Logger;
-
 import config.Config;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
 import logic.GameState;
 import render.Renderable;
 import utility.ResourceManager;
 import utility.ResourceManager.ImageResource;
+import utility.ResourceManager.SceneResource;
 
-public class Map extends Canvas implements Renderable {
+public class GameMap extends Canvas implements Renderable {
 
 	private Tile[][] mapData;
 	private int mapPosX, mapPosY, mapCenterX, mapCenterY;
-	private GraphicsContext gc;
 
-	public Map() {
+	public GameMap() {
 		super(Config.SCREEN_W, Config.SCREEN_H);
-		gc = this.getGraphicsContext2D();
 		mapCenterX = (int) (Config.TILE_W * 1.5);
 		mapCenterY = (GameState.getMapHeight() * Config.TILE_H) / 2;
 		calculateMapPos();
@@ -30,7 +24,7 @@ public class Map extends Canvas implements Renderable {
 		for (int rowPos = 0; rowPos < GameState.getMapHeight(); rowPos++) {
 			for (int colPos = 0; colPos < GameState.getMapWidth(); colPos++) {
 				ImageResource tileImage;
-				String tileCode = ResourceManager.getMap()[rowPos][colPos];
+				String tileCode = ResourceManager.getMapResource()[rowPos][colPos];
 
 				switch (tileCode) {
 				case "0":
@@ -53,7 +47,6 @@ public class Map extends Canvas implements Renderable {
 				mapData[rowPos][colPos] = new Tile(tileImage, tileCode);
 			}
 		}
-		render();
 	}
 
 	private void calculateMapPos() {
@@ -62,6 +55,8 @@ public class Map extends Canvas implements Renderable {
 	}
 
 	public void render() {
+		GraphicsContext gc = this.getGraphicsContext2D();
+
 		for (int rowPos = 0; rowPos < GameState.getMapHeight(); rowPos++) {
 			for (int colPos = 0; colPos < GameState.getMapWidth(); colPos++) {
 				if ((-mapPosX + (colPos * Config.TILE_W) <= Config.SCREEN_W
@@ -74,6 +69,26 @@ public class Map extends Canvas implements Renderable {
 				}
 			}
 		}
+	}
+
+	public boolean isAllowRender() {
+		return GameState.getSceneResource() == SceneResource.PLAYING;
+	}
+
+	public int getZ() {
+		return Config.ZINDEX_MAP;
+	}
+
+	public boolean isDestroyed() {
+		return false;
+	}
+
+	public int getMapPosX() {
+		return mapPosX;
+	}
+
+	public int getMapPosY() {
+		return mapPosY;
 	}
 
 }

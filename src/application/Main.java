@@ -6,6 +6,7 @@ import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import logic.GameState;
+import render.RenderManager;
 import utility.Logger;
 
 public class Main extends Application {
@@ -27,6 +28,7 @@ public class Main extends Application {
 				if (GameState.isRequestSceneUpdate() && stage.getScene().getRoot() instanceof Updatable) {
 					((Updatable) stage.getScene().getRoot()).update();
 				}
+				RenderManager.render();
 			}
 		};
 		animation.start();
@@ -34,7 +36,9 @@ public class Main extends Application {
 
 	public static void main(String[] args) {
 		Logger.log("Application Launch");
+		GameState.setRunning(true);
 		launch(args);
+		GameState.setRunning(false);
 		Logger.log("Application Close");
 	}
 }
