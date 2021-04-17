@@ -4,67 +4,82 @@ import config.Config;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import logic.GameState;
+import object.GameObject;
 import render.Renderable;
+import utility.Position;
 import utility.ResourceManager;
+import utility.ResourceManager.GameObjectResource;
 import utility.ResourceManager.ImageResource;
 import utility.ResourceManager.SceneResource;
 
 public class GameMap extends Canvas implements Renderable {
 
 	private Tile[][] mapData;
-	private int mapPosX, mapPosY, mapCenterX, mapCenterY;
+	private Position mapPos, mapCenter;
 
 	public GameMap() {
 		super(Config.SCREEN_W, Config.SCREEN_H);
-		mapCenterX = (int) (Config.TILE_W * 1.5);
-		mapCenterY = (GameState.getMapHeight() * Config.TILE_H) / 2;
-		calculateMapPos();
+		mapPos = new Position();
+		mapCenter = new Position();
 
 		mapData = new Tile[GameState.getMapHeight()][GameState.getMapWidth()];
 		for (int rowPos = 0; rowPos < GameState.getMapHeight(); rowPos++) {
 			for (int colPos = 0; colPos < GameState.getMapWidth(); colPos++) {
 				ImageResource tileImage;
 				String tileCode = ResourceManager.getMapResource()[rowPos][colPos];
+				boolean isWalkable, isPlacable;
 
 				switch (tileCode) {
 				case "0":
 					tileImage = ImageResource.TILE_FLOOR;
+					isWalkable = true;
+					isPlacable = true;
 					break;
 				case "1":
-					tileImage = ImageResource.TILE_FLOOR;
+					tileImage = ImageResource.TILE_UNPLACABLE_FLOOR;
+					isWalkable = true;
+					isPlacable = false;
 					break;
 				case "2":
-					tileImage = ImageResource.TILE_FLOOR;
+					tileImage = ImageResource.TILE_UNWALKABLE_FLOOR;
+					isWalkable = false;
+					isPlacable = false;
 					break;
 				case "W":
 					tileImage = ImageResource.TILE_WALL;
+					isWalkable = false;
+					isPlacable = false;
 					break;
 				default:
 					tileImage = ImageResource.TILE_WALL;
+					isWalkable = true;
+					isPlacable = true;
 					break;
 				}
 
-				mapData[rowPos][colPos] = new Tile(tileImage, tileCode);
+				mapData[rowPos][colPos] = new Tile(tileImage, tileCode, isWalkable, isPlacable);
 			}
 		}
 	}
 
 	private void calculateMapPos() {
-		mapPosX = mapCenterX - (Config.SCREEN_W / 2);
-		mapPosY = mapCenterY - (Config.SCREEN_H / 2);
+		mapPos.X = mapCenter.X - (Config.SCREEN_W / 2);
+		mapPos.Y = mapCenter.Y - (Config.SCREEN_H / 2);
 	}
 
 	public void render() {
+		mapCenter = ResourceManager.getGameObject(GameObjectResource.MAIN_CHARACTER).getCenterPos();
+		calculateMapPos();
 		GraphicsContext gc = this.getGraphicsContext2D();
 
 		for (int rowPos = 0; rowPos < GameState.getMapHeight(); rowPos++) {
 			for (int colPos = 0; colPos < GameState.getMapWidth(); colPos++) {
-				if ((-mapPosX + (colPos * Config.TILE_W) <= Config.SCREEN_W
-						&& -mapPosY + (rowPos * Config.TILE_H) <= Config.SCREEN_H)
-						|| (-mapPosX + (colPos * Config.TILE_W) + Config.TILE_W >= 0
-								&& -mapPosY + (rowPos * Config.TILE_H) + Config.TILE_H >= 0)) {
+				if ((-mapPos.X + (colPos * Config.TILE_W) <= Config.SCREEN_W
+						&& -mapPos.Y + (rowPos * Config.TILE_H) <= Config.SCREEN_H)
+						|| (-mapPos.X + (colPos * Config.TILE_W) + Config.TILE_W >= 0
+								&& -mapPos.Y + (rowPos * Config.TILE_H) + Config.TILE_H >= 0)) {
 					gc.drawImage(ResourceManager.getImage(mapData[rowPos][colPos].getImageResource()),
-							-mapPosX + (colPos * Config.TILE_W), -mapPosY + (rowPos * Config.TILE_H), Config.TILE_W,
+							-mapPos.X + (colPos * Config.TILE_W), -mapPos.Y + (rowPos * Config.TILE_H), Config.TILE_W,
 							Config.TILE_H);
 				}
 			}
@@ -83,12 +98,22 @@ public class GameMap extends Canvas implements Renderable {
 		return false;
 	}
 
-	public int getMapPosX() {
-		return mapPosX;
+	public Position getMapPos() {
+		return mapPos;
 	}
 
-	public int getMapPosY() {
-		return mapPosY;
+	public boolean isCollide(int posX, int posY) {
+		int posRow = posY / Config.TILE_H;
+		int posCol = posX / Config.TILE_W;
+
+		return mapData[posRow][posCol].isWalkable();
+	}
+
+	public boolean isCollide(GameObject gameObject) {
+		return isCollide(gameObject.getPos().X, gameObject.getPos().Y)
+				&& isCollide(gameObject.getPos().X + gameObject.getWidth(), gameObject.getPos().Y)
+				&& isCollide(gameObject.getPos().X, gameObject.getPos().Y + gameObject.getHeight()) && isCollide(
+						gameObject.getPos().X + gameObject.getWidth(), gameObject.getPos().Y + gameObject.getHeight());
 	}
 
 }

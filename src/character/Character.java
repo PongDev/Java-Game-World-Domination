@@ -3,9 +3,10 @@ package character;
 import javafx.scene.canvas.GraphicsContext;
 import logic.GameState;
 import object.GameObject;
-import render.Renderable;
+import utility.Position;
 import utility.ResourceManager;
 import utility.ResourceManager.ImageResource;
+import utility.ResourceManager.SceneResource;
 
 public abstract class Character extends GameObject {
 
@@ -21,15 +22,19 @@ public abstract class Character extends GameObject {
 		super(imageResource, width, height, centerPosX, centerPosY);
 	}
 
+	public Character(ImageResource imageResource, int width, int height, Position pos) {
+		super(imageResource, width, height, pos);
+	}
+
 	public void render() {
 		GraphicsContext gc = GameState.getGameMap().getGraphicsContext2D();
 
-		gc.drawImage(ResourceManager.getImage(imageResource), -GameState.getGameMap().getMapPosX() + pos.X,
-				-GameState.getGameMap().getMapPosY() + pos.Y, width, height);
+		gc.drawImage(ResourceManager.getImage(imageResource), -GameState.getGameMap().getMapPos().X + pos.X,
+				-GameState.getGameMap().getMapPos().Y + pos.Y, width, height);
 	}
 
 	public boolean isAllowRender() {
-		return true;
+		return GameState.getSceneResource() == SceneResource.PLAYING;
 	}
 
 	public boolean isDestroyed() {

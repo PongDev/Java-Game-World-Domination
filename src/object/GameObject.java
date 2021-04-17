@@ -7,7 +7,7 @@ import utility.ResourceManager.ImageResource;
 public abstract class GameObject implements Renderable {
 
 	protected ImageResource imageResource;
-	protected Position pos, centerPos;
+	protected Position pos;
 	protected int width, height;
 
 	public GameObject(ImageResource imageResource, int width, int height, int centerX, int centerY) {
@@ -18,14 +18,11 @@ public abstract class GameObject implements Renderable {
 		this.imageResource = imageResource;
 		this.width = width;
 		this.height = height;
-		this.centerPos = centerPos;
-		this.pos = new Position();
-		calculatePos();
+		this.pos = new Position(centerPos.X - (width / 2), centerPos.Y - (height / 2));
 	}
 
-	public void calculatePos() {
-		this.pos.X = centerPos.X - (width / 2);
-		this.pos.Y = centerPos.Y - (height / 2);
+	public Position getCenterPos() {
+		return new Position(pos.X + (width / 2), pos.Y + (height / 2));
 	}
 
 	public ImageResource getImageResource() {
@@ -33,5 +30,17 @@ public abstract class GameObject implements Renderable {
 	}
 
 	public abstract boolean isDestroyed();
+
+	public Position getPos() {
+		return pos;
+	}
+
+	public int getWidth() {
+		return width;
+	}
+
+	public int getHeight() {
+		return height;
+	}
 
 }

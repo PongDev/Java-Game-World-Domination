@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.*;
 
+import character.MainCharacter;
 import config.Config;
 import gui.GameMap;
 import gui.ModeSelectScenePane;
@@ -15,21 +16,28 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import logic.GameState;
+import object.GameObject;
 import render.RenderManager;
 
 public class ResourceManager {
 
 	public enum ImageResource {
 		BG_TITLE, INFO_NORMALMODE, INFO_ENDLESSMODE, BTN, BTN_HOVER, BTN_NEWGAME, BTN_LOADGAME, BTN_EXITGAME, BTN_PLAY,
-		BTN_BACK, BTN_NEXT, BTN_PREVIOUS, TILE_FLOOR, TILE_WALL
+		BTN_BACK, BTN_NEXT, BTN_PREVIOUS, TILE_FLOOR, TILE_WALL, TILE_UNWALKABLE_FLOOR, TILE_UNPLACABLE_FLOOR,
+		TILE_GATE_CLOSE, CHARACTER_MAIN
 	}
 
 	public enum SceneResource {
 		TITLE, SETTING, MODE_SELECTING, PLAYING
 	}
 
+	public enum GameObjectResource {
+		MAIN_CHARACTER
+	}
+
 	private static Map<SceneResource, Scene> sceneResource = new HashMap<SceneResource, Scene>();
 	private static Map<ImageResource, Image> imageResource = new HashMap<ImageResource, Image>();
+	private static Map<GameObjectResource, GameObject> gameObjectResource = new HashMap<GameObjectResource, GameObject>();
 	private static String[][] mapResource;
 
 	static {
@@ -37,6 +45,7 @@ public class ResourceManager {
 		loadImage();
 		loadMap();
 		loadScene();
+		loadGameObject();
 		Logger.log("ResourceManager Initialized");
 	}
 
@@ -64,6 +73,10 @@ public class ResourceManager {
 		imageResource.put(ImageResource.BTN_PREVIOUS, getImage("btn/previous.png"));
 		imageResource.put(ImageResource.TILE_FLOOR, getImage("tile/tile_floor.png"));
 		imageResource.put(ImageResource.TILE_WALL, getImage("tile/tile_wall.png"));
+		imageResource.put(ImageResource.TILE_UNWALKABLE_FLOOR, getImage("tile/tile_unwalkable_floor.png"));
+		imageResource.put(ImageResource.TILE_UNPLACABLE_FLOOR, getImage("tile/tile_unplaceable_floor.png"));
+		imageResource.put(ImageResource.TILE_GATE_CLOSE, getImage("tile/tile_gate_close.png"));
+		imageResource.put(ImageResource.CHARACTER_MAIN, getImage("sprite/main_character.png"));
 		Logger.log("Complete Loading Image");
 	}
 
@@ -108,6 +121,13 @@ public class ResourceManager {
 		Logger.log("Complete Loading Scene");
 	}
 
+	private static void loadGameObject() {
+		gameObjectResource.put(GameObjectResource.MAIN_CHARACTER, new MainCharacter(ImageResource.CHARACTER_MAIN,
+				Config.CHARACTER_W, Config.CHARACTER_H, new Position(Config.SPAWN_CENTER)));
+
+		RenderManager.add(gameObjectResource.get(GameObjectResource.MAIN_CHARACTER));
+	}
+
 	public static Image getImage(ImageResource image) {
 		return imageResource.get(image);
 	}
@@ -130,6 +150,10 @@ public class ResourceManager {
 
 	public static String[][] getMapResource() {
 		return mapResource;
+	}
+
+	public static GameObject getGameObject(GameObjectResource gameObject) {
+		return gameObjectResource.get(gameObject);
 	}
 
 }
