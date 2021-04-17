@@ -1,6 +1,7 @@
 package input;
 
 import java.util.*;
+
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
@@ -9,6 +10,7 @@ import utility.Position;
 public class InputManager {
 
 	private static Map<KeyCode, KeyPressData> keyPress = new HashMap<KeyCode, KeyPressData>();
+	private static ArrayList<Inputable> inputableObject = new ArrayList<Inputable>();
 	private static boolean isLeftDown = false;
 	private static boolean isRightDown = false;
 	private static boolean isMouseOnScreen = false;
@@ -30,25 +32,21 @@ public class InputManager {
 			keyPress.get(e.getCode()).keyUp();
 		});
 		scene.setOnMousePressed((e) -> {
-			if (e.getButton() == MouseButton.PRIMARY)
-			{
+			if (e.getButton() == MouseButton.PRIMARY) {
 				isLeftDown = true;
 				leftMousePressTime = (new Date()).getTime();
 			}
-			if (e.getButton() == MouseButton.SECONDARY)
-			{
+			if (e.getButton() == MouseButton.SECONDARY) {
 				isRightDown = true;
 				rightMousePressTime = (new Date()).getTime();
 			}
 		});
 		scene.setOnMouseReleased((e) -> {
-			if (e.getButton() == MouseButton.PRIMARY)
-			{
+			if (e.getButton() == MouseButton.PRIMARY) {
 				isLeftDown = false;
 				leftMousePressTime = 0;
 			}
-			if (e.getButton() == MouseButton.SECONDARY)
-			{
+			if (e.getButton() == MouseButton.SECONDARY) {
 				isRightDown = false;
 				rightMousePressTime = 0;
 			}
@@ -66,20 +64,34 @@ public class InputManager {
 			}
 		});
 	}
-	
-	public boolean isLeftMousePress() {
+
+	public static boolean isKeyPress(KeyCode keyCode) {
+		return keyPress.containsKey(keyCode) ? keyPress.get(keyCode).isPress() : false;
+	}
+
+	public static boolean isLeftMousePress() {
 		return isLeftDown;
 	}
-	
-	public boolean isRightMousePress() {
+
+	public static boolean isRightMousePress() {
 		return isRightDown;
 	}
 
-	public long leftMousePressDuration() {
+	public static long leftMousePressDuration() {
 		return isLeftMousePress() ? (new Date()).getTime() - leftMousePressTime : 0;
 	}
-	
-	public long rightMousePressDuration() {
+
+	public static long rightMousePressDuration() {
 		return isLeftMousePress() ? (new Date()).getTime() - rightMousePressTime : 0;
+	}
+
+	public static void addInputableObject(Inputable obj) {
+		inputableObject.add(obj);
+	}
+
+	public static void processInputableObject() {
+		for (Inputable object : inputableObject) {
+			object.processInput();
+		}
 	}
 }

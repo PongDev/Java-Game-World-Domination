@@ -12,6 +12,7 @@ import gui.GameMap;
 import gui.ModeSelectScenePane;
 import gui.PlayScenePane;
 import gui.TitleScenePane;
+import input.InputManager;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -117,6 +118,8 @@ public class ResourceManager {
 
 		// Playing Scene
 		sceneResource.put(SceneResource.PLAYING, new Scene(new PlayScenePane(), Config.SCREEN_W, Config.SCREEN_H));
+
+		InputManager.addEventListener(sceneResource.get(SceneResource.PLAYING));
 
 		Logger.log("Complete Loading Scene");
 	}

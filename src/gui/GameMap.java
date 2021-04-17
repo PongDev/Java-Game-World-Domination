@@ -3,6 +3,7 @@ package gui;
 import config.Config;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 import logic.GameState;
 import object.GameObject;
 import render.Renderable;
@@ -72,6 +73,8 @@ public class GameMap extends Canvas implements Renderable {
 		calculateMapPos();
 		GraphicsContext gc = this.getGraphicsContext2D();
 
+		gc.setFill(Color.rgb(64, 64, 64));
+		gc.fillRect(0, 0, Config.SCREEN_W, Config.SCREEN_H);
 		for (int rowPos = 0; rowPos < GameState.getMapHeight(); rowPos++) {
 			for (int colPos = 0; colPos < GameState.getMapWidth(); colPos++) {
 				if ((-mapPos.X + (colPos * Config.TILE_W) <= Config.SCREEN_W
@@ -106,15 +109,16 @@ public class GameMap extends Canvas implements Renderable {
 		int posRow = (int) (posY / Config.TILE_H);
 		int posCol = (int) (posX / Config.TILE_W);
 
-		return mapData[posRow][posCol].isWalkable();
+		return !mapData[posRow][posCol].isWalkable();
 	}
 
 	public boolean isCollide(GameObject gameObject, int deltaX, int deltaY) {
 		return isCollide(gameObject.getPos().X + deltaX, gameObject.getPos().Y + deltaY)
-				&& isCollide(gameObject.getPos().X + gameObject.getWidth() + deltaX, gameObject.getPos().Y + deltaY)
-				&& isCollide(gameObject.getPos().X + deltaX, gameObject.getPos().Y + gameObject.getHeight() + deltaY)
-				&& isCollide(gameObject.getPos().X + gameObject.getWidth() + deltaX,
-						gameObject.getPos().Y + gameObject.getHeight() + deltaY);
+				|| isCollide(gameObject.getPos().X + gameObject.getWidth() - 1 + deltaX, gameObject.getPos().Y + deltaY)
+				|| isCollide(gameObject.getPos().X + deltaX,
+						gameObject.getPos().Y + gameObject.getHeight() - 1 + deltaY)
+				|| isCollide(gameObject.getPos().X + gameObject.getWidth() - 1 + deltaX,
+						gameObject.getPos().Y + gameObject.getHeight() - 1 + deltaY);
 	}
 
 }

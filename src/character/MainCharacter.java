@@ -1,7 +1,9 @@
 package character;
 
 import config.Config;
+import input.InputManager;
 import input.Inputable;
+import javafx.scene.input.KeyCode;
 import logic.GameState;
 import utility.Position;
 import utility.ResourceManager.ImageResource;
@@ -9,11 +11,13 @@ import utility.ResourceManager.ImageResource;
 public class MainCharacter extends Character implements Inputable {
 
 	public MainCharacter(ImageResource imageResource, int width, int height, int centerPosX, int centerPosY) {
-		super(imageResource, width, height, centerPosX, centerPosY);
+		this(imageResource, width, height, new Position(centerPosX, centerPosY));
 	}
 
-	public MainCharacter(ImageResource imageResource, int width, int height, Position pos) {
-		super(imageResource, width, height, pos);
+	public MainCharacter(ImageResource imageResource, int width, int height, Position centerPos) {
+		super(imageResource, width, height, centerPos);
+		InputManager.addInputableObject(this);
+		this.setSpeed(Config.MAIN_CHARACTER_INITIAL_SPD);
 	}
 
 	public int getZ() {
@@ -22,7 +26,7 @@ public class MainCharacter extends Character implements Inputable {
 
 	public void processInput() {
 		// W
-		if (true) {
+		if (InputManager.isKeyPress(KeyCode.W)) {
 			if (GameState.getGameMap().isCollide(this, 0, -getSpeed())) {
 				pos.Y = ((int) (pos.Y / Config.TILE_H)) * Config.TILE_H;
 			} else {
@@ -30,7 +34,7 @@ public class MainCharacter extends Character implements Inputable {
 			}
 		}
 		// A
-		if (true) {
+		if (InputManager.isKeyPress(KeyCode.A)) {
 			if (GameState.getGameMap().isCollide(this, -getSpeed(), 0)) {
 				pos.X = ((int) (pos.X / Config.TILE_W)) * Config.TILE_W;
 			} else {
@@ -38,17 +42,17 @@ public class MainCharacter extends Character implements Inputable {
 			}
 		}
 		// S
-		if (true) {
+		if (InputManager.isKeyPress(KeyCode.S)) {
 			if (GameState.getGameMap().isCollide(this, 0, +getSpeed())) {
-				pos.Y = (((int) (pos.Y / Config.TILE_H)) * (Config.TILE_H + 1)) - height;
+				pos.Y = (((int) ((pos.Y + height + getSpeed()) / Config.TILE_H)) * Config.TILE_H) - height;
 			} else {
 				pos.Y += getSpeed();
 			}
 		}
 		// D
-		if (true) {
+		if (InputManager.isKeyPress(KeyCode.D)) {
 			if (GameState.getGameMap().isCollide(this, +getSpeed(), 0)) {
-				pos.X = (((int) (pos.X / Config.TILE_W)) * (Config.TILE_W + 1)) - width;
+				pos.X = (((int) ((pos.X + width + getSpeed()) / Config.TILE_W)) * Config.TILE_W) - width;
 			} else {
 				pos.X += getSpeed();
 			}

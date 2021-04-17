@@ -27,16 +27,16 @@ public class Config {
 	public static final int CHARACTER_W = 48;
 	public static final int CHARACTER_H = 48;
 
+	public static final int MAIN_CHARACTER_INITIAL_SPD = 2;
+
 	public static final int SCREEN_TILE_W = 16;
 	public static final int SCREEN_TILE_H = 10;
 
 	public static final String MAP_PATH = "map/map.csv";
 
-	public static final int FPS = 60;
-
 	public static final int ZINDEX_MAP = 0;
 	public static final int ZINDEX_MAIN_CHARACTER = 10;
 
-	public static final Position SPAWN_CENTER = new Position((int) (Config.TILE_W * 1.5),
+	public static final Position SPAWN_CENTER = new Position((int) (Config.TILE_W * 2.5),
 			(GameState.getMapHeight() * Config.TILE_H) / 2);
 }

@@ -2,6 +2,7 @@ package application;
 
 import config.Config;
 import gui.Updatable;
+import input.InputManager;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -28,6 +29,7 @@ public class Main extends Application {
 				if (GameState.isRequestSceneUpdate() && stage.getScene().getRoot() instanceof Updatable) {
 					((Updatable) stage.getScene().getRoot()).update();
 				}
+				InputManager.processInputableObject();
 				RenderManager.render();
 			}
 		};

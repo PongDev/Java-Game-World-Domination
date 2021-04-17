@@ -19,11 +19,11 @@ public abstract class Character extends GameObject {
 	private int speed;
 
 	public Character(ImageResource imageResource, int width, int height, int centerPosX, int centerPosY) {
-		super(imageResource, width, height, centerPosX, centerPosY);
+		this(imageResource, width, height, new Position(centerPosX, centerPosY));
 	}
 
-	public Character(ImageResource imageResource, int width, int height, Position pos) {
-		super(imageResource, width, height, pos);
+	public Character(ImageResource imageResource, int width, int height, Position centerPos) {
+		super(imageResource, width, height, centerPos);
 	}
 
 	public void render() {
