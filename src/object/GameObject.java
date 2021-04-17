@@ -1,59 +1,37 @@
 package object;
 
-import javafx.geometry.Point2D;
-import javafx.scene.image.Image;
 import render.Renderable;
+import utility.Position;
+import utility.ResourceManager.ImageResource;
 
 public abstract class GameObject implements Renderable {
 
-	protected boolean isDestroy;
-	protected boolean isVisible;
-	protected Image sprite;
-	protected Point2D position = new Point2D(0.0D, 0.0D);
+	protected ImageResource imageResource;
+	protected Position pos, centerPos;
+	protected int width, height;
 
-	public GameObject() {
-		this.isDestroy = false;
-		this.isVisible = true;
-	}
-	
-	public double getWidth() {
-		 return getSprite().getWidth();
-	}
-	
-	public double getHeight() {
-		 return getSprite().getHeight();
+	public GameObject(ImageResource imageResource, int width, int height, int centerX, int centerY) {
+		this(imageResource, width, height, new Position(centerX, centerY));
 	}
 
-	public boolean isDestroy() {
-		return isDestroy;
+	public GameObject(ImageResource imageResource, int width, int height, Position centerPos) {
+		this.imageResource = imageResource;
+		this.width = width;
+		this.height = height;
+		this.centerPos = centerPos;
+		this.pos = new Position();
+		calculatePos();
 	}
 
-	public void setDestroy(boolean isDestroy) {
-		this.isDestroy = isDestroy;
+	public void calculatePos() {
+		this.pos.X = centerPos.X - (width / 2);
+		this.pos.Y = centerPos.Y - (height / 2);
 	}
 
-	public boolean isVisible() {
-		return isVisible;
+	public ImageResource getImageResource() {
+		return imageResource;
 	}
 
-	public void setVisible(boolean isVisible) {
-		this.isVisible = isVisible;
-	}
-
-	public Image getSprite() {
-		return sprite;
-	}
-
-	public void setSprite(Image sprite) {
-		this.sprite = sprite;
-	}
-
-	public Point2D getPosition() {
-		return position;
-	}
-
-	public void setPosition(Point2D position) {
-		this.position = position;
-	}
+	public abstract boolean isDestroyed();
 
 }
