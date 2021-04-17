@@ -109,11 +109,12 @@ public class GameMap extends Canvas implements Renderable {
 		return mapData[posRow][posCol].isWalkable();
 	}
 
-	public boolean isCollide(GameObject gameObject) {
-		return isCollide(gameObject.getPos().X, gameObject.getPos().Y)
-				&& isCollide(gameObject.getPos().X + gameObject.getWidth(), gameObject.getPos().Y)
-				&& isCollide(gameObject.getPos().X, gameObject.getPos().Y + gameObject.getHeight()) && isCollide(
-						gameObject.getPos().X + gameObject.getWidth(), gameObject.getPos().Y + gameObject.getHeight());
+	public boolean isCollide(GameObject gameObject, int deltaX, int deltaY) {
+		return isCollide(gameObject.getPos().X + deltaX, gameObject.getPos().Y + deltaY)
+				&& isCollide(gameObject.getPos().X + gameObject.getWidth() + deltaX, gameObject.getPos().Y + deltaY)
+				&& isCollide(gameObject.getPos().X + deltaX, gameObject.getPos().Y + gameObject.getHeight() + deltaY)
+				&& isCollide(gameObject.getPos().X + gameObject.getWidth() + deltaX,
+						gameObject.getPos().Y + gameObject.getHeight() + deltaY);
 	}
 
 }
