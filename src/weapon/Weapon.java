@@ -6,8 +6,8 @@ import utility.ResourceManager.ImageResource;
 public abstract class Weapon {
 
 	private ImageResource imageResourse;
-	private int attackDamage;
-	private double attackSpeed;
+	protected int attackDamage;
+	protected double attackSpeed;
 
 	public Weapon(ImageResource imageResource, int attackDamage, double attackSpeed) {
 		this.imageResourse = imageResource;

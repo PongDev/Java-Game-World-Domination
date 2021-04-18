@@ -23,8 +23,8 @@ public class MainCharacter extends Character implements Inputable {
 		super(imageResource, width, height, centerPos);
 		InputManager.addInputableObject(this);
 		this.setSpeed(Config.MAIN_CHARACTER_INITIAL_SPD);
-		this.setWeapon(new Gun(ImageResource.GUN_AK47, 1, 1,
-				new BulletProperties(ImageResource.BULLET, 10, 10, 0, 10, Config.ZINDEX_MAIN_CHARACTER + 1)));
+		this.setWeapon(
+				new Gun(ImageResource.GUN_AK47, 1, 3, ImageResource.BULLET, 10, 10, Config.ZINDEX_MAIN_CHARACTER));
 	}
 
 	public int getZ() {
