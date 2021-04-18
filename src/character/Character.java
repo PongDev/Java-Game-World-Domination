@@ -7,6 +7,7 @@ import utility.Position;
 import utility.ResourceManager;
 import utility.ResourceManager.ImageResource;
 import utility.ResourceManager.SceneResource;
+import weapon.Weapon;
 
 public abstract class Character extends GameObject {
 
@@ -15,6 +16,8 @@ public abstract class Character extends GameObject {
 	private int maxHealth;
 	private double defense;
 	private int speed;
+	private Weapon weapon;
+	protected boolean isTurnLeft = false;
 
 	public Character(ImageResource imageResource, int width, int height, int centerPosX, int centerPosY) {
 		this(imageResource, width, height, new Position(centerPosX, centerPosY));
@@ -27,8 +30,14 @@ public abstract class Character extends GameObject {
 	public void render() {
 		GraphicsContext gc = GameState.getGameMap().getGraphicsContext2D();
 
-		gc.drawImage(ResourceManager.getImage(imageResource), -GameState.getGameMap().getMapPos().X + pos.X,
-				-GameState.getGameMap().getMapPos().Y + pos.Y, width, height);
+		gc.drawImage(ResourceManager.getImage(imageResource),
+				-GameState.getGameMap().getMapPos().X + pos.X + (isTurnLeft ? width : 0),
+				-GameState.getGameMap().getMapPos().Y + pos.Y, width * (isTurnLeft ? -1 : 1), height);
+		if (weapon != null) {
+			gc.drawImage(ResourceManager.getImage(weapon.getImageResourse()),
+					-GameState.getGameMap().getMapPos().X + pos.X + (isTurnLeft ? width : 0),
+					-GameState.getGameMap().getMapPos().Y + pos.Y, width * (isTurnLeft ? -1 : 1), height);
+		}
 	}
 
 	public boolean isAllowRender() {
@@ -79,6 +88,14 @@ public abstract class Character extends GameObject {
 
 	public void setSpeed(int speed) {
 		this.speed = speed;
+	}
+
+	public Weapon getWeapon() {
+		return weapon;
+	}
+
+	public void setWeapon(Weapon weapon) {
+		this.weapon = weapon;
 	}
 
 }

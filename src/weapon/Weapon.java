@@ -1,7 +1,5 @@
 package weapon;
 
-import object.GameObject;
-import utility.Position;
 import utility.ResourceManager.ImageResource;
 
 public class Weapon {
@@ -14,6 +12,10 @@ public class Weapon {
 		this.imageResourse = imageResource;
 		this.attackDamage = attackDamage;
 		this.attackSpeed = attackSpeed;
+	}
+
+	public ImageResource getImageResourse() {
+		return imageResourse;
 	}
 
 }

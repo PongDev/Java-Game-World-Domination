@@ -7,6 +7,7 @@ import javafx.scene.input.KeyCode;
 import logic.GameState;
 import utility.Position;
 import utility.ResourceManager.ImageResource;
+import weapon.Gun;
 
 public class MainCharacter extends Character implements Inputable {
 
@@ -18,6 +19,7 @@ public class MainCharacter extends Character implements Inputable {
 		super(imageResource, width, height, centerPos);
 		InputManager.addInputableObject(this);
 		this.setSpeed(Config.MAIN_CHARACTER_INITIAL_SPD);
+		this.setWeapon(new Gun(ImageResource.GUN_AK47, 1, 1));
 	}
 
 	public int getZ() {
@@ -35,6 +37,7 @@ public class MainCharacter extends Character implements Inputable {
 		}
 		// A
 		if (InputManager.isKeyPress(KeyCode.A)) {
+			isTurnLeft = true;
 			if (GameState.getGameMap().isCollide(this, -getSpeed(), 0)) {
 				pos.X = ((int) (pos.X / Config.TILE_W)) * Config.TILE_W;
 			} else {
@@ -51,6 +54,7 @@ public class MainCharacter extends Character implements Inputable {
 		}
 		// D
 		if (InputManager.isKeyPress(KeyCode.D)) {
+			isTurnLeft = false;
 			if (GameState.getGameMap().isCollide(this, +getSpeed(), 0)) {
 				pos.X = (((int) ((pos.X + width + getSpeed()) / Config.TILE_W)) * Config.TILE_W) - width;
 			} else {
