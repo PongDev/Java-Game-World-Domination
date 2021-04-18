@@ -26,9 +26,11 @@ public class Bullet extends GameObject implements Updatable {
 		this.bulletProperties = bulletProperties;
 		this.degree = degree;
 
-		if (GameState.getGameMap().isPenetrable(this, 0, 0)) {
-			pos.X += (Config.TILE_W / 3) * Math.cos(Math.toRadians(degree));
-			pos.Y -= (Config.TILE_H / 3) * Math.sin(Math.toRadians(degree));
+		Position delta = new Position((Config.TILE_W / 3) * Math.cos(Math.toRadians(degree)),
+				-((Config.TILE_H / 3) * Math.sin(Math.toRadians(degree))));
+		if (GameState.getGameMap().isPenetrable(this, delta.X, delta.Y)) {
+			pos.X += delta.X;
+			pos.Y += delta.Y;
 		} else {
 			isDestroyed = true;
 		}
@@ -54,9 +56,11 @@ public class Bullet extends GameObject implements Updatable {
 	}
 
 	public void update() {
-		if (GameState.getGameMap().isPenetrable(this, 0, 0)) {
-			pos.X += bulletProperties.getSpeed() * Math.cos(Math.toRadians(degree));
-			pos.Y -= bulletProperties.getSpeed() * Math.sin(Math.toRadians(degree));
+		Position delta = new Position(bulletProperties.getSpeed() * Math.cos(Math.toRadians(degree)),
+				-(bulletProperties.getSpeed() * Math.sin(Math.toRadians(degree))));
+		if (GameState.getGameMap().isPenetrable(this, delta.X, delta.Y)) {
+			pos.X += delta.X;
+			pos.Y += delta.Y;
 		} else {
 			isDestroyed = true;
 		}

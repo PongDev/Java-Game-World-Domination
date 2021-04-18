@@ -24,7 +24,7 @@ public class MainCharacter extends Character implements Inputable {
 		InputManager.addInputableObject(this);
 		this.setSpeed(Config.MAIN_CHARACTER_INITIAL_SPD);
 		this.setWeapon(
-				new Gun(ImageResource.GUN_AK47, 1, 3, ImageResource.BULLET, 10, 10, Config.ZINDEX_MAIN_CHARACTER));
+				new Gun(ImageResource.GUN_AK47, 1, 5, ImageResource.BULLET, 10, 10, 10, Config.ZINDEX_MAIN_CHARACTER));
 	}
 
 	public int getZ() {
