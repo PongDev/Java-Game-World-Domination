@@ -13,8 +13,6 @@ public abstract class Character extends GameObject {
 	private String name;
 	private int health;
 	private int maxHealth;
-	private int attackDamage;
-	private int attackSpeed;
 	private double defense;
 	private int speed;
 
@@ -65,22 +63,6 @@ public abstract class Character extends GameObject {
 
 	public void setMaxHealth(int maxHealth) {
 		this.maxHealth = maxHealth;
-	}
-
-	public int getAttackDamage() {
-		return attackDamage;
-	}
-
-	public void setAttackDamage(int attackDamage) {
-		this.attackDamage = attackDamage;
-	}
-
-	public int getAttackSpeed() {
-		return attackSpeed;
-	}
-
-	public void setAttackSpeed(int attackSpeed) {
-		this.attackSpeed = attackSpeed;
 	}
 
 	public double getDefense() {

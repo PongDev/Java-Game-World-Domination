@@ -29,7 +29,13 @@ public abstract class GameObject implements Renderable {
 		return imageResource;
 	}
 
+	public abstract void render();
+
+	public abstract boolean isAllowRender();
+
 	public abstract boolean isDestroyed();
+
+	public abstract int getZ();
 
 	public Position getPos() {
 		return pos;

@@ -25,7 +25,7 @@ public class ResourceManager {
 	public enum ImageResource {
 		BG_TITLE, INFO_NORMALMODE, INFO_ENDLESSMODE, BTN, BTN_HOVER, BTN_NEWGAME, BTN_LOADGAME, BTN_EXITGAME, BTN_PLAY,
 		BTN_BACK, BTN_NEXT, BTN_PREVIOUS, TILE_FLOOR, TILE_WALL, TILE_UNWALKABLE_FLOOR, TILE_UNPLACABLE_FLOOR,
-		TILE_GATE_CLOSE, CHARACTER_MAIN
+		TILE_GATE_CLOSE, CHARACTER_MAIN, BULLET, GUN_AK47
 	}
 
 	public enum SceneResource {
@@ -78,6 +78,8 @@ public class ResourceManager {
 		imageResource.put(ImageResource.TILE_UNPLACABLE_FLOOR, getImage("tile/tile_unplaceable_floor.png"));
 		imageResource.put(ImageResource.TILE_GATE_CLOSE, getImage("tile/tile_gate_close.png"));
 		imageResource.put(ImageResource.CHARACTER_MAIN, getImage("sprite/main_character.png"));
+		imageResource.put(ImageResource.BULLET, getImage("sprite/bullet.png"));
+		imageResource.put(ImageResource.GUN_AK47, getImage("weapon/gun_ak47.png"));
 		Logger.log("Complete Loading Image");
 	}
 
