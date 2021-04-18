@@ -5,6 +5,9 @@ import input.InputManager;
 import input.Inputable;
 import javafx.scene.input.KeyCode;
 import logic.GameState;
+import object.Bullet;
+import render.RenderManager;
+import update.UpdateManager;
 import utility.Position;
 import utility.ResourceManager.ImageResource;
 import weapon.Gun;
@@ -29,37 +32,46 @@ public class MainCharacter extends Character implements Inputable {
 	public void processInput() {
 		// W
 		if (InputManager.isKeyPress(KeyCode.W)) {
-			if (GameState.getGameMap().isCollide(this, 0, -getSpeed())) {
-				pos.Y = ((int) (pos.Y / Config.TILE_H)) * Config.TILE_H;
-			} else {
+			if (GameState.getGameMap().isWalkable(this, 0, -getSpeed())) {
 				pos.Y -= getSpeed();
+			} else {
+				pos.Y = ((int) (pos.Y / Config.TILE_H)) * Config.TILE_H;
 			}
 		}
 		// A
 		if (InputManager.isKeyPress(KeyCode.A)) {
 			isTurnLeft = true;
-			if (GameState.getGameMap().isCollide(this, -getSpeed(), 0)) {
-				pos.X = ((int) (pos.X / Config.TILE_W)) * Config.TILE_W;
-			} else {
+			if (GameState.getGameMap().isWalkable(this, -getSpeed(), 0)) {
 				pos.X -= getSpeed();
+			} else {
+				pos.X = ((int) (pos.X / Config.TILE_W)) * Config.TILE_W;
 			}
 		}
 		// S
 		if (InputManager.isKeyPress(KeyCode.S)) {
-			if (GameState.getGameMap().isCollide(this, 0, +getSpeed())) {
-				pos.Y = (((int) ((pos.Y + height + getSpeed()) / Config.TILE_H)) * Config.TILE_H) - height;
-			} else {
+			if (GameState.getGameMap().isWalkable(this, 0, +getSpeed())) {
 				pos.Y += getSpeed();
+			} else {
+				pos.Y = (((int) ((pos.Y + height + getSpeed()) / Config.TILE_H)) * Config.TILE_H) - height;
 			}
 		}
 		// D
 		if (InputManager.isKeyPress(KeyCode.D)) {
 			isTurnLeft = false;
-			if (GameState.getGameMap().isCollide(this, +getSpeed(), 0)) {
-				pos.X = (((int) ((pos.X + width + getSpeed()) / Config.TILE_W)) * Config.TILE_W) - width;
-			} else {
+			if (GameState.getGameMap().isWalkable(this, +getSpeed(), 0)) {
 				pos.X += getSpeed();
+			} else {
+				pos.X = (((int) ((pos.X + width + getSpeed()) / Config.TILE_W)) * Config.TILE_W) - width;
 			}
+		}
+		// Mouse Click
+		if (InputManager.isLeftMousePress()) {
+			double degree = Math.toDegrees(Math.atan2((Config.SCREEN_H / 2) - InputManager.getMousePos().Y,
+					InputManager.getMousePos().X - (Config.SCREEN_W / 2)));
+			Bullet test = new Bullet(ImageResource.BULLET, 10, 10, getCenterPos());
+			test.setBulletParameter(1, degree, Config.ZINDEX_MAIN_CHARACTER + 1);
+			RenderManager.add(test);
+			UpdateManager.add(test);
 		}
 	}
 

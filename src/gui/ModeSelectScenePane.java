@@ -7,6 +7,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import logic.GameState;
+import update.Updatable;
 import utility.Logger;
 import utility.ResourceManager;
 import utility.ResourceManager.ImageResource;
@@ -19,13 +20,14 @@ public class ModeSelectScenePane extends StackPane implements Updatable {
 	private GameButton btnPlay, btnBack, btnNext, btnPrevious;
 	private VBox playBar;
 	private ImageView infoImage;
+	private boolean isRequestUpdate = false;
 
 	public ModeSelectScenePane() {
 
 		textGameMode = new GameText(GameState.getGameMode().getGameModeName(), Config.SCREEN_H / 15);
 		textGameMode.setAlignment(Pos.CENTER);
 		textGameMode.setTranslateY(-Config.SCREEN_H / 3);
-		
+
 		infoText = new GameText(GameState.getGameMode().getGameModeInfoText(), Config.SCREEN_H / 18, Color.BLACK);
 		infoText.setAlignment(Pos.CENTER);
 		infoText.setTranslateY(Config.SCREEN_H / 7);
@@ -50,7 +52,7 @@ public class ModeSelectScenePane extends StackPane implements Updatable {
 		btnNext.setOnMouseClicked((e) -> {
 			Logger.log("Button Next Click");
 			GameState.setGameMode(GameState.getGameMode().getNextGameMode());
-			GameState.setRequestSceneUpdate(true);
+			isRequestUpdate = true;
 		});
 		btnNext.setTranslateX(Config.SCREEN_W / 3);
 		btnNext.setTranslateY(Config.SCREEN_H / 3.15);
@@ -60,7 +62,7 @@ public class ModeSelectScenePane extends StackPane implements Updatable {
 		btnPrevious.setOnMouseClicked((e) -> {
 			Logger.log("Button Previous Click");
 			GameState.setGameMode(GameState.getGameMode().getPreviousGameMode());
-			GameState.setRequestSceneUpdate(true);
+			isRequestUpdate = true;
 		});
 		btnPrevious.setTranslateX(-Config.SCREEN_W / 3);
 		btnPrevious.setTranslateY(Config.SCREEN_H / 3.15);
@@ -71,8 +73,8 @@ public class ModeSelectScenePane extends StackPane implements Updatable {
 		playBar.setAlignment(Pos.CENTER);
 		playBar.setTranslateY(Config.SCREEN_H / 3.15);
 
-		infoImage = ResourceManager.getImageView(ImageResource.INFO_NORMALMODE,
-				(int) (Config.SCREEN_W / 1.25), (int) (Config.SCREEN_H / 1.25));
+		infoImage = ResourceManager.getImageView(ImageResource.INFO_NORMALMODE, (int) (Config.SCREEN_W / 1.25),
+				(int) (Config.SCREEN_H / 1.25));
 
 		this.getChildren().addAll(
 				ResourceManager.getImageView(ImageResource.BG_TITLE, Config.SCREEN_W, Config.SCREEN_H), infoImage,
@@ -80,9 +82,16 @@ public class ModeSelectScenePane extends StackPane implements Updatable {
 	}
 
 	public void update() {
-		textGameMode.setText(GameState.getGameMode().getGameModeName());
-		infoImage.setImage(ResourceManager.getImage(GameState.getGameMode().getGameModeInfoImageResource()));
-		infoText.setText(GameState.getGameMode().getGameModeInfoText());
+		if (isRequestUpdate) {
+			textGameMode.setText(GameState.getGameMode().getGameModeName());
+			infoImage.setImage(ResourceManager.getImage(GameState.getGameMode().getGameModeInfoImageResource()));
+			infoText.setText(GameState.getGameMode().getGameModeInfoText());
+			isRequestUpdate = false;
+		}
+	}
+
+	public boolean isRemoveFromUpdate() {
+		return GameState.getSceneResource() != SceneResource.MODE_SELECTING;
 	}
 
 }

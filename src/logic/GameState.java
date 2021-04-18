@@ -3,6 +3,8 @@ package logic;
 import gui.GameMap;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import update.Updatable;
+import update.UpdateManager;
 import utility.Logger;
 import utility.ResourceManager;
 import utility.ResourceManager.ImageResource;
@@ -55,7 +57,6 @@ public class GameState {
 	private static Stage gameStage;
 	private static SceneResource sceneResource = SceneResource.TITLE;
 	private static boolean isSceneChange = false;
-	private static boolean isRequestSceneUpdate = false;
 	private static GameMode gameMode = GameMode.NORMAL;
 	private static int mapWidth;
 	private static int mapHeight;
@@ -94,6 +95,9 @@ public class GameState {
 	public static void setSceneResource(SceneResource sceneResource) {
 		if (GameState.sceneResource != sceneResource) {
 			Logger.log("Change Scene To " + sceneResource.name());
+			if (ResourceManager.getScene(sceneResource).getRoot() instanceof Updatable) {
+				UpdateManager.add((Updatable) ResourceManager.getScene(sceneResource).getRoot());
+			}
 			GameState.sceneResource = sceneResource;
 			GameState.isSceneChange = true;
 		}
@@ -121,14 +125,6 @@ public class GameState {
 			GameState.gameMode = gameMode;
 			Logger.log("Game Mode Change To " + GameState.gameMode.name());
 		}
-	}
-
-	public static boolean isRequestSceneUpdate() {
-		return isRequestSceneUpdate;
-	}
-
-	public static void setRequestSceneUpdate(boolean isRequestSceneUpdate) {
-		GameState.isRequestSceneUpdate = isRequestSceneUpdate;
 	}
 
 	public static boolean isRunning() {

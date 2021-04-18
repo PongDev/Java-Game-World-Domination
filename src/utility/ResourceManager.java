@@ -61,8 +61,8 @@ public class ResourceManager {
 	private static void loadImage() {
 		Logger.log("Start Loading Image");
 		imageResource.put(ImageResource.BG_TITLE, getImage("bg/title.png"));
-		imageResource.put(ImageResource.INFO_NORMALMODE, getImage("Info/normal_mode.png"));
-		imageResource.put(ImageResource.INFO_ENDLESSMODE, getImage("Info/endless_mode.png"));
+		imageResource.put(ImageResource.INFO_NORMALMODE, getImage("info/normal_mode.png"));
+		imageResource.put(ImageResource.INFO_ENDLESSMODE, getImage("info/endless_mode.png"));
 		imageResource.put(ImageResource.BTN, getImage("btn/button.png"));
 		imageResource.put(ImageResource.BTN_HOVER, getImage("btn/button_hover.png"));
 		imageResource.put(ImageResource.BTN_NEWGAME, getImage("btn/new_game.png"));

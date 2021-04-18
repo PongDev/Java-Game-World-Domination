@@ -28,37 +28,42 @@ public class GameMap extends Canvas implements Renderable {
 			for (int colPos = 0; colPos < GameState.getMapWidth(); colPos++) {
 				ImageResource tileImage;
 				String tileCode = ResourceManager.getMapResource()[rowPos][colPos];
-				boolean isWalkable, isPlacable;
+				boolean isWalkable, isPlacable, isPenetrable;
 
 				switch (tileCode) {
 				case "0":
 					tileImage = ImageResource.TILE_FLOOR;
 					isWalkable = true;
 					isPlacable = true;
+					isPenetrable = true;
 					break;
 				case "1":
 					tileImage = ImageResource.TILE_UNPLACABLE_FLOOR;
 					isWalkable = true;
 					isPlacable = false;
+					isPenetrable = true;
 					break;
 				case "2":
 					tileImage = ImageResource.TILE_UNWALKABLE_FLOOR;
 					isWalkable = false;
 					isPlacable = false;
+					isPenetrable = true;
 					break;
 				case "W":
 					tileImage = ImageResource.TILE_WALL;
 					isWalkable = false;
 					isPlacable = false;
+					isPenetrable = false;
 					break;
 				default:
 					tileImage = ImageResource.TILE_WALL;
-					isWalkable = true;
-					isPlacable = true;
+					isWalkable = false;
+					isPlacable = false;
+					isPenetrable = false;
 					break;
 				}
 
-				mapData[rowPos][colPos] = new Tile(tileImage, tileCode, isWalkable, isPlacable);
+				mapData[rowPos][colPos] = new Tile(tileImage, tileCode, isWalkable, isPlacable, isPenetrable);
 			}
 		}
 	}
@@ -105,19 +110,45 @@ public class GameMap extends Canvas implements Renderable {
 		return mapPos;
 	}
 
-	public boolean isCollide(double posX, double posY) {
+	public boolean isWalkable(double posX, double posY) {
 		int posRow = (int) (posY / Config.TILE_H);
 		int posCol = (int) (posX / Config.TILE_W);
 
-		return !mapData[posRow][posCol].isWalkable();
+		if (posY < 0 || posX < 0 || posRow < 0 || posCol < 0 || posRow >= mapData.length
+				|| posCol >= mapData[0].length) {
+			return false;
+		}
+		return mapData[posRow][posCol].isWalkable();
 	}
 
-	public boolean isCollide(GameObject gameObject, int deltaX, int deltaY) {
-		return isCollide(gameObject.getPos().X + deltaX, gameObject.getPos().Y + deltaY)
-				|| isCollide(gameObject.getPos().X + gameObject.getWidth() - 1 + deltaX, gameObject.getPos().Y + deltaY)
-				|| isCollide(gameObject.getPos().X + deltaX,
+	public boolean isWalkable(GameObject gameObject, int deltaX, int deltaY) {
+		return isWalkable(gameObject.getPos().X + deltaX, gameObject.getPos().Y + deltaY)
+				&& isWalkable(gameObject.getPos().X + gameObject.getWidth() - 1 + deltaX,
+						gameObject.getPos().Y + deltaY)
+				&& isWalkable(gameObject.getPos().X + deltaX,
 						gameObject.getPos().Y + gameObject.getHeight() - 1 + deltaY)
-				|| isCollide(gameObject.getPos().X + gameObject.getWidth() - 1 + deltaX,
+				&& isWalkable(gameObject.getPos().X + gameObject.getWidth() - 1 + deltaX,
+						gameObject.getPos().Y + gameObject.getHeight() - 1 + deltaY);
+	}
+
+	public boolean isPenetrable(double posX, double posY) {
+		int posRow = (int) (posY / Config.TILE_H);
+		int posCol = (int) (posX / Config.TILE_W);
+
+		if (posY < 0 || posX < 0 || posRow < 0 || posCol < 0 || posRow >= mapData.length
+				|| posCol >= mapData[0].length) {
+			return false;
+		}
+		return mapData[posRow][posCol].isPenetrable();
+	}
+
+	public boolean isPenetrable(GameObject gameObject, double deltaX, double deltaY) {
+		return isPenetrable(gameObject.getPos().X + deltaX, gameObject.getPos().Y + deltaY)
+				&& isPenetrable(gameObject.getPos().X + gameObject.getWidth() - 1 + deltaX,
+						gameObject.getPos().Y + deltaY)
+				&& isPenetrable(gameObject.getPos().X + deltaX,
+						gameObject.getPos().Y + gameObject.getHeight() - 1 + deltaY)
+				&& isPenetrable(gameObject.getPos().X + gameObject.getWidth() - 1 + deltaX,
 						gameObject.getPos().Y + gameObject.getHeight() - 1 + deltaY);
 	}
 

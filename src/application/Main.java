@@ -1,13 +1,13 @@
 package application;
 
 import config.Config;
-import gui.Updatable;
 import input.InputManager;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import logic.GameState;
 import render.RenderManager;
+import update.UpdateManager;
 import utility.Logger;
 
 public class Main extends Application {
@@ -26,10 +26,8 @@ public class Main extends Application {
 					stage.setScene(GameState.getScene());
 					stage.show();
 				}
-				if (GameState.isRequestSceneUpdate() && stage.getScene().getRoot() instanceof Updatable) {
-					((Updatable) stage.getScene().getRoot()).update();
-				}
 				InputManager.processInputableObject();
+				UpdateManager.update();
 				RenderManager.render();
 			}
 		};

@@ -94,4 +94,9 @@ public class InputManager {
 			object.processInput();
 		}
 	}
+
+	public static Position getMousePos() {
+		return mousePos;
+	}
+
 }
