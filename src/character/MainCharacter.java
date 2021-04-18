@@ -69,7 +69,7 @@ public class MainCharacter extends Character implements Inputable {
 			double degree = Math.toDegrees(Math.atan2((Config.SCREEN_H / 2) - InputManager.getMousePos().Y,
 					InputManager.getMousePos().X - (Config.SCREEN_W / 2)));
 			Bullet test = new Bullet(ImageResource.BULLET, 10, 10, getCenterPos());
-			test.setBulletParameter(1, degree, Config.ZINDEX_MAIN_CHARACTER + 1);
+			test.setBulletParameter(10, degree, Config.ZINDEX_MAIN_CHARACTER + 1);
 			RenderManager.add(test);
 			UpdateManager.add(test);
 		}

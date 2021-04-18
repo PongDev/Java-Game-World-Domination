@@ -63,6 +63,12 @@ public class InputManager {
 				mousePos.Y = e.getY();
 			}
 		});
+		scene.setOnMouseDragged((e) -> {
+			if (isMouseOnScreen) {
+				mousePos.X = e.getX();
+				mousePos.Y = e.getY();
+			}
+		});
 	}
 
 	public static boolean isKeyPress(KeyCode keyCode) {
