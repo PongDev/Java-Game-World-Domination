@@ -16,7 +16,7 @@ public abstract class Character extends GameObject {
 	private int maxHealth;
 	private double defense;
 	private int speed;
-	private Weapon weapon;
+	protected Weapon weapon;
 	protected boolean isTurnLeft = false;
 
 	public Character(ImageResource imageResource, int width, int height, int centerPosX, int centerPosY) {

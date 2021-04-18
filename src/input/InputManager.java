@@ -58,6 +58,7 @@ public class InputManager {
 			isMouseOnScreen = false;
 		});
 		scene.setOnMouseMoved((e) -> {
+			
 			if (isMouseOnScreen) {
 				mousePos.X = e.getX();
 				mousePos.Y = e.getY();

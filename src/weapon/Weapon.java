@@ -1,14 +1,15 @@
 package weapon;
 
+import utility.Position;
 import utility.ResourceManager.ImageResource;
 
-public class Weapon {
+public abstract class Weapon {
 
 	private ImageResource imageResourse;
-	private double attackDamage;
+	private int attackDamage;
 	private double attackSpeed;
 
-	public Weapon(ImageResource imageResource, double attackDamage, double attackSpeed) {
+	public Weapon(ImageResource imageResource, int attackDamage, double attackSpeed) {
 		this.imageResourse = imageResource;
 		this.attackDamage = attackDamage;
 		this.attackSpeed = attackSpeed;
@@ -17,5 +18,7 @@ public class Weapon {
 	public ImageResource getImageResourse() {
 		return imageResourse;
 	}
+
+	public abstract void attack(Position centerPos, double degree);
 
 }

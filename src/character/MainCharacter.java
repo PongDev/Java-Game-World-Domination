@@ -5,7 +5,8 @@ import input.InputManager;
 import input.Inputable;
 import javafx.scene.input.KeyCode;
 import logic.GameState;
-import object.Bullet;
+import weapon.Bullet;
+import weapon.BulletProperties;
 import render.RenderManager;
 import update.UpdateManager;
 import utility.Position;
@@ -22,7 +23,8 @@ public class MainCharacter extends Character implements Inputable {
 		super(imageResource, width, height, centerPos);
 		InputManager.addInputableObject(this);
 		this.setSpeed(Config.MAIN_CHARACTER_INITIAL_SPD);
-		this.setWeapon(new Gun(ImageResource.GUN_AK47, 1, 1));
+		this.setWeapon(new Gun(ImageResource.GUN_AK47, 1, 1,
+				new BulletProperties(ImageResource.BULLET, 10, 10, 0, 10, Config.ZINDEX_MAIN_CHARACTER + 1)));
 	}
 
 	public int getZ() {
@@ -68,11 +70,10 @@ public class MainCharacter extends Character implements Inputable {
 		if (InputManager.isLeftMousePress()) {
 			double degree = Math.toDegrees(Math.atan2((Config.SCREEN_H / 2) - InputManager.getMousePos().Y,
 					InputManager.getMousePos().X - (Config.SCREEN_W / 2)));
-			Bullet test = new Bullet(ImageResource.BULLET, 10, 10, getCenterPos());
-			test.setBulletParameter(10, degree, Config.ZINDEX_MAIN_CHARACTER + 1);
-			RenderManager.add(test);
-			UpdateManager.add(test);
+			weapon.attack(getCenterPos(), degree);
 		}
+		isTurnLeft = (InputManager.getMousePos().X < Config.SCREEN_W / 2);
+
 	}
 
 }

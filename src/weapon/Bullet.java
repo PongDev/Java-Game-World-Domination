@@ -1,7 +1,9 @@
-package object;
+package weapon;
 
+import config.Config;
 import javafx.scene.canvas.GraphicsContext;
 import logic.GameState;
+import object.GameObject;
 import update.Updatable;
 import utility.Position;
 import utility.ResourceManager;
@@ -11,16 +13,25 @@ import utility.ResourceManager.SceneResource;
 public class Bullet extends GameObject implements Updatable {
 
 	private boolean isDestroyed = false;
-	private double speed = 0;
+	private BulletProperties bulletProperties;
 	private double degree = 0;
-	private int zIndex = 0;
 
-	public Bullet(ImageResource imageResource, int width, int height, int centerPosX, int centerPosY) {
-		this(imageResource, width, height, new Position(centerPosX, centerPosY));
+	public Bullet(BulletProperties bulletProperties, int centerPosX, int centerPosY, double degree) {
+		this(bulletProperties, new Position(centerPosX, centerPosY), degree);
 	}
 
-	public Bullet(ImageResource imageResource, int width, int height, Position centerPos) {
-		super(imageResource, width, height, centerPos);
+	public Bullet(BulletProperties bulletProperties, Position centerPos, double degree) {
+		super(bulletProperties.getImageResource(), bulletProperties.getWidth(), bulletProperties.getHeight(),
+				centerPos);
+		this.bulletProperties = bulletProperties;
+		this.degree = degree;
+
+		if (GameState.getGameMap().isPenetrable(this, 0, 0)) {
+			pos.X += (Config.TILE_W / 3) * Math.cos(Math.toRadians(degree));
+			pos.Y -= (Config.TILE_H / 3) * Math.sin(Math.toRadians(degree));
+		} else {
+			isDestroyed = true;
+		}
 	}
 
 	public void render() {
@@ -35,7 +46,7 @@ public class Bullet extends GameObject implements Updatable {
 	}
 
 	public int getZ() {
-		return zIndex;
+		return bulletProperties.getzIndex();
 	}
 
 	public boolean isDestroyed() {
@@ -44,8 +55,8 @@ public class Bullet extends GameObject implements Updatable {
 
 	public void update() {
 		if (GameState.getGameMap().isPenetrable(this, 0, 0)) {
-			pos.X += speed * Math.cos(Math.toRadians(degree));
-			pos.Y -= speed * Math.sin(Math.toRadians(degree));
+			pos.X += bulletProperties.getSpeed() * Math.cos(Math.toRadians(degree));
+			pos.Y -= bulletProperties.getSpeed() * Math.sin(Math.toRadians(degree));
 		} else {
 			isDestroyed = true;
 		}
@@ -53,12 +64,6 @@ public class Bullet extends GameObject implements Updatable {
 
 	public boolean isRemoveFromUpdate() {
 		return isDestroyed;
-	}
-
-	public void setBulletParameter(double speed, double degree, int zIndex) {
-		this.speed = speed;
-		this.degree = degree;
-		this.zIndex = zIndex;
 	}
 
 	public boolean isCollide(double posX, double posY) {
