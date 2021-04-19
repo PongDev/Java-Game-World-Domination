@@ -5,6 +5,7 @@ import java.util.Date;
 import render.RenderManager;
 import update.UpdateManager;
 import utility.Position;
+import utility.ResourceManager;
 import utility.ResourceManager.ImageResource;
 
 public class Gun extends Weapon {
@@ -38,7 +39,7 @@ public class Gun extends Weapon {
 		if ((new Date()).getTime() - lastAttack >= 1000 / attackSpeed) {
 			lastAttack = (new Date()).getTime();
 			Bullet bullet = new Bullet(bulletProperties, centerPos, degree);
-
+			ResourceManager.gameObjects.add(bullet);
 			UpdateManager.add(bullet);
 			RenderManager.add(bullet);
 		}

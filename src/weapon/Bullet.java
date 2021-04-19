@@ -1,5 +1,6 @@
 package weapon;
 
+import character.Enemy;
 import config.Config;
 import javafx.scene.canvas.GraphicsContext;
 import logic.GameState;
@@ -7,8 +8,10 @@ import object.GameObject;
 import update.Updatable;
 import utility.Position;
 import utility.ResourceManager;
+import utility.ResourceManager.GameObjectResource;
 import utility.ResourceManager.ImageResource;
 import utility.ResourceManager.SceneResource;
+import utility.Utility;
 
 public class Bullet extends GameObject implements Updatable {
 
@@ -56,6 +59,7 @@ public class Bullet extends GameObject implements Updatable {
 	}
 
 	public void update() {
+
 		Position delta = new Position(bulletProperties.getSpeed() * Math.cos(Math.toRadians(degree)),
 				-(bulletProperties.getSpeed() * Math.sin(Math.toRadians(degree))));
 		if (GameState.getGameMap().isPenetrable(this, delta.X, delta.Y)) {
@@ -64,22 +68,29 @@ public class Bullet extends GameObject implements Updatable {
 		} else {
 			isDestroyed = true;
 		}
+		for (GameObject g : ResourceManager.gameObjects) {
+		     if (Utility.isObjectCollide(this,g) && g.getClass() == Enemy.class) {
+		    	 System.out.println("(Bullet) hit enemy");
+		    	 isDestroyed = true;
+		     } 
+		}
 	}
 
 	public boolean isRemoveFromUpdate() {
 		return isDestroyed;
 	}
 
-	public boolean isCollide(double posX, double posY) {
-		return posX >= pos.X && posY >= pos.Y && posX <= (pos.X + width) && posY <= (pos.Y + height);
-	}
-
-	public boolean isCollide(GameObject gameObject) {
-		return isCollide(gameObject.getPos().X, gameObject.getPos().Y)
-				|| isCollide(gameObject.getPos().X + gameObject.getWidth() - 1, gameObject.getPos().Y)
-				|| isCollide(gameObject.getPos().X, gameObject.getPos().Y + gameObject.getHeight() - 1)
-				|| isCollide(gameObject.getPos().X + gameObject.getWidth() - 1,
-						gameObject.getPos().Y + gameObject.getHeight() - 1);
-	}
+	/*
+	 * public boolean isCollide(double posX, double posY) { return posX >= pos.X &&
+	 * posY >= pos.Y && posX <= (pos.X + width) && posY <= (pos.Y + height); }
+	 * 
+	 * public boolean isCollide(GameObject gameObject) { return
+	 * isCollide(gameObject.getPos().X, gameObject.getPos().Y) ||
+	 * isCollide(gameObject.getPos().X + gameObject.getWidth() - 1,
+	 * gameObject.getPos().Y) || isCollide(gameObject.getPos().X,
+	 * gameObject.getPos().Y + gameObject.getHeight() - 1) ||
+	 * isCollide(gameObject.getPos().X + gameObject.getWidth() - 1,
+	 * gameObject.getPos().Y + gameObject.getHeight() - 1); }
+	 */
 
 }

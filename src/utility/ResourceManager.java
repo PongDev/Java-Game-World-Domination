@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.*;
 
+import character.Enemy;
 import character.MainCharacter;
 import config.Config;
 import gui.GameMap;
@@ -19,13 +20,14 @@ import javafx.scene.image.ImageView;
 import logic.GameState;
 import object.GameObject;
 import render.RenderManager;
+import update.UpdateManager;
 
 public class ResourceManager {
 
 	public enum ImageResource {
 		BG_TITLE, INFO_NORMALMODE, INFO_ENDLESSMODE, BTN, BTN_HOVER, BTN_NEWGAME, BTN_LOADGAME, BTN_EXITGAME, BTN_PLAY,
 		BTN_BACK, BTN_NEXT, BTN_PREVIOUS, TILE_FLOOR, TILE_WALL, TILE_UNWALKABLE_FLOOR, TILE_UNPLACABLE_FLOOR,
-		TILE_GATE_CLOSE, CHARACTER_MAIN, BULLET, GUN_AK47
+		TILE_GATE_CLOSE, CHARACTER_MAIN, BULLET, GUN_AK47, SPRITE_KNIGHT_SWORD
 	}
 
 	public enum SceneResource {
@@ -40,6 +42,7 @@ public class ResourceManager {
 	private static Map<ImageResource, Image> imageResource = new HashMap<ImageResource, Image>();
 	private static Map<GameObjectResource, GameObject> gameObjectResource = new HashMap<GameObjectResource, GameObject>();
 	private static String[][] mapResource;
+	public static ArrayList<GameObject> gameObjects = new ArrayList<>();
 
 	static {
 		Logger.log("Initializing ResourceManager");
@@ -80,6 +83,7 @@ public class ResourceManager {
 		imageResource.put(ImageResource.CHARACTER_MAIN, getImage("sprite/main_character.png"));
 		imageResource.put(ImageResource.BULLET, getImage("sprite/bullet.png"));
 		imageResource.put(ImageResource.GUN_AK47, getImage("weapon/gun_ak47.png"));
+		imageResource.put(ImageResource.SPRITE_KNIGHT_SWORD, getImage("sprite/sprite_knight_sword.png"));
 		Logger.log("Complete Loading Image");
 	}
 
@@ -131,6 +135,18 @@ public class ResourceManager {
 				Config.CHARACTER_W, Config.CHARACTER_H, new Position(Config.SPAWN_CENTER)));
 
 		RenderManager.add(gameObjectResource.get(GameObjectResource.MAIN_CHARACTER));
+
+		for (int i = 1; i <= 3; i++) {
+			testSpawnEnemy(i);
+		}
+	}
+
+	public static void testSpawnEnemy(int i) {
+		Enemy test = new Enemy(ImageResource.SPRITE_KNIGHT_SWORD, Config.CHARACTER_W, Config.CHARACTER_H,
+				new Position((int) (Config.TILE_W * 2*i),(GameState.getMapHeight() * Config.TILE_H) / 2));
+		RenderManager.add(test);
+		gameObjects.add(test);
+		UpdateManager.add(test);
 	}
 
 	public static Image getImage(ImageResource image) {
