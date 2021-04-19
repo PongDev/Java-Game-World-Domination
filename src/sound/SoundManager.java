@@ -1,6 +1,7 @@
 package sound;
 
 import config.Config;
+import javafx.scene.media.MediaPlayer;
 import utility.Logger;
 import utility.ResourceManager;
 import utility.ResourceManager.SoundResource;
@@ -15,6 +16,7 @@ public class SoundManager {
 		}
 		soundResource = sound;
 		ResourceManager.getSound(soundResource).setVolume(Config.SOUND_VOLUME);
+		ResourceManager.getSound(soundResource).setCycleCount(MediaPlayer.INDEFINITE);
 		ResourceManager.getSound(soundResource).play();
 		Logger.log("Playing Sound " + soundResource.name());
 	}
