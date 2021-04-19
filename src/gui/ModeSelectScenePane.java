@@ -7,11 +7,13 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import logic.GameState;
+import sound.SoundManager;
 import update.Updatable;
 import utility.Logger;
 import utility.ResourceManager;
 import utility.ResourceManager.ImageResource;
 import utility.ResourceManager.SceneResource;
+import utility.ResourceManager.SoundResource;
 
 public class ModeSelectScenePane extends StackPane implements Updatable {
 
@@ -87,6 +89,9 @@ public class ModeSelectScenePane extends StackPane implements Updatable {
 			infoImage.setImage(ResourceManager.getImage(GameState.getGameMode().getGameModeInfoImageResource()));
 			infoText.setText(GameState.getGameMode().getGameModeInfoText());
 			isRequestUpdate = false;
+		}
+		if (SoundManager.getCurrentSoundResource() != SoundResource.TITLE) {
+			SoundManager.setCurrentSound(SoundResource.TITLE);
 		}
 	}
 

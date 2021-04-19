@@ -17,10 +17,13 @@ import input.InputManager;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.media.AudioClip;
 import logic.GameState;
 import object.GameObject;
 import render.RenderManager;
+import update.Updatable;
 import update.UpdateManager;
+import utility.ResourceManager.SceneResource;
 
 public class ResourceManager {
 
@@ -28,6 +31,10 @@ public class ResourceManager {
 		BG_TITLE, INFO_NORMALMODE, INFO_ENDLESSMODE, BTN, BTN_HOVER, BTN_NEWGAME, BTN_LOADGAME, BTN_EXITGAME, BTN_PLAY,
 		BTN_BACK, BTN_NEXT, BTN_PREVIOUS, TILE_FLOOR, TILE_WALL, TILE_UNWALKABLE_FLOOR, TILE_UNPLACABLE_FLOOR,
 		TILE_GATE_CLOSE, CHARACTER_MAIN, BULLET, GUN_AK47, SPRITE_KNIGHT_SWORD
+	}
+
+	public enum SoundResource {
+		TITLE, PLAYING
 	}
 
 	public enum SceneResource {
@@ -38,15 +45,17 @@ public class ResourceManager {
 		MAIN_CHARACTER
 	}
 
-	private static Map<SceneResource, Scene> sceneResource = new HashMap<SceneResource, Scene>();
 	private static Map<ImageResource, Image> imageResource = new HashMap<ImageResource, Image>();
-	private static Map<GameObjectResource, GameObject> gameObjectResource = new HashMap<GameObjectResource, GameObject>();
+	private static Map<SoundResource, AudioClip> soundResource = new HashMap<SoundResource, AudioClip>();
 	private static String[][] mapResource;
+	private static Map<SceneResource, Scene> sceneResource = new HashMap<SceneResource, Scene>();
+	private static Map<GameObjectResource, GameObject> gameObjectResource = new HashMap<GameObjectResource, GameObject>();
 	public static ArrayList<GameObject> gameObjects = new ArrayList<>();
 
 	static {
 		Logger.log("Initializing ResourceManager");
 		loadImage();
+		loadSound();
 		loadMap();
 		loadScene();
 		loadGameObject();
@@ -87,6 +96,15 @@ public class ResourceManager {
 		Logger.log("Complete Loading Image");
 	}
 
+	private static AudioClip getSound(String filePath) {
+		return new AudioClip(getResourceString(filePath));
+	}
+
+	private static void loadSound() {
+		soundResource.put(SoundResource.TITLE, getSound("sound/TheFatRat - Nemesis.mp3"));
+		soundResource.put(SoundResource.PLAYING, getSound("sound/Glorious_morning.mp3"));
+	}
+
 	private static void loadMap() {
 		try {
 			Logger.log("Start Loading Map");
@@ -125,6 +143,7 @@ public class ResourceManager {
 		// Playing Scene
 		sceneResource.put(SceneResource.PLAYING, new Scene(new PlayScenePane(), Config.SCREEN_W, Config.SCREEN_H));
 
+		UpdateManager.add((Updatable) getScene(SceneResource.TITLE).getRoot());
 		InputManager.addEventListener(sceneResource.get(SceneResource.PLAYING));
 
 		Logger.log("Complete Loading Scene");
@@ -143,7 +162,7 @@ public class ResourceManager {
 
 	public static void testSpawnEnemy(int i) {
 		Enemy test = new Enemy(ImageResource.SPRITE_KNIGHT_SWORD, Config.CHARACTER_W, Config.CHARACTER_H,
-				new Position((int) (Config.TILE_W * 2*i),(GameState.getMapHeight() * Config.TILE_H) / 2));
+				new Position((int) (Config.TILE_W * 2 * i), (GameState.getMapHeight() * Config.TILE_H) / 2));
 		RenderManager.add(test);
 		gameObjects.add(test);
 		UpdateManager.add(test);
@@ -159,6 +178,10 @@ public class ResourceManager {
 		imageView.setFitWidth(width);
 		imageView.setFitHeight(height);
 		return imageView;
+	}
+
+	public static AudioClip getSound(SoundResource sound) {
+		return soundResource.get(sound);
 	}
 
 	public static Scene getScene(SceneResource scene) {

@@ -6,12 +6,15 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import logic.GameState;
+import sound.SoundManager;
+import update.Updatable;
 import utility.Logger;
 import utility.ResourceManager;
 import utility.ResourceManager.ImageResource;
 import utility.ResourceManager.SceneResource;
+import utility.ResourceManager.SoundResource;
 
-public class TitleScenePane extends StackPane {
+public class TitleScenePane extends StackPane implements Updatable {
 
 	private GameText textGameName1, textGameName2;
 	private GameButton btnNewGame, btnLoadGame, btnExitGame;
@@ -58,6 +61,16 @@ public class TitleScenePane extends StackPane {
 		this.getChildren().addAll(
 				ResourceManager.getImageView(ImageResource.BG_TITLE, Config.SCREEN_W, Config.SCREEN_H), menuBar,
 				textGameName1, textGameName2);
+	}
+
+	public void update() {
+		if (SoundManager.getCurrentSoundResource() != SoundResource.TITLE) {
+			SoundManager.setCurrentSound(SoundResource.TITLE);
+		}
+	}
+
+	public boolean isRemoveFromUpdate() {
+		return GameState.getSceneResource() != SceneResource.TITLE;
 	}
 
 }
