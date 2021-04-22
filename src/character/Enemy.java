@@ -1,6 +1,7 @@
 package character;
 
 import config.Config;
+import input.InputManager;
 import logic.GameState;
 import object.ObjectManager;
 import render.RenderManager;
@@ -41,10 +42,12 @@ public class Enemy extends Character implements Updatable {
 	public void update() {
 		if (GameState.getSceneResource() == SceneResource.PLAYING) {
 			ObjectManager.collideWithBullet(this);
-//			double degree = Math
-//					.toDegrees(Math.atan2(-GameState.getGameMap().getMapPos().Y + pos.Y - (Config.SCREEN_H / 2),
-//							(Config.SCREEN_W / 2) + GameState.getGameMap().getMapPos().X + pos.X));
-//			weapon.attack(getCenterPos(), 0);
+			double degree = Math
+					.toDegrees(Math.atan2(
+							(-GameState.getGameMap().getMapPos().Y + pos.Y + (height / 2)) - (Config.SCREEN_H / 2),
+							(Config.SCREEN_W / 2) - (-GameState.getGameMap().getMapPos().X + pos.X + (width / 2))))
+					+ (Math.random() * Config.ENEMY_DISPERSION * (Math.random() <= 0.5 ? 1 : -1));
+			weapon.attack(getCenterPos(), degree);
 		}
 	}
 }

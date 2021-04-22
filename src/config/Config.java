@@ -38,6 +38,7 @@ public class Config {
 			ImageResource.BULLET, 10, 10, 10, Config.MAIN_CHARACTER_TEAM, Config.ZINDEX_MAIN_CHARACTER);
 
 	public static final int ENEMY_TEAM = 1;
+	public static final double ENEMY_DISPERSION = 15;
 
 	public static final int SCREEN_TILE_W = 16;
 	public static final int SCREEN_TILE_H = 10;
