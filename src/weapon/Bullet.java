@@ -1,6 +1,5 @@
 package weapon;
 
-import character.Enemy;
 import config.Config;
 import javafx.scene.canvas.GraphicsContext;
 import logic.GameState;
@@ -9,7 +8,6 @@ import update.Updatable;
 import utility.Position;
 import utility.ResourceManager;
 import utility.ResourceManager.SceneResource;
-import utility.Utility;
 
 public class Bullet extends GameObject implements Updatable {
 
@@ -70,6 +68,10 @@ public class Bullet extends GameObject implements Updatable {
 
 	public boolean isRemoveFromUpdate() {
 		return isDestroyed;
+	}
+
+	public int getTeam() {
+		return bulletProperties.getTeam();
 	}
 
 	public int getDamage() {

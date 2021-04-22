@@ -5,23 +5,28 @@ import input.InputManager;
 import input.Inputable;
 import javafx.scene.input.KeyCode;
 import logic.GameState;
+import object.ObjectManager;
+import render.RenderManager;
+import update.Updatable;
+import update.UpdateManager;
 import utility.Position;
 import utility.ResourceManager.ImageResource;
-import weapon.Gun;
 import weapon.Weapon;
 
-public class MainCharacter extends Character implements Inputable {
+public class MainCharacter extends Character implements Inputable, Updatable {
 
 	public MainCharacter(ImageResource imageResource, int width, int height, String name, int maxHealth, int defense,
-			int speed, Weapon weapon, int centerPosX, int centerPosY) {
-		this(imageResource, width, height, name, maxHealth, defense, speed, weapon,
+			int speed, Weapon weapon, int team, int centerPosX, int centerPosY) {
+		this(imageResource, width, height, name, maxHealth, defense, speed, weapon, team,
 				new Position(centerPosX, centerPosY));
 	}
 
 	public MainCharacter(ImageResource imageResource, int width, int height, String name, int maxHealth, int defense,
-			int speed, Weapon weapon, Position centerPos) {
-		super(imageResource, width, height, name, maxHealth, defense, speed, weapon, centerPos);
+			int speed, Weapon weapon, int team, Position centerPos) {
+		super(imageResource, width, height, name, maxHealth, defense, speed, weapon, team, centerPos);
 		InputManager.addInputableObject(this);
+		UpdateManager.add(this);
+		RenderManager.add(this);
 	}
 
 	public int getZ() {
@@ -71,6 +76,14 @@ public class MainCharacter extends Character implements Inputable {
 		}
 		isTurnLeft = (InputManager.getMousePos().X < Config.SCREEN_W / 2);
 
+	}
+
+	public void update() {
+		ObjectManager.collideWithBullet(this);
+	}
+
+	public boolean isRemoveFromUpdate() {
+		return false;
 	}
 
 }

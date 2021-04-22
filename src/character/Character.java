@@ -1,8 +1,6 @@
 package character;
 
-import config.Config;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 import logic.GameState;
 import object.GameObject;
@@ -24,13 +22,13 @@ public abstract class Character extends GameObject {
 	protected boolean isDestroyed = false;
 
 	public Character(ImageResource imageResource, int width, int height, String name, int maxHealth, int defense,
-			int speed, Weapon weapon, int centerPosX, int centerPosY) {
-		this(imageResource, width, height, name, maxHealth, defense, speed, weapon,
+			int speed, Weapon weapon, int team, int centerPosX, int centerPosY) {
+		this(imageResource, width, height, name, maxHealth, defense, speed, weapon, team,
 				new Position(centerPosX, centerPosY));
 	}
 
 	public Character(ImageResource imageResource, int width, int height, String name, int maxHealth, int defense,
-			int speed, Weapon weapon, Position centerPos) {
+			int speed, Weapon weapon, int team, Position centerPos) {
 		super(imageResource, width, height, centerPos);
 		this.setName(name);
 		this.setMaxHealth(maxHealth);
@@ -38,6 +36,7 @@ public abstract class Character extends GameObject {
 		this.setDefense(defense);
 		this.setSpeed(speed);
 		this.setWeapon(weapon);
+		this.team = team;
 	}
 
 	public void render() {

@@ -9,14 +9,17 @@ public class BulletProperties {
 	private int height;
 	private int damage;
 	private double speed;
+	private int team;
 	private int zIndex;
 
-	public BulletProperties(ImageResource imageResource, int width, int height, int damage, double speed, int zIndex) {
+	public BulletProperties(ImageResource imageResource, int width, int height, int damage, double speed, int team,
+			int zIndex) {
 		this.imageResource = imageResource;
 		this.width = width;
 		this.height = height;
 		this.damage = damage;
 		this.speed = speed;
+		this.team = team;
 		this.zIndex = zIndex;
 	}
 
@@ -38,6 +41,10 @@ public class BulletProperties {
 
 	public double getSpeed() {
 		return speed;
+	}
+
+	public int getTeam() {
+		return team;
 	}
 
 	public int getzIndex() {

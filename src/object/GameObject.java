@@ -8,7 +8,7 @@ public abstract class GameObject implements Renderable {
 
 	protected ImageResource imageResource;
 	protected Position pos;
-	protected int width, height;
+	protected int width, height, team;
 
 	public GameObject(ImageResource imageResource, int width, int height, int centerX, int centerY) {
 		this(imageResource, width, height, new Position(centerX, centerY));
@@ -47,6 +47,10 @@ public abstract class GameObject implements Renderable {
 
 	public int getHeight() {
 		return height;
+	}
+
+	public int getTeam() {
+		return team;
 	}
 
 }

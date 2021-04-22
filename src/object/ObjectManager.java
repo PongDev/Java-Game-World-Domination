@@ -31,8 +31,10 @@ public class ObjectManager {
 			if (bulletList.get(i).isDestroyed()) {
 				bulletList.remove(i);
 			} else if (isObjectCollide((GameObject) character, bulletList.get(i))) {
-				character.dealDamage(bulletList.get(i).getDamage());
-				bulletList.get(i).destroy();
+				if (character.getTeam() != bulletList.get(i).getTeam()) {
+					character.dealDamage(bulletList.get(i).getDamage());
+					bulletList.get(i).destroy();
+				}
 			}
 		}
 	}

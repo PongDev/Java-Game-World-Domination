@@ -23,7 +23,6 @@ import object.GameObject;
 import render.RenderManager;
 import update.Updatable;
 import update.UpdateManager;
-import utility.ResourceManager.ImageResource;
 import weapon.Gun;
 
 public class ResourceManager {
@@ -154,9 +153,7 @@ public class ResourceManager {
 				new MainCharacter(ImageResource.CHARACTER_MAIN, Config.CHARACTER_W, Config.CHARACTER_H, "",
 						Config.MAIN_CHARACTER_INITIAL_MAX_HEALTH, Config.MAIN_CHARACTER_INITIAL_DEFENSE,
 						Config.MAIN_CHARACTER_INITIAL_SPD, Config.MAIN_CHARACTER_INITIAL_WEAPON,
-						new Position(Config.SPAWN_CENTER)));
-
-		RenderManager.add(gameObjectResource.get(GameObjectResource.MAIN_CHARACTER));
+						Config.MAIN_CHARACTER_TEAM, new Position(Config.SPAWN_CENTER)));
 
 		for (int i = 1; i <= 10; i++) {
 			testSpawnEnemy(i);
@@ -165,10 +162,11 @@ public class ResourceManager {
 
 	public static void testSpawnEnemy(int i) {
 		Enemy test = new Enemy(ImageResource.SPRITE_KNIGHT_SWORD, Config.CHARACTER_W, Config.CHARACTER_H,
-				"Knight Sword", 3, 0, 1, Config.MAIN_CHARACTER_INITIAL_WEAPON,
+				"Knight Sword", 3, 0, 1,
+				new Gun(ImageResource.GUN_AK47, 1, 5, ImageResource.BULLET, 10, 10, 10, Config.ENEMY_TEAM,
+						Config.ZINDEX_MAIN_CHARACTER),
+				Config.ENEMY_TEAM,
 				new Position((int) (Config.TILE_W * 2 * i), (GameState.getMapHeight() * Config.TILE_H) / 2));
-		RenderManager.add(test);
-		UpdateManager.add(test);
 	}
 
 	public static Image getImage(ImageResource image) {
