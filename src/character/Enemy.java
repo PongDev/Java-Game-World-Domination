@@ -1,12 +1,14 @@
 package character;
 
 import config.Config;
+import logic.GameState;
 import object.ObjectManager;
 import render.RenderManager;
 import update.Updatable;
 import update.UpdateManager;
 import utility.Position;
 import utility.ResourceManager.ImageResource;
+import utility.ResourceManager.SceneResource;
 import weapon.Weapon;
 
 public class Enemy extends Character implements Updatable {
@@ -37,6 +39,12 @@ public class Enemy extends Character implements Updatable {
 	}
 
 	public void update() {
-		ObjectManager.collideWithBullet(this);
+		if (GameState.getSceneResource() == SceneResource.PLAYING) {
+			ObjectManager.collideWithBullet(this);
+//			double degree = Math
+//					.toDegrees(Math.atan2(-GameState.getGameMap().getMapPos().Y + pos.Y - (Config.SCREEN_H / 2),
+//							(Config.SCREEN_W / 2) + GameState.getGameMap().getMapPos().X + pos.X));
+//			weapon.attack(getCenterPos(), 0);
+		}
 	}
 }

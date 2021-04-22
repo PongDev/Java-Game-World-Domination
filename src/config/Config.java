@@ -46,6 +46,7 @@ public class Config {
 
 	public static final int ZINDEX_MAP = 0;
 	public static final int ZINDEX_MAIN_CHARACTER = 10;
+	public static final int ZINDEX_ENEMY = 10;
 
 	public static final Position SPAWN_CENTER = new Position((int) (Config.TILE_W * 2.5),
 			(GameState.getMapHeight() * Config.TILE_H) / 2);

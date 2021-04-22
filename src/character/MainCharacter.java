@@ -11,6 +11,7 @@ import update.Updatable;
 import update.UpdateManager;
 import utility.Position;
 import utility.ResourceManager.ImageResource;
+import utility.ResourceManager.SceneResource;
 import weapon.Weapon;
 
 public class MainCharacter extends Character implements Inputable, Updatable {
@@ -79,7 +80,9 @@ public class MainCharacter extends Character implements Inputable, Updatable {
 	}
 
 	public void update() {
-		ObjectManager.collideWithBullet(this);
+		if (GameState.getSceneResource() == SceneResource.PLAYING) {
+			ObjectManager.collideWithBullet(this);
+		}
 	}
 
 	public boolean isRemoveFromUpdate() {

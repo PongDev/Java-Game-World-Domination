@@ -155,7 +155,7 @@ public class ResourceManager {
 						Config.MAIN_CHARACTER_INITIAL_SPD, Config.MAIN_CHARACTER_INITIAL_WEAPON,
 						Config.MAIN_CHARACTER_TEAM, new Position(Config.SPAWN_CENTER)));
 
-		for (int i = 1; i <= 10; i++) {
+		for (int i = 1; i <= 1d; i++) {
 			testSpawnEnemy(i);
 		}
 	}
@@ -164,7 +164,7 @@ public class ResourceManager {
 		Enemy test = new Enemy(ImageResource.SPRITE_KNIGHT_SWORD, Config.CHARACTER_W, Config.CHARACTER_H,
 				"Knight Sword", 3, 0, 1,
 				new Gun(ImageResource.GUN_AK47, 1, 5, ImageResource.BULLET, 10, 10, 10, Config.ENEMY_TEAM,
-						Config.ZINDEX_MAIN_CHARACTER),
+						Config.ZINDEX_ENEMY),
 				Config.ENEMY_TEAM,
 				new Position((int) (Config.TILE_W * 2 * i), (GameState.getMapHeight() * Config.TILE_H) / 2));
 	}
