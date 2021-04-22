@@ -4,10 +4,7 @@ import config.Config;
 import object.ObjectManager;
 import update.Updatable;
 import utility.Position;
-import utility.ResourceManager;
-import utility.Utility;
 import utility.ResourceManager.ImageResource;
-import weapon.Bullet;
 import weapon.Weapon;
 
 public class Enemy extends Character implements Updatable {

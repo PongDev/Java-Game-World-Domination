@@ -4,6 +4,7 @@ import config.Config;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import logic.GameState;
 import object.GameObject;
 import render.Renderable;
@@ -66,6 +67,8 @@ public class GameMap extends Canvas implements Renderable {
 				mapData[rowPos][colPos] = new Tile(tileImage, tileCode, isWalkable, isPlacable, isPenetrable);
 			}
 		}
+		this.getGraphicsContext2D()
+				.setFont(Font.loadFont(ResourceManager.getFontResourceStream(), Config.SCREEN_H / 30));
 	}
 
 	private void calculateMapPos() {

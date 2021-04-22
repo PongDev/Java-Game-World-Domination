@@ -52,7 +52,6 @@ public abstract class Character extends GameObject {
 					-GameState.getGameMap().getMapPos().Y + pos.Y, width * (isTurnLeft ? -1 : 1), height);
 		}
 		if (!name.isBlank()) {
-			gc.setFont(Font.loadFont(ResourceManager.getFontResourceStream(), Config.SCREEN_H / 30));
 			gc.setTextAlign(TextAlignment.CENTER);
 			gc.fillText(name, -GameState.getGameMap().getMapPos().X + pos.X + (width / 2),
 					-GameState.getGameMap().getMapPos().Y + pos.Y);

@@ -40,7 +40,6 @@ public class Gun extends Weapon {
 		if ((new Date()).getTime() - lastAttack >= 1000 / attackSpeed) {
 			lastAttack = (new Date()).getTime();
 			Bullet bullet = new Bullet(bulletProperties, centerPos, degree);
-			ResourceManager.gameObjects.add(bullet);
 			UpdateManager.add(bullet);
 			RenderManager.add(bullet);
 			ObjectManager.addBullet(bullet);

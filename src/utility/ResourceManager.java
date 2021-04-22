@@ -51,7 +51,6 @@ public class ResourceManager {
 	private static String[][] mapResource;
 	private static Map<SceneResource, Scene> sceneResource = new HashMap<SceneResource, Scene>();
 	private static Map<GameObjectResource, GameObject> gameObjectResource = new HashMap<GameObjectResource, GameObject>();
-	public static ArrayList<GameObject> gameObjects = new ArrayList<>();
 
 	static {
 		Logger.log("Initializing ResourceManager");
@@ -159,7 +158,7 @@ public class ResourceManager {
 
 		RenderManager.add(gameObjectResource.get(GameObjectResource.MAIN_CHARACTER));
 
-		for (int i = 1; i <= 3; i++) {
+		for (int i = 1; i <= 10; i++) {
 			testSpawnEnemy(i);
 		}
 	}
@@ -169,7 +168,6 @@ public class ResourceManager {
 				"Knight Sword", 3, 0, 1, Config.MAIN_CHARACTER_INITIAL_WEAPON,
 				new Position((int) (Config.TILE_W * 2 * i), (GameState.getMapHeight() * Config.TILE_H) / 2));
 		RenderManager.add(test);
-		gameObjects.add(test);
 		UpdateManager.add(test);
 	}
 
