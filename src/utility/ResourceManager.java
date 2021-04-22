@@ -23,7 +23,8 @@ import object.GameObject;
 import render.RenderManager;
 import update.Updatable;
 import update.UpdateManager;
-import utility.ResourceManager.SceneResource;
+import utility.ResourceManager.ImageResource;
+import weapon.Gun;
 
 public class ResourceManager {
 
@@ -150,8 +151,11 @@ public class ResourceManager {
 	}
 
 	private static void loadGameObject() {
-		gameObjectResource.put(GameObjectResource.MAIN_CHARACTER, new MainCharacter(ImageResource.CHARACTER_MAIN,
-				Config.CHARACTER_W, Config.CHARACTER_H, new Position(Config.SPAWN_CENTER)));
+		gameObjectResource.put(GameObjectResource.MAIN_CHARACTER,
+				new MainCharacter(ImageResource.CHARACTER_MAIN, Config.CHARACTER_W, Config.CHARACTER_H, "",
+						Config.MAIN_CHARACTER_INITIAL_MAX_HEALTH, Config.MAIN_CHARACTER_INITIAL_DEFENSE,
+						Config.MAIN_CHARACTER_INITIAL_SPD, Config.MAIN_CHARACTER_INITIAL_WEAPON,
+						new Position(Config.SPAWN_CENTER)));
 
 		RenderManager.add(gameObjectResource.get(GameObjectResource.MAIN_CHARACTER));
 
@@ -162,6 +166,7 @@ public class ResourceManager {
 
 	public static void testSpawnEnemy(int i) {
 		Enemy test = new Enemy(ImageResource.SPRITE_KNIGHT_SWORD, Config.CHARACTER_W, Config.CHARACTER_H,
+				"Knight Sword", 3, 0, 1, Config.MAIN_CHARACTER_INITIAL_WEAPON,
 				new Position((int) (Config.TILE_W * 2 * i), (GameState.getMapHeight() * Config.TILE_H) / 2));
 		RenderManager.add(test);
 		gameObjects.add(test);

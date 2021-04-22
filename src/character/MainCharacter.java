@@ -5,26 +5,23 @@ import input.InputManager;
 import input.Inputable;
 import javafx.scene.input.KeyCode;
 import logic.GameState;
-import weapon.Bullet;
-import weapon.BulletProperties;
-import render.RenderManager;
-import update.UpdateManager;
 import utility.Position;
 import utility.ResourceManager.ImageResource;
 import weapon.Gun;
+import weapon.Weapon;
 
 public class MainCharacter extends Character implements Inputable {
 
-	public MainCharacter(ImageResource imageResource, int width, int height, int centerPosX, int centerPosY) {
-		this(imageResource, width, height, new Position(centerPosX, centerPosY));
+	public MainCharacter(ImageResource imageResource, int width, int height, String name, int maxHealth, int defense,
+			int speed, Weapon weapon, int centerPosX, int centerPosY) {
+		this(imageResource, width, height, name, maxHealth, defense, speed, weapon,
+				new Position(centerPosX, centerPosY));
 	}
 
-	public MainCharacter(ImageResource imageResource, int width, int height, Position centerPos) {
-		super(imageResource, width, height, centerPos);
+	public MainCharacter(ImageResource imageResource, int width, int height, String name, int maxHealth, int defense,
+			int speed, Weapon weapon, Position centerPos) {
+		super(imageResource, width, height, name, maxHealth, defense, speed, weapon, centerPos);
 		InputManager.addInputableObject(this);
-		this.setSpeed(Config.MAIN_CHARACTER_INITIAL_SPD);
-		this.setWeapon(
-				new Gun(ImageResource.GUN_AK47, 1, 5, ImageResource.BULLET, 10, 10, 10, Config.ZINDEX_MAIN_CHARACTER));
 	}
 
 	public int getZ() {

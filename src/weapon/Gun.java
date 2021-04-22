@@ -2,6 +2,7 @@ package weapon;
 
 import java.util.Date;
 
+import object.ObjectManager;
 import render.RenderManager;
 import update.UpdateManager;
 import utility.Position;
@@ -42,6 +43,7 @@ public class Gun extends Weapon {
 			ResourceManager.gameObjects.add(bullet);
 			UpdateManager.add(bullet);
 			RenderManager.add(bullet);
+			ObjectManager.addBullet(bullet);
 		}
 	}
 

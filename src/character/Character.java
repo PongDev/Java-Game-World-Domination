@@ -1,6 +1,9 @@
 package character;
 
+import config.Config;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.text.Font;
+import javafx.scene.text.TextAlignment;
 import logic.GameState;
 import object.GameObject;
 import utility.Position;
@@ -12,19 +15,29 @@ import weapon.Weapon;
 public abstract class Character extends GameObject {
 
 	private String name;
-	private int health;
 	private int maxHealth;
+	private int health;
 	private double defense;
 	private int speed;
 	protected Weapon weapon;
 	protected boolean isTurnLeft = false;
+	protected boolean isDestroyed = false;
 
-	public Character(ImageResource imageResource, int width, int height, int centerPosX, int centerPosY) {
-		this(imageResource, width, height, new Position(centerPosX, centerPosY));
+	public Character(ImageResource imageResource, int width, int height, String name, int maxHealth, int defense,
+			int speed, Weapon weapon, int centerPosX, int centerPosY) {
+		this(imageResource, width, height, name, maxHealth, defense, speed, weapon,
+				new Position(centerPosX, centerPosY));
 	}
 
-	public Character(ImageResource imageResource, int width, int height, Position centerPos) {
+	public Character(ImageResource imageResource, int width, int height, String name, int maxHealth, int defense,
+			int speed, Weapon weapon, Position centerPos) {
 		super(imageResource, width, height, centerPos);
+		this.setName(name);
+		this.setMaxHealth(maxHealth);
+		this.setHealth(maxHealth);
+		this.setDefense(defense);
+		this.setSpeed(speed);
+		this.setWeapon(weapon);
 	}
 
 	public void render() {
@@ -37,6 +50,12 @@ public abstract class Character extends GameObject {
 			gc.drawImage(ResourceManager.getImage(weapon.getImageResourse()),
 					-GameState.getGameMap().getMapPos().X + pos.X + (isTurnLeft ? width : 0),
 					-GameState.getGameMap().getMapPos().Y + pos.Y, width * (isTurnLeft ? -1 : 1), height);
+		}
+		if (!name.isBlank()) {
+			gc.setFont(Font.loadFont(ResourceManager.getFontResourceStream(), Config.SCREEN_H / 30));
+			gc.setTextAlign(TextAlignment.CENTER);
+			gc.fillText(name, -GameState.getGameMap().getMapPos().X + pos.X + (width / 2),
+					-GameState.getGameMap().getMapPos().Y + pos.Y);
 		}
 	}
 
@@ -63,7 +82,12 @@ public abstract class Character extends GameObject {
 	}
 
 	public void setHealth(int health) {
-		this.health = health;
+		if (health > 0) {
+			this.health = Math.min(maxHealth, health);
+		} else {
+			this.health = 0;
+			this.isDestroyed = true;
+		}
 	}
 
 	public int getMaxHealth() {
@@ -71,7 +95,8 @@ public abstract class Character extends GameObject {
 	}
 
 	public void setMaxHealth(int maxHealth) {
-		this.maxHealth = maxHealth;
+		this.maxHealth = Math.max(0, maxHealth);
+		this.health = Math.min(this.maxHealth, this.health);
 	}
 
 	public double getDefense() {
@@ -96,6 +121,10 @@ public abstract class Character extends GameObject {
 
 	public void setWeapon(Weapon weapon) {
 		this.weapon = weapon;
+	}
+
+	public void dealDamage(int damage) {
+		setHealth(getHealth() - damage);
 	}
 
 }

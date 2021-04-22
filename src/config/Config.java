@@ -2,6 +2,9 @@ package config;
 
 import logic.GameState;
 import utility.Position;
+import utility.ResourceManager.ImageResource;
+import weapon.Gun;
+import weapon.Weapon;
 
 public class Config {
 	public static final int SCREEN_W = 800;
@@ -27,7 +30,11 @@ public class Config {
 	public static final int CHARACTER_W = 48;
 	public static final int CHARACTER_H = 48;
 
+	public static final int MAIN_CHARACTER_INITIAL_MAX_HEALTH = 5;
+	public static final int MAIN_CHARACTER_INITIAL_DEFENSE = 0;
 	public static final int MAIN_CHARACTER_INITIAL_SPD = 2;
+	public static final Weapon MAIN_CHARACTER_INITIAL_WEAPON = new Gun(ImageResource.GUN_AK47, 1, 5,
+			ImageResource.BULLET, 10, 10, 10, Config.ZINDEX_MAIN_CHARACTER);
 
 	public static final int SCREEN_TILE_W = 16;
 	public static final int SCREEN_TILE_H = 10;
