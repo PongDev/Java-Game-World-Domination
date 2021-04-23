@@ -44,9 +44,10 @@ public class Enemy extends Character implements Updatable {
 			ObjectManager.collideWithBullet(this);
 			double degree = Math
 					.toDegrees(Math.atan2(
-							(-GameState.getGameMap().getMapPos().Y + pos.Y + (height / 2)) - (Config.SCREEN_H / 2),
-							(Config.SCREEN_W / 2) - (-GameState.getGameMap().getMapPos().X + pos.X + (width / 2))))
-					+ (Math.random() * Config.ENEMY_DISPERSION * (Math.random() <= 0.5 ? 1 : -1));
+							(-GameState.getGameMap().getMapPos().Y + pos.Y + (height / 2)) - (Config.SCREEN_H / 2)
+									+ (Math.random() * Config.ENEMY_DISPERSION * (Math.random() <= 0.5 ? 1 : -1)),
+							(Config.SCREEN_W / 2) - (-GameState.getGameMap().getMapPos().X + pos.X + (width / 2))
+									+ (Math.random() * Config.ENEMY_DISPERSION * (Math.random() <= 0.5 ? 1 : -1))));
 			weapon.attack(getCenterPos(), degree);
 		}
 	}
