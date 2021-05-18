@@ -13,6 +13,11 @@ public class Utility {
 		return isObjectCollide(bullet, target.getPos().X, target.getPos().Y)
 				|| isObjectCollide(bullet, target.getPos().X + target.getWidth(), target.getPos().Y)
 				|| isObjectCollide(bullet, target.getPos().X, target.getPos().Y + target.getHeight())
-				|| isObjectCollide(bullet, target.getPos().X + target.getWidth(), target.getPos().Y + target.getHeight());
+				|| isObjectCollide(bullet, target.getPos().X + target.getWidth(),
+						target.getPos().Y + target.getHeight());
+	}
+
+	public static double euclideanDistance(Position pos1, Position pos2) {
+		return Math.sqrt(Math.pow(pos1.X - pos2.X, 2) - Math.pow(pos1.Y - pos2.Y, 2));
 	}
 }
