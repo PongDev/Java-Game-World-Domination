@@ -10,6 +10,7 @@ import utility.Position;
 public class InputManager {
 
 	private static Map<KeyCode, KeyPressData> keyPress = new HashMap<KeyCode, KeyPressData>();
+	private static Map<KeyCode, Boolean> keyClick = new HashMap<KeyCode, Boolean>();
 	private static ArrayList<Inputable> inputableObject = new ArrayList<Inputable>();
 	private static boolean isLeftDown = false;
 	private static boolean isRightDown = false;
@@ -30,6 +31,7 @@ public class InputManager {
 				keyPress.put(e.getCode(), new KeyPressData());
 			}
 			keyPress.get(e.getCode()).keyUp();
+			keyClick.put(e.getCode(), true);
 		});
 		scene.setOnMousePressed((e) -> {
 			if (e.getButton() == MouseButton.PRIMARY) {
@@ -58,7 +60,6 @@ public class InputManager {
 			isMouseOnScreen = false;
 		});
 		scene.setOnMouseMoved((e) -> {
-			
 			if (isMouseOnScreen) {
 				mousePos.X = e.getX();
 				mousePos.Y = e.getY();
@@ -96,10 +97,15 @@ public class InputManager {
 		inputableObject.add(obj);
 	}
 
+	public static boolean isKeyClick(KeyCode keyCode) {
+		return keyClick.containsKey(keyCode) ? true : false;
+	}
+
 	public static void processInputableObject() {
 		for (Inputable object : inputableObject) {
 			object.processInput();
 		}
+		keyClick.clear();
 	}
 
 	public static Position getMousePos() {

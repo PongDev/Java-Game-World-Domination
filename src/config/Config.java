@@ -20,6 +20,8 @@ public class Config {
 
 	public static final String GAME_TITLE = "That Time I Got Reincarnated as a World Dominator";
 
+	public static final String PAUSE_MESSAGE = "Game Pause";
+
 	public static final boolean ENABLE_LOGGER = true;
 
 	public static final String FONT_PATH = "font/Berlin_Sans_FB_Regular.ttf";

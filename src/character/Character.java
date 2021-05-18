@@ -1,6 +1,8 @@
 package character;
 
+import config.Config;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 import javafx.scene.text.TextAlignment;
 import logic.GameState;
 import object.GameObject;
@@ -45,6 +47,21 @@ public abstract class Character extends GameObject {
 		gc.drawImage(ResourceManager.getImage(imageResource),
 				-GameState.getGameMap().getMapPos().X + pos.X + (isTurnLeft ? width : 0),
 				-GameState.getGameMap().getMapPos().Y + pos.Y, width * (isTurnLeft ? -1 : 1), height);
+
+		int hpBarWidth = width + (2 * (Config.SCREEN_W / 35));
+		int hpBarHeight = Config.SCREEN_H / 30;
+
+		gc.setFill(Color.rgb(160, 160, 160));
+		gc.fillRect(-GameState.getGameMap().getMapPos().X + pos.X - ((hpBarWidth - width) / 2),
+				-GameState.getGameMap().getMapPos().Y + pos.Y - hpBarHeight, hpBarWidth, hpBarHeight);
+		gc.setFill(Color.RED);
+		gc.fillRect(-GameState.getGameMap().getMapPos().X + pos.X - ((hpBarWidth - width) / 2),
+				-GameState.getGameMap().getMapPos().Y + pos.Y - hpBarHeight,
+				hpBarWidth * ((double) getHealth() / getMaxHealth()), hpBarHeight);
+		gc.setStroke(Color.BLACK);
+		gc.strokeRect(-GameState.getGameMap().getMapPos().X + pos.X - ((hpBarWidth - width) / 2),
+				-GameState.getGameMap().getMapPos().Y + pos.Y - hpBarHeight, hpBarWidth, hpBarHeight);
+
 		if (weapon != null) {
 			gc.drawImage(ResourceManager.getImage(weapon.getImageResourse()),
 					-GameState.getGameMap().getMapPos().X + pos.X + (isTurnLeft ? width : 0),
@@ -52,6 +69,7 @@ public abstract class Character extends GameObject {
 		}
 		if (!name.isBlank()) {
 			gc.setTextAlign(TextAlignment.CENTER);
+			gc.setFill(Color.rgb(64, 64, 64));
 			gc.fillText(name, -GameState.getGameMap().getMapPos().X + pos.X + (width / 2),
 					-GameState.getGameMap().getMapPos().Y + pos.Y);
 		}

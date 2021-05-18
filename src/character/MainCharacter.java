@@ -13,6 +13,7 @@ import object.ObjectManager;
 import render.RenderManager;
 import update.Updatable;
 import update.UpdateManager;
+import utility.Logger;
 import utility.Position;
 import utility.ResourceManager.ImageResource;
 import utility.ResourceManager.SceneResource;
@@ -123,47 +124,55 @@ public class MainCharacter extends Character implements Inputable, Updatable {
 	}
 
 	public void processInput() {
-		// W
-		if (InputManager.isKeyPress(KeyCode.W)) {
-			if (GameState.getGameMap().isWalkable(this, 0, -getSpeed())) {
-				pos.Y -= getSpeed();
-			} else {
-				pos.Y = ((int) (pos.Y / Config.TILE_H)) * Config.TILE_H;
+		// ESC
+		if (InputManager.isKeyClick(KeyCode.ESCAPE)) {
+			GameState.setPause(!GameState.isPause());
+			Logger.log("Game " + (GameState.isPause() ? "Pause" : "Resume"));
+		}
+		if (!GameState.isPause()) {
+
+			// W
+			if (InputManager.isKeyPress(KeyCode.W)) {
+				if (GameState.getGameMap().isWalkable(this, 0, -getSpeed())) {
+					pos.Y -= getSpeed();
+				} else {
+					pos.Y = ((int) (pos.Y / Config.TILE_H)) * Config.TILE_H;
+				}
 			}
-		}
-		// A
-		if (InputManager.isKeyPress(KeyCode.A)) {
-			isTurnLeft = true;
-			if (GameState.getGameMap().isWalkable(this, -getSpeed(), 0)) {
-				pos.X -= getSpeed();
-			} else {
-				pos.X = ((int) (pos.X / Config.TILE_W)) * Config.TILE_W;
+			// A
+			if (InputManager.isKeyPress(KeyCode.A)) {
+				isTurnLeft = true;
+				if (GameState.getGameMap().isWalkable(this, -getSpeed(), 0)) {
+					pos.X -= getSpeed();
+				} else {
+					pos.X = ((int) (pos.X / Config.TILE_W)) * Config.TILE_W;
+				}
 			}
-		}
-		// S
-		if (InputManager.isKeyPress(KeyCode.S)) {
-			if (GameState.getGameMap().isWalkable(this, 0, +getSpeed())) {
-				pos.Y += getSpeed();
-			} else {
-				pos.Y = (((int) ((pos.Y + height + getSpeed()) / Config.TILE_H)) * Config.TILE_H) - height;
+			// S
+			if (InputManager.isKeyPress(KeyCode.S)) {
+				if (GameState.getGameMap().isWalkable(this, 0, +getSpeed())) {
+					pos.Y += getSpeed();
+				} else {
+					pos.Y = (((int) ((pos.Y + height + getSpeed()) / Config.TILE_H)) * Config.TILE_H) - height;
+				}
 			}
-		}
-		// D
-		if (InputManager.isKeyPress(KeyCode.D)) {
-			isTurnLeft = false;
-			if (GameState.getGameMap().isWalkable(this, +getSpeed(), 0)) {
-				pos.X += getSpeed();
-			} else {
-				pos.X = (((int) ((pos.X + width + getSpeed()) / Config.TILE_W)) * Config.TILE_W) - width;
+			// D
+			if (InputManager.isKeyPress(KeyCode.D)) {
+				isTurnLeft = false;
+				if (GameState.getGameMap().isWalkable(this, +getSpeed(), 0)) {
+					pos.X += getSpeed();
+				} else {
+					pos.X = (((int) ((pos.X + width + getSpeed()) / Config.TILE_W)) * Config.TILE_W) - width;
+				}
 			}
+			// Mouse Click
+			if (InputManager.isLeftMousePress()) {
+				double degree = Math.toDegrees(Math.atan2((Config.SCREEN_H / 2) - InputManager.getMousePos().Y,
+						InputManager.getMousePos().X - (Config.SCREEN_W / 2)));
+				weapon.attack(getCenterPos(), degree);
+			}
+			isTurnLeft = (InputManager.getMousePos().X < Config.SCREEN_W / 2);
 		}
-		// Mouse Click
-		if (InputManager.isLeftMousePress()) {
-			double degree = Math.toDegrees(Math.atan2((Config.SCREEN_H / 2) - InputManager.getMousePos().Y,
-					InputManager.getMousePos().X - (Config.SCREEN_W / 2)));
-			weapon.attack(getCenterPos(), degree);
-		}
-		isTurnLeft = (InputManager.getMousePos().X < Config.SCREEN_W / 2);
 	}
 
 	public void update() {

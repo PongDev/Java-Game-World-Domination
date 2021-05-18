@@ -55,14 +55,15 @@ public class Bullet extends GameObject implements Updatable {
 	}
 
 	public void update() {
-
-		Position delta = new Position(bulletProperties.getSpeed() * Math.cos(Math.toRadians(degree)),
-				-(bulletProperties.getSpeed() * Math.sin(Math.toRadians(degree))));
-		if (GameState.getGameMap().isPenetrable(this, delta.X, delta.Y)) {
-			pos.X += delta.X;
-			pos.Y += delta.Y;
-		} else {
-			isDestroyed = true;
+		if (!GameState.isPause()) {
+			Position delta = new Position(bulletProperties.getSpeed() * Math.cos(Math.toRadians(degree)),
+					-(bulletProperties.getSpeed() * Math.sin(Math.toRadians(degree))));
+			if (GameState.getGameMap().isPenetrable(this, delta.X, delta.Y)) {
+				pos.X += delta.X;
+				pos.Y += delta.Y;
+			} else {
+				isDestroyed = true;
+			}
 		}
 	}
 

@@ -6,7 +6,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.*;
 
-import character.Enemy;
 import character.MainCharacter;
 import config.Config;
 import gui.GameMap;
@@ -23,7 +22,6 @@ import object.GameObject;
 import render.RenderManager;
 import update.Updatable;
 import update.UpdateManager;
-import weapon.Gun;
 
 public class ResourceManager {
 

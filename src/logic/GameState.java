@@ -61,6 +61,7 @@ public class GameState {
 	private static int mapWidth;
 	private static int mapHeight;
 	private static GameMap gameMap;
+	private static boolean isPause = false;
 
 	public static void setMapSize(int width, int height) {
 		mapWidth = width;
@@ -133,6 +134,14 @@ public class GameState {
 
 	public static void setRunning(boolean isRunning) {
 		GameState.isRunning = isRunning;
+	}
+
+	public static boolean isPause() {
+		return isPause;
+	}
+
+	public static void setPause(boolean isPause) {
+		GameState.isPause = isPause;
 	}
 
 }

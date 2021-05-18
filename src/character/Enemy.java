@@ -1,7 +1,6 @@
 package character;
 
 import config.Config;
-import input.InputManager;
 import logic.GameState;
 import object.ObjectManager;
 import render.RenderManager;
@@ -16,8 +15,6 @@ import utility.WaveManager;
 import weapon.Weapon;
 
 public class Enemy extends Character implements Updatable {
-
-	private static final String MainCharacter = null;
 
 	public Enemy(ImageResource imageResource, int width, int height, String name, int maxHealth, int defense, int speed,
 			Weapon weapon, int team, int centerPosX, int centerPosY) {
@@ -45,9 +42,9 @@ public class Enemy extends Character implements Updatable {
 	}
 
 	public boolean isDestroyed() {
-		if(this.isDestroyed == true) {
+		if (this.isDestroyed == true) {
 			WaveManager.enemyDied += 1;
-			if(WaveManager.enemyDied == WaveManager.enemyPerWave) {
+			if (WaveManager.enemyDied == WaveManager.enemyPerWave) {
 				WaveManager.startNewWave();
 			}
 		}
@@ -60,14 +57,16 @@ public class Enemy extends Character implements Updatable {
 
 	public void update() {
 		if (GameState.getSceneResource() == SceneResource.PLAYING) {
-			ObjectManager.collideWithBullet(this);
-			double degree = Math.toDegrees(Math.atan2(
-					(-GameState.getGameMap().getMapPos().Y + pos.Y + (height / 2)) - (Config.SCREEN_H / 2)
-							+ (Math.random() * Config.ENEMY_DISPERSION * (Math.random() <= 0.5 ? 1 : -1)),
-					(Config.SCREEN_W / 2) - (-GameState.getGameMap().getMapPos().X + pos.X + (width / 2))
-							+ (Math.random() * Config.ENEMY_DISPERSION * (Math.random() <= 0.5 ? 1 : -1))));
-			weapon.attack(getCenterPos(), degree);
-			this.move();
+			if (!GameState.isPause()) {
+				ObjectManager.collideWithBullet(this);
+				double degree = Math.toDegrees(Math.atan2(
+						(-GameState.getGameMap().getMapPos().Y + pos.Y + (height / 2)) - (Config.SCREEN_H / 2)
+								+ (Math.random() * Config.ENEMY_DISPERSION * (Math.random() <= 0.5 ? 1 : -1)),
+						(Config.SCREEN_W / 2) - (-GameState.getGameMap().getMapPos().X + pos.X + (width / 2))
+								+ (Math.random() * Config.ENEMY_DISPERSION * (Math.random() <= 0.5 ? 1 : -1))));
+				weapon.attack(getCenterPos(), degree);
+				this.move();
+			}
 		}
 	}
 }
