@@ -3,6 +3,8 @@ package object;
 import java.util.ArrayList;
 
 import character.Character;
+import utility.ResourceManager;
+import utility.ResourceManager.GameObjectResource;
 import weapon.Bullet;
 
 public class ObjectManager {

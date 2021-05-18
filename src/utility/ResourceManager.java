@@ -30,7 +30,7 @@ public class ResourceManager {
 	public enum ImageResource {
 		BG_TITLE, INFO_NORMALMODE, INFO_ENDLESSMODE, BTN, BTN_HOVER, BTN_NEWGAME, BTN_LOADGAME, BTN_EXITGAME, BTN_PLAY,
 		BTN_BACK, BTN_NEXT, BTN_PREVIOUS, TILE_FLOOR, TILE_WALL, TILE_UNWALKABLE_FLOOR, TILE_UNPLACABLE_FLOOR,
-		TILE_GATE_CLOSE, CHARACTER_MAIN, BULLET, GUN_AK47, SPRITE_KNIGHT_SWORD
+		TILE_GATE_CLOSE, CHARACTER_MAIN, BULLET, ENEMY_BULLET, GUN_AK47, SPRITE_KNIGHT_SWORD
 	}
 
 	public enum SoundResource {
@@ -90,6 +90,7 @@ public class ResourceManager {
 		imageResource.put(ImageResource.TILE_GATE_CLOSE, getImage("tile/tile_gate_close.png"));
 		imageResource.put(ImageResource.CHARACTER_MAIN, getImage("sprite/main_character.png"));
 		imageResource.put(ImageResource.BULLET, getImage("sprite/bullet.png"));
+		imageResource.put(ImageResource.ENEMY_BULLET, getImage("sprite/enemy_bullet.png"));
 		imageResource.put(ImageResource.GUN_AK47, getImage("weapon/gun_ak47.png"));
 		imageResource.put(ImageResource.SPRITE_KNIGHT_SWORD, getImage("sprite/sprite_knight_sword.png"));
 		Logger.log("Complete Loading Image");
@@ -154,19 +155,7 @@ public class ResourceManager {
 						Config.MAIN_CHARACTER_INITIAL_MAX_HEALTH, Config.MAIN_CHARACTER_INITIAL_DEFENSE,
 						Config.MAIN_CHARACTER_INITIAL_SPD, Config.MAIN_CHARACTER_INITIAL_WEAPON,
 						Config.MAIN_CHARACTER_TEAM, new Position(Config.SPAWN_CENTER)));
-
-		for (int i = 1; i <= 1; i++) {
-			testSpawnEnemy(i);
-		}
-	}
-
-	public static void testSpawnEnemy(int i) {
-		Enemy test = new Enemy(ImageResource.SPRITE_KNIGHT_SWORD, Config.CHARACTER_W, Config.CHARACTER_H,
-				"Knight Sword", 3, 0, 1,
-				new Gun(ImageResource.GUN_AK47, 1, 2, ImageResource.BULLET, 10, 10, 10, Config.ENEMY_TEAM,
-						Config.ZINDEX_ENEMY),
-				Config.ENEMY_TEAM,
-				new Position((int) (Config.TILE_W * 2 * i), (GameState.getMapHeight() * Config.TILE_H) / 2));
+		WaveManager.startNewWave();
 	}
 
 	public static Image getImage(ImageResource image) {
