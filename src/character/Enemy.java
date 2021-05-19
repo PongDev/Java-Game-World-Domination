@@ -33,8 +33,11 @@ public class Enemy extends Character implements Updatable {
 		Position movingVector = ((MainCharacter) ResourceManager.getGameObject(GameObjectResource.MAIN_CHARACTER))
 				.getTowardMovingVector(this.getCenterPos());
 
-		this.pos.X += movingVector.X * this.getSpeed();
-		this.pos.Y += movingVector.Y * this.getSpeed();
+		if (GameState.getGameMap().isWalkable(this, (int) movingVector.X * this.getSpeed(),
+				(int) movingVector.Y * this.getSpeed())) {
+			this.pos.X += movingVector.X * this.getSpeed();
+			this.pos.Y += movingVector.Y * this.getSpeed();
+		}
 	}
 
 	public int getZ() {
