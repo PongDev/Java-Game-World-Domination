@@ -47,7 +47,7 @@ public class Config {
 	public static final int SCREEN_TILE_W = 16;
 	public static final int SCREEN_TILE_H = 10;
 
-	public static final String MAP_PATH = "map/map_test_2.csv";
+	public static final String MAP_PATH = "map/map_test_3.csv";
 
 	public static final int ZINDEX_MAP = 0;
 	public static final int ZINDEX_MAIN_CHARACTER = 10;

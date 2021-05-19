@@ -33,7 +33,16 @@ public class GameMap extends Canvas implements Renderable {
 
 				switch (tileCode) {
 				case "0":
-					tileImage = ImageResource.TILE_FLOOR;
+					int randomFloorTile = (int)(Math.random() * 100);
+					if (randomFloorTile < 80) {
+						tileImage = ImageResource.TILE_FLOOR;
+					}
+					else if (randomFloorTile < 90) {
+						tileImage = ImageResource.TILE_FLOOR_1;
+					}
+					else {
+						tileImage = ImageResource.TILE_FLOOR_2;
+					}
 					isWalkable = true;
 					isPlacable = true;
 					isPenetrable = true;
