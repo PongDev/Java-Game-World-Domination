@@ -1,14 +1,17 @@
 package gui;
 
-import java.util.Date;
 import config.Config;
 import javafx.geometry.Pos;
+import javafx.scene.ImageCursor;
+import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
 import logic.GameState;
 import sound.SoundManager;
 import update.Updatable;
+import utility.ResourceManager.ImageResource;
 import utility.ResourceManager.SceneResource;
 import utility.ResourceManager.SoundResource;
+import utility.ResourceManager;
 import utility.WaveManager;
 
 public class PlayScenePane extends StackPane implements Updatable {
@@ -17,7 +20,10 @@ public class PlayScenePane extends StackPane implements Updatable {
 	private GameText pauseText;
 
 	public PlayScenePane() {
-		waveText = new GameText("Wave " + Integer.toString(WaveManager.getWave()), Config.SCREEN_H / 9);
+		Image cursorImage = ResourceManager.getImage(ImageResource.CROSS_HAIR);
+		this.setCursor(new ImageCursor(cursorImage, cursorImage.getWidth() / 2, cursorImage.getHeight() / 2));
+
+		waveText = new GameText("", Config.SCREEN_H / 9);
 		waveText.setAlignment(Pos.CENTER);
 		waveText.setTranslateY(-Config.SCREEN_H / 3);
 		waveText.setVisible(false);
@@ -29,13 +35,13 @@ public class PlayScenePane extends StackPane implements Updatable {
 	}
 
 	public void update() {
-		if (WaveManager.isDisplayWaveText == true) {
-			waveText.setText("Wave " + Integer.toString(WaveManager.getWave()));
-			waveText.setVisible(true);
-			if ((new Date()).getTime() - WaveManager.time > 2000) {
-				WaveManager.isDisplayWaveText = false;
-				waveText.setVisible(false);
+		if (!WaveManager.getDisplayWaveText().isBlank()) {
+			if (WaveManager.getDisplayWaveText() != waveText.getText()) {
+				waveText.setText(WaveManager.getDisplayWaveText());
 			}
+			waveText.setVisible(true);
+		} else {
+			waveText.setVisible(false);
 		}
 
 		if (SoundManager.getCurrentSoundResource() != SoundResource.PLAYING) {

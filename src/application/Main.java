@@ -9,6 +9,7 @@ import logic.GameState;
 import render.RenderManager;
 import update.UpdateManager;
 import utility.Logger;
+import utility.WaveManager;
 
 public class Main extends Application {
 	@Override
@@ -28,6 +29,7 @@ public class Main extends Application {
 				}
 				InputManager.processInputableObject();
 				UpdateManager.update();
+				WaveManager.update();
 				RenderManager.render();
 			}
 		};

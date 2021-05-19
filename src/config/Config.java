@@ -44,6 +44,10 @@ public class Config {
 	public static final int ENEMY_ZERO_SUM_MOVING_VECTOR_TIME_ALLOW = 1000;
 	public static final int ENEMY_SUSPEND_MOVING_VECTOR_UPDATE_TIME = 10000;
 
+	public static final int DISPLAY_WAVE_TEXT_DURATION = 2000;
+
+	public static final int DELAY_BETWEEN_WAVE = 10000;
+
 	public static final int SCREEN_TILE_W = 16;
 	public static final int SCREEN_TILE_H = 10;
 

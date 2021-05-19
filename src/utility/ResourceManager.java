@@ -28,7 +28,8 @@ public class ResourceManager {
 	public enum ImageResource {
 		BG_TITLE, INFO_NORMALMODE, INFO_ENDLESSMODE, BTN, BTN_HOVER, BTN_NEWGAME, BTN_LOADGAME, BTN_EXITGAME, BTN_PLAY,
 		BTN_BACK, BTN_NEXT, BTN_PREVIOUS, TILE_FLOOR, TILE_FLOOR_1, TILE_FLOOR_2, TILE_WALL, TILE_UNWALKABLE_FLOOR,
-		TILE_UNPLACABLE_FLOOR, TILE_GATE_CLOSE, CHARACTER_MAIN, BULLET, ENEMY_BULLET, GUN_AK47, SPRITE_KNIGHT_SWORD
+		TILE_UNPLACABLE_FLOOR, TILE_GATE_CLOSE, CHARACTER_MAIN, BULLET, ENEMY_BULLET, GUN_AK47, SPRITE_KNIGHT_SWORD,
+		CROSS_HAIR
 	}
 
 	public enum SoundResource {
@@ -93,6 +94,7 @@ public class ResourceManager {
 		imageResource.put(ImageResource.ENEMY_BULLET, getImage("sprite/enemy_bullet.png"));
 		imageResource.put(ImageResource.GUN_AK47, getImage("weapon/gun_ak47.png"));
 		imageResource.put(ImageResource.SPRITE_KNIGHT_SWORD, getImage("sprite/sprite_knight_sword.png"));
+		imageResource.put(ImageResource.CROSS_HAIR, getImage("sprite/crosshair.png"));
 		Logger.log("Complete Loading Image");
 	}
 
@@ -155,7 +157,6 @@ public class ResourceManager {
 						Config.MAIN_CHARACTER_INITIAL_MAX_HEALTH, Config.MAIN_CHARACTER_INITIAL_DEFENSE,
 						Config.MAIN_CHARACTER_INITIAL_SPD, Config.MAIN_CHARACTER_INITIAL_WEAPON,
 						Config.MAIN_CHARACTER_TEAM, new Position(Config.SPAWN_CENTER)));
-		WaveManager.startNewWave();
 	}
 
 	public static Image getImage(ImageResource image) {

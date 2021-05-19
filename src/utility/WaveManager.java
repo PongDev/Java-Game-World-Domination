@@ -1,47 +1,83 @@
 package utility;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 import character.Enemy;
 import config.Config;
-import gui.PlayScenePane;
-import javafx.scene.control.Label;
 import logic.GameState;
 import utility.ResourceManager.ImageResource;
 import utility.ResourceManager.SceneResource;
 import weapon.Gun;
 
 public class WaveManager {
-	private static int wave = 0;
-	public static int enemyPerWave = 0;
-	public static int enemyDied = 0;
-	public static long time = 0;
-	public static boolean isDisplayWaveText = false;
 
-	public static void startNewWave() {
-		wave += 1;
-		enemyPerWave = wave; // placeholder
-		enemyDied = 0;
-		for (int i = 1; i <= enemyPerWave; i++) {
-			testSpawnEnemy(i);
-		}
-		Logger.log("start wave " + wave);
-		isDisplayWaveText = true;
-		time = (new Date()).getTime();
+	private static ArrayList<Enemy> enemyList = new ArrayList<Enemy>();
+	private static int wave = 0;
+	private static String displayWaveText = "";
+	private static long displayWaveTextTimestamp = 0;
+	private static long waveEndTimestamp = 0;
+	private static boolean isWaveEnd = false;
+
+	public static void initialize() {
+		wave = 0;
+		displayWaveText = "";
+		displayWaveTextTimestamp = 0;
+		startNewWave();
 	}
 
-	public static void testSpawnEnemy(int i) {
+	private static void startNewWave() {
+		isWaveEnd = false;
+		wave += 1;
+		displayWaveText = "Wave " + Integer.toString(WaveManager.getWave());
+		displayWaveTextTimestamp = (new Date()).getTime();
+		for (int i = 1; i <= wave; i++) {
+			testSpawnEnemy(i);
+		}
+		Logger.log("Start Wave " + wave);
+	}
+
+	private static void testSpawnEnemy(int i) {
 		// TODO random enemy spawn point
 
-		Enemy test = new Enemy(ImageResource.SPRITE_KNIGHT_SWORD, Config.CHARACTER_W, Config.CHARACTER_H,
+		enemyList.add(new Enemy(ImageResource.SPRITE_KNIGHT_SWORD, Config.CHARACTER_W, Config.CHARACTER_H,
 				"Knight Sword", 3, 0, 1,
 				new Gun(ImageResource.GUN_AK47, 1, 2, ImageResource.ENEMY_BULLET, 10, 10, 10, Config.ENEMY_TEAM,
 						Config.ZINDEX_ENEMY),
 				Config.ENEMY_TEAM,
-				new Position((int) (Config.TILE_W * 2 * i), (GameState.getMapHeight() * Config.TILE_H) / 2));
+				new Position((int) (Config.TILE_W * 2 * i), (GameState.getMapHeight() * Config.TILE_H) / 2)));
 	}
 
 	public static int getWave() {
 		return wave;
+	}
+
+	public static String getDisplayWaveText() {
+		return displayWaveText;
+	}
+
+	public static void update() {
+		if (GameState.getSceneResource() == SceneResource.PLAYING) {
+			for (int i = enemyList.size() - 1; i >= 0; i--) {
+				if (enemyList.get(i).isDestroyed()) {
+					enemyList.remove(i);
+				}
+			}
+			if (!isWaveEnd && enemyList.isEmpty()) {
+				Logger.log(String.format("Wave %d End", wave));
+				isWaveEnd = true;
+				waveEndTimestamp = (new Date()).getTime();
+			}
+			if (isWaveEnd) {
+				displayWaveText = String.format("Wave %d Begin In %d Second(s)", wave + 1,
+						(Config.DELAY_BETWEEN_WAVE - ((new Date()).getTime() - waveEndTimestamp)) / 1000);
+				if ((new Date()).getTime() - waveEndTimestamp >= Config.DELAY_BETWEEN_WAVE) {
+					startNewWave();
+				}
+			}
+			if (!isWaveEnd && (new Date()).getTime() - displayWaveTextTimestamp >= Config.DISPLAY_WAVE_TEXT_DURATION) {
+				displayWaveText = "";
+			}
+		}
 	}
 }

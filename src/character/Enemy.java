@@ -15,7 +15,6 @@ import utility.Utility;
 import utility.ResourceManager.GameObjectResource;
 import utility.ResourceManager.ImageResource;
 import utility.ResourceManager.SceneResource;
-import utility.WaveManager;
 import weapon.Weapon;
 
 public class Enemy extends Character implements Updatable {
@@ -95,12 +94,6 @@ public class Enemy extends Character implements Updatable {
 	}
 
 	public boolean isDestroyed() {
-		if (this.isDestroyed == true) {
-			WaveManager.enemyDied += 1;
-			if (WaveManager.enemyDied == WaveManager.enemyPerWave) {
-				WaveManager.startNewWave();
-			}
-		}
 		return isDestroyed;
 	}
 
