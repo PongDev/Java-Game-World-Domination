@@ -41,6 +41,8 @@ public class Config {
 
 	public static final int ENEMY_TEAM = 1;
 	public static final double ENEMY_DISPERSION = 40;
+	public static final int ENEMY_ZERO_SUM_MOVING_VECTOR_TIME_ALLOW = 1000;
+	public static final int ENEMY_SUSPEND_MOVING_VECTOR_UPDATE_TIME = 10000;
 
 	public static final int SCREEN_TILE_W = 16;
 	public static final int SCREEN_TILE_H = 10;

@@ -1,5 +1,8 @@
 package character;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -21,6 +24,22 @@ import utility.Utility;
 import weapon.Weapon;
 
 public class MainCharacter extends Character implements Inputable, Updatable {
+
+	private static Comparator<Pair<Pair<Integer, Double>, Position>> movingVectorComparator = (
+			Pair<Pair<Integer, Double>, Position> obj1, Pair<Pair<Integer, Double>, Position> obj2) -> {
+		int manhattanDistance1 = obj1.getKey().getKey();
+		int manhattanDistance2 = obj2.getKey().getKey();
+		double euclideanDistance1 = obj1.getKey().getValue();
+		double euclideanDistance2 = obj1.getKey().getValue();
+
+		if (manhattanDistance1 < manhattanDistance2) {
+			return -1;
+		} else if (manhattanDistance1 > manhattanDistance2) {
+			return 1;
+		} else {
+			return euclideanDistance1 < euclideanDistance2 ? -1 : 1;
+		}
+	};
 
 	private int[][] distanceFromCharacter;
 
@@ -72,8 +91,21 @@ public class MainCharacter extends Character implements Inputable, Updatable {
 								&& GameState.getGameMap().isWalkable(shiftColIndex[colPos] * Config.TILE_W,
 										shiftRowIndex[rowPos] * Config.TILE_H)
 								&& distanceFromCharacter[shiftRowIndex[rowPos]][shiftColIndex[colPos]] == -1) {
-							queue.add(new Pair<>(distance + 1,
-									new Position(shiftRowIndex[rowPos], shiftColIndex[colPos])));
+							int deltaRow = (int) (shiftRowIndex[rowPos] - pos.X);
+							int deltaCol = (int) (shiftColIndex[colPos] - pos.Y);
+							if (Math.abs(deltaRow) == 1 && Math.abs(deltaCol) == 1) {
+								if (GameState.getGameMap().isWalkable(
+										(shiftColIndex[colPos] - deltaCol) * Config.TILE_W,
+										shiftRowIndex[rowPos] * Config.TILE_H)
+										&& GameState.getGameMap().isWalkable(shiftColIndex[colPos] * Config.TILE_W,
+												(shiftRowIndex[rowPos] - deltaRow) * Config.TILE_H)) {
+									queue.add(new Pair<>(distance + 1,
+											new Position(shiftRowIndex[rowPos], shiftColIndex[colPos])));
+								}
+							} else {
+								queue.add(new Pair<>(distance + 1,
+										new Position(shiftRowIndex[rowPos], shiftColIndex[colPos])));
+							}
 						}
 					}
 				}
@@ -81,42 +113,40 @@ public class MainCharacter extends Character implements Inputable, Updatable {
 		}
 	}
 
-	public Position getTowardMovingVector(Position pos) {
+	public ArrayList<Position> getTowardMovingVector(Position pos) {
 		Position mainCharacterBlock = new Position((int) (this.getCenterPos().Y / Config.TILE_H),
 				(int) (this.getCenterPos().X / Config.TILE_W));
-		Position movingVector = new Position();
+		ArrayList<Pair<Pair<Integer, Double>, Position>> movingVectorList = new ArrayList<Pair<Pair<Integer, Double>, Position>>();
+		ArrayList<Position> returnMovingVectorList = new ArrayList<Position>();
 
 		int posRow = (int) (pos.Y / Config.TILE_H);
 		int posCol = (int) (pos.X / Config.TILE_W);
-
-		int currentDistance = distanceFromCharacter[posRow][posCol];
 
 		int[] shiftRowIndex = { posRow, posRow - 1, posRow + 1 };
 		int[] shiftColIndex = { posCol, posCol - 1, posCol + 1 };
 
 		for (int rowPos = 0; rowPos < shiftRowIndex.length; rowPos++) {
 			for (int colPos = 0; colPos < shiftColIndex.length; colPos++) {
-				if (shiftRowIndex[rowPos] >= 0 && shiftColIndex[colPos] >= 0
+				if ((rowPos != 0 || colPos != 0) && shiftRowIndex[rowPos] >= 0 && shiftColIndex[colPos] >= 0
 						&& shiftRowIndex[rowPos] < distanceFromCharacter.length
 						&& shiftColIndex[colPos] < distanceFromCharacter[0].length
 						&& distanceFromCharacter[shiftRowIndex[rowPos]][shiftColIndex[colPos]] != -1) {
-					if (distanceFromCharacter[shiftRowIndex[rowPos]][shiftColIndex[colPos]] < currentDistance) {
-						currentDistance = distanceFromCharacter[shiftRowIndex[rowPos]][shiftColIndex[colPos]];
-						movingVector.Y = shiftRowIndex[rowPos] - posRow;
-						movingVector.X = shiftColIndex[colPos] - posCol;
-					} else if (distanceFromCharacter[shiftRowIndex[rowPos]][shiftColIndex[colPos]] == currentDistance
-							&& Utility.euclideanDistance(mainCharacterBlock,
-									new Position(shiftRowIndex[rowPos], shiftColIndex[colPos])) < Utility
-											.euclideanDistance(mainCharacterBlock,
-													new Position(posRow + movingVector.Y, posCol + movingVector.X))) {
-						currentDistance = distanceFromCharacter[shiftRowIndex[rowPos]][shiftColIndex[colPos]];
-						movingVector.Y = shiftRowIndex[rowPos] - posRow;
-						movingVector.X = shiftColIndex[colPos] - posCol;
-					}
+					double euclideanDistance = Utility.euclideanDistance(mainCharacterBlock,
+							new Position(shiftRowIndex[rowPos], shiftColIndex[colPos]));
+
+					movingVectorList.add(new Pair<>(
+							new Pair<>(distanceFromCharacter[shiftRowIndex[rowPos]][shiftColIndex[colPos]],
+									euclideanDistance),
+							new Position(shiftColIndex[colPos] - posCol, shiftRowIndex[rowPos] - posRow)));
 				}
 			}
 		}
-		return movingVector;
+		Collections.sort(movingVectorList, movingVectorComparator);
+		for (Pair<Pair<Integer, Double>, Position> e : movingVectorList) {
+			returnMovingVectorList.add(e.getValue());
+		}
+		returnMovingVectorList.add(new Position(0, 0));
+		return returnMovingVectorList;
 	}
 
 	public int getZ() {

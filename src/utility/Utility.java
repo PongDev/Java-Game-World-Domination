@@ -18,6 +18,14 @@ public class Utility {
 	}
 
 	public static double euclideanDistance(Position pos1, Position pos2) {
-		return Math.sqrt(Math.pow(pos1.X - pos2.X, 2) - Math.pow(pos1.Y - pos2.Y, 2));
+		return Math.sqrt(Math.pow(pos1.X - pos2.X, 2) + Math.pow(pos1.Y - pos2.Y, 2));
+	}
+
+	public static double euclideanDistance(GameObject obj1, GameObject obj2) {
+		return euclideanDistance(obj1.getCenterPos(), obj2.getCenterPos());
+	}
+
+	public static boolean isZeroSumVector(Position vector1, Position vector2) {
+		return (vector1.X + vector2.X == 0 && vector1.Y + vector2.Y == 0);
 	}
 }
