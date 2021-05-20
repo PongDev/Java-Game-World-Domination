@@ -11,11 +11,13 @@ import config.Config;
 import gui.GameMap;
 import gui.ModeSelectScenePane;
 import gui.PlayScenePane;
+import gui.Shop;
 import gui.TitleScenePane;
 import input.InputManager;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
 import javafx.scene.media.AudioClip;
 import logic.GameState;
 import object.GameObject;
@@ -40,6 +42,10 @@ public class ResourceManager {
 		TITLE, SETTING, MODE_SELECTING, PLAYING
 	}
 
+	public enum UIResource {
+		SHOP
+	}
+
 	public enum GameObjectResource {
 		MAIN_CHARACTER
 	}
@@ -48,6 +54,7 @@ public class ResourceManager {
 	private static Map<SoundResource, AudioClip> soundResource = new HashMap<SoundResource, AudioClip>();
 	private static String[][] mapResource;
 	private static Map<SceneResource, Scene> sceneResource = new HashMap<SceneResource, Scene>();
+	private static Map<UIResource, Pane> uiResource = new HashMap<UIResource, Pane>();
 	private static Map<GameObjectResource, GameObject> gameObjectResource = new HashMap<GameObjectResource, GameObject>();
 
 	static {
@@ -55,6 +62,7 @@ public class ResourceManager {
 		loadImage();
 		loadSound();
 		loadMap();
+		loadUI();
 		loadScene();
 		loadGameObject();
 		Logger.log("ResourceManager Initialized");
@@ -135,6 +143,14 @@ public class ResourceManager {
 		Logger.log("Complete Loading Map");
 	}
 
+	private static void loadUI() {
+		Logger.log("Start Loading UI");
+
+		uiResource.put(UIResource.SHOP, new Shop());
+
+		Logger.log("Complete Loading UI");
+	}
+
 	private static void loadScene() {
 		Logger.log("Start Loading Scene");
 
@@ -176,6 +192,10 @@ public class ResourceManager {
 
 	public static AudioClip getSound(SoundResource sound) {
 		return soundResource.get(sound);
+	}
+
+	public static Pane getUI(UIResource ui) {
+		return uiResource.get(ui);
 	}
 
 	public static Scene getScene(SceneResource scene) {

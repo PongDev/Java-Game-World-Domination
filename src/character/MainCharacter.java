@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 import config.Config;
+import gui.Shop;
 import input.InputManager;
 import input.Inputable;
 import javafx.scene.input.KeyCode;
@@ -18,8 +19,10 @@ import update.Updatable;
 import update.UpdateManager;
 import utility.Logger;
 import utility.Position;
+import utility.ResourceManager;
 import utility.ResourceManager.ImageResource;
 import utility.ResourceManager.SceneResource;
+import utility.ResourceManager.UIResource;
 import utility.Utility;
 import weapon.Weapon;
 
@@ -194,6 +197,10 @@ public class MainCharacter extends Character implements Inputable, Updatable {
 				} else {
 					pos.X = (((int) ((pos.X + width + getSpeed()) / Config.TILE_W)) * Config.TILE_W) - width;
 				}
+			}
+			// B
+			if (InputManager.isKeyClick(KeyCode.B)) {
+				((Shop) ResourceManager.getUI(UIResource.SHOP)).toggleVisible();
 			}
 			// Mouse Click
 			if (InputManager.isLeftMousePress()) {
