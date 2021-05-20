@@ -1,5 +1,11 @@
 package utility;
 
+import java.util.LinkedList;
+import java.util.Queue;
+
+import config.Config;
+import javafx.util.Pair;
+import logic.GameState;
 import object.GameObject;
 
 public class Utility {
@@ -27,5 +33,59 @@ public class Utility {
 
 	public static boolean isZeroSumVector(Position vector1, Position vector2) {
 		return (vector1.X + vector2.X == 0 && vector1.Y + vector2.Y == 0);
+	}
+
+	public static void calculateDistanceFromGameObject(GameObject obj, int distanceFromObject[][]) {
+		int posRow = (int) (obj.getCenterPos().Y / Config.TILE_H);
+		int posCol = (int) (obj.getCenterPos().X / Config.TILE_W);
+
+		for (int rowPos = 0; rowPos < GameState.getMapHeight(); rowPos++) {
+			for (int colPos = 0; colPos < GameState.getMapWidth(); colPos++) {
+				distanceFromObject[rowPos][colPos] = -1;
+			}
+		}
+
+		Queue<Pair<Integer, Position>> queue = new LinkedList<>();
+
+		queue.add(new Pair<>(0, new Position(posRow, posCol)));
+		while (!queue.isEmpty()) {
+			Position pos = queue.peek().getValue();
+			int distance = queue.remove().getKey();
+			if ((int) pos.X >= 0 && (int) pos.Y >= 0 && (int) pos.X < distanceFromObject.length
+					&& (int) pos.Y < distanceFromObject[0].length
+					&& GameState.getGameMap().isWalkable(posCol * Config.TILE_W, posRow * Config.TILE_H)
+					&& distanceFromObject[(int) pos.X][(int) pos.Y] == -1) {
+				distanceFromObject[(int) pos.X][(int) pos.Y] = distance;
+				int[] shiftRowIndex = { (int) pos.X, (int) pos.X - 1, (int) pos.X + 1 };
+				int[] shiftColIndex = { (int) pos.Y, (int) pos.Y - 1, (int) pos.Y + 1 };
+
+				for (int rowPos = 0; rowPos < shiftRowIndex.length; rowPos++) {
+					for (int colPos = 0; colPos < shiftColIndex.length; colPos++) {
+						if (shiftRowIndex[rowPos] >= 0 && shiftColIndex[colPos] >= 0
+								&& shiftRowIndex[rowPos] < distanceFromObject.length
+								&& shiftColIndex[colPos] < distanceFromObject[0].length
+								&& GameState.getGameMap().isWalkable(shiftColIndex[colPos] * Config.TILE_W,
+										shiftRowIndex[rowPos] * Config.TILE_H)
+								&& distanceFromObject[shiftRowIndex[rowPos]][shiftColIndex[colPos]] == -1) {
+							int deltaRow = (int) (shiftRowIndex[rowPos] - pos.X);
+							int deltaCol = (int) (shiftColIndex[colPos] - pos.Y);
+							if (Math.abs(deltaRow) == 1 && Math.abs(deltaCol) == 1) {
+								if (GameState.getGameMap().isWalkable(
+										(shiftColIndex[colPos] - deltaCol) * Config.TILE_W,
+										shiftRowIndex[rowPos] * Config.TILE_H)
+										&& GameState.getGameMap().isWalkable(shiftColIndex[colPos] * Config.TILE_W,
+												(shiftRowIndex[rowPos] - deltaRow) * Config.TILE_H)) {
+									queue.add(new Pair<>(distance + 1,
+											new Position(shiftRowIndex[rowPos], shiftColIndex[colPos])));
+								}
+							} else {
+								queue.add(new Pair<>(distance + 1,
+										new Position(shiftRowIndex[rowPos], shiftColIndex[colPos])));
+							}
+						}
+					}
+				}
+			}
+		}
 	}
 }

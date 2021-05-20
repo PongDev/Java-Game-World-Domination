@@ -22,5 +22,20 @@ public class Position {
 		this.X += deltaX;
 		this.Y += deltaY;
 	}
+	
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Position other = (Position) obj;
+		if (Double.doubleToLongBits(X) != Double.doubleToLongBits(other.X))
+			return false;
+		if (Double.doubleToLongBits(Y) != Double.doubleToLongBits(other.Y))
+			return false;
+		return true;
+	}
 
 }

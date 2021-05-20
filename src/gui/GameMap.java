@@ -33,14 +33,12 @@ public class GameMap extends Canvas implements Renderable {
 
 				switch (tileCode) {
 				case "0":
-					int randomFloorTile = (int)(Math.random() * 100);
+					int randomFloorTile = (int) (Math.random() * 100);
 					if (randomFloorTile < 80) {
 						tileImage = ImageResource.TILE_FLOOR;
-					}
-					else if (randomFloorTile < 90) {
+					} else if (randomFloorTile < 90) {
 						tileImage = ImageResource.TILE_FLOOR_1;
-					}
-					else {
+					} else {
 						tileImage = ImageResource.TILE_FLOOR_2;
 					}
 					isWalkable = true;
@@ -98,9 +96,14 @@ public class GameMap extends Canvas implements Renderable {
 						&& -mapPos.Y + (rowPos * Config.TILE_H) <= Config.SCREEN_H)
 						|| (-mapPos.X + (colPos * Config.TILE_W) + Config.TILE_W >= 0
 								&& -mapPos.Y + (rowPos * Config.TILE_H) + Config.TILE_H >= 0)) {
+					if (mapData[rowPos][colPos].isHighlight()) {
+						mapData[rowPos][colPos].setHighlight(false);
+						gc.setGlobalAlpha(0.5);
+					}
 					gc.drawImage(ResourceManager.getImage(mapData[rowPos][colPos].getImageResource()),
 							-mapPos.X + (colPos * Config.TILE_W), -mapPos.Y + (rowPos * Config.TILE_H), Config.TILE_W,
 							Config.TILE_H);
+					gc.setGlobalAlpha(1.0);
 				}
 			}
 		}
@@ -162,6 +165,12 @@ public class GameMap extends Canvas implements Renderable {
 						gameObject.getPos().Y + gameObject.getHeight() - 1 + deltaY)
 				&& isPenetrable(gameObject.getPos().X + gameObject.getWidth() - 1 + deltaX,
 						gameObject.getPos().Y + gameObject.getHeight() - 1 + deltaY);
+	}
+
+	public void setHighLightTile(int row, int col) {
+		if (row >= 0 && col >= 0 && row < GameState.getMapHeight() && col < GameState.getMapWidth()) {
+			mapData[row][col].setHighlight(true);
+		}
 	}
 
 }

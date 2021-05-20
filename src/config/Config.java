@@ -38,6 +38,7 @@ public class Config {
 	public static final int MAIN_CHARACTER_TEAM = 0;
 	public static final Weapon MAIN_CHARACTER_INITIAL_WEAPON = new Gun(ImageResource.GUN_AK47, 1, 5,
 			ImageResource.BULLET, 10, 10, 10, Config.MAIN_CHARACTER_TEAM, Config.ZINDEX_MAIN_CHARACTER);
+	public static final double TOWER_DISPERSION = 40;
 
 	public static final int ENEMY_TEAM = 1;
 	public static final double ENEMY_DISPERSION = 40;
@@ -54,8 +55,9 @@ public class Config {
 	public static final String MAP_PATH = "map/map_test_3.csv";
 
 	public static final int ZINDEX_MAP = 0;
+	public static final int ZINDEX_TOWER = 9;
 	public static final int ZINDEX_MAIN_CHARACTER = 10;
-	public static final int ZINDEX_ENEMY = 10;
+	public static final int ZINDEX_ENEMY = 9;
 
 	public static final Position SPAWN_CENTER = new Position((int) (Config.TILE_W * 2.5),
 			(GameState.getMapHeight() * Config.TILE_H) / 2);

@@ -31,7 +31,7 @@ public class ResourceManager {
 		BG_TITLE, INFO_NORMALMODE, INFO_ENDLESSMODE, BTN, BTN_HOVER, BTN_NEWGAME, BTN_LOADGAME, BTN_EXITGAME, BTN_PLAY,
 		BTN_BACK, BTN_NEXT, BTN_PREVIOUS, TILE_FLOOR, TILE_FLOOR_1, TILE_FLOOR_2, TILE_WALL, TILE_UNWALKABLE_FLOOR,
 		TILE_UNPLACABLE_FLOOR, TILE_GATE_CLOSE, CHARACTER_MAIN, BULLET, ENEMY_BULLET, GUN_AK47, SPRITE_KNIGHT_SWORD,
-		CROSS_HAIR, AMMO_PANE, HEALTH_POTION_PANE, STATUS_PANE
+		CROSS_HAIR, AMMO_PANE, HEALTH_POTION_PANE, STATUS_PANE, MACHINE_GUN_TOWER, SNIPER_TOWER
 	}
 
 	public enum SoundResource {
@@ -106,6 +106,8 @@ public class ResourceManager {
 		imageResource.put(ImageResource.GUN_AK47, getImage("weapon/gun_ak47.png"));
 		imageResource.put(ImageResource.SPRITE_KNIGHT_SWORD, getImage("sprite/sprite_knight_sword.png"));
 		imageResource.put(ImageResource.CROSS_HAIR, getImage("sprite/crosshair.png"));
+		imageResource.put(ImageResource.MACHINE_GUN_TOWER, getImage("sprite/tower_machine_gun.png"));
+		imageResource.put(ImageResource.SNIPER_TOWER, getImage("sprite/tower_sniper.png"));
 		Logger.log("Complete Loading Image");
 	}
 

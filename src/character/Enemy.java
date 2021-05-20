@@ -7,6 +7,7 @@ import config.Config;
 import logic.GameState;
 import object.ObjectManager;
 import render.RenderManager;
+import tower.Tower;
 import update.Updatable;
 import update.UpdateManager;
 import utility.Position;
@@ -90,7 +91,7 @@ public class Enemy extends Character implements Updatable {
 	}
 
 	public int getZ() {
-		return Config.ZINDEX_MAIN_CHARACTER - 1;
+		return Config.ZINDEX_ENEMY;
 	}
 
 	public boolean isDestroyed() {
@@ -105,11 +106,27 @@ public class Enemy extends Character implements Updatable {
 		if (GameState.getSceneResource() == SceneResource.PLAYING) {
 			if (!GameState.isPause()) {
 				ObjectManager.collideWithBullet(this);
-				double degree = Math.toDegrees(Math.atan2(
-						(-GameState.getGameMap().getMapPos().Y + pos.Y + (height / 2)) - (Config.SCREEN_H / 2)
-								+ (Math.random() * Config.ENEMY_DISPERSION * (Math.random() <= 0.5 ? 1 : -1)),
-						(Config.SCREEN_W / 2) - (-GameState.getGameMap().getMapPos().X + pos.X + (width / 2))
-								+ (Math.random() * Config.ENEMY_DISPERSION * (Math.random() <= 0.5 ? 1 : -1))));
+
+				double degree;
+				Tower targetTower = ObjectManager.findNearestOpponentTower(this, team);
+				int row = (int) (this.getCenterPos().Y / Config.TILE_H);
+				int col = (int) (this.getCenterPos().X / Config.TILE_W);
+
+				if (targetTower != null && targetTower.getManhattanDistanceFromTower(row,
+						col) < ((MainCharacter) ResourceManager.getGameObject(GameObjectResource.MAIN_CHARACTER))
+								.getManhattanDistanceFromCharacter(row, col)) {
+					degree = Math.toDegrees(Math.atan2(
+							(this.getCenterPos().Y) - (targetTower.getCenterPos().Y)
+									+ (Math.random() * Config.ENEMY_DISPERSION * (Math.random() <= 0.5 ? 1 : -1)),
+							(targetTower.getCenterPos().X) - (this.getCenterPos().X)
+									+ (Math.random() * Config.ENEMY_DISPERSION * (Math.random() <= 0.5 ? 1 : -1))));
+				} else {
+					degree = Math.toDegrees(Math.atan2(
+							(-GameState.getGameMap().getMapPos().Y + pos.Y + (height / 2)) - (Config.SCREEN_H / 2)
+									+ (Math.random() * Config.ENEMY_DISPERSION * (Math.random() <= 0.5 ? 1 : -1)),
+							(Config.SCREEN_W / 2) - (-GameState.getGameMap().getMapPos().X + pos.X + (width / 2))
+									+ (Math.random() * Config.ENEMY_DISPERSION * (Math.random() <= 0.5 ? 1 : -1))));
+				}
 				weapon.attack(getCenterPos(), degree);
 				this.move();
 			}

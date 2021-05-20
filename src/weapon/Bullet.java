@@ -83,4 +83,9 @@ public class Bullet extends GameObject implements Updatable {
 		isDestroyed = true;
 	}
 
+	public void dealDamage(int damage) {
+		// Bullet Is Immutable
+		return;
+	}
+
 }

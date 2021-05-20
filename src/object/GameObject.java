@@ -37,6 +37,8 @@ public abstract class GameObject implements Renderable {
 
 	public abstract int getZ();
 
+	public abstract void dealDamage(int damage);
+
 	public Position getPos() {
 		return pos;
 	}

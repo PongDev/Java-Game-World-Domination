@@ -3,8 +3,6 @@ package character;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.LinkedList;
-import java.util.Queue;
 
 import config.Config;
 import gui.Shop;
@@ -15,6 +13,7 @@ import javafx.util.Pair;
 import logic.GameState;
 import object.ObjectManager;
 import render.RenderManager;
+import tower.MachineGunTower;
 import update.Updatable;
 import update.UpdateManager;
 import utility.Logger;
@@ -45,6 +44,7 @@ public class MainCharacter extends Character implements Inputable, Updatable {
 	};
 
 	private int[][] distanceFromCharacter;
+	private Position selectedTile;
 
 	public MainCharacter(ImageResource imageResource, int width, int height, String name, int maxHealth, int defense,
 			int speed, Weapon weapon, int team, int centerPosX, int centerPosY) {
@@ -63,57 +63,7 @@ public class MainCharacter extends Character implements Inputable, Updatable {
 	}
 
 	private void calculateDistanceFromCharacter() {
-		int posRow = (int) (this.getCenterPos().Y / Config.TILE_H);
-		int posCol = (int) (this.getCenterPos().X / Config.TILE_W);
-
-		for (int rowPos = 0; rowPos < GameState.getMapHeight(); rowPos++) {
-			for (int colPos = 0; colPos < GameState.getMapWidth(); colPos++) {
-				distanceFromCharacter[rowPos][colPos] = -1;
-			}
-		}
-
-		Queue<Pair<Integer, Position>> queue = new LinkedList<>();
-
-		queue.add(new Pair<>(0, new Position(posRow, posCol)));
-		while (!queue.isEmpty()) {
-			Position pos = queue.peek().getValue();
-			int distance = queue.remove().getKey();
-			if ((int) pos.X >= 0 && (int) pos.Y >= 0 && (int) pos.X < distanceFromCharacter.length
-					&& (int) pos.Y < distanceFromCharacter[0].length
-					&& GameState.getGameMap().isWalkable(posCol * Config.TILE_W, posRow * Config.TILE_H)
-					&& distanceFromCharacter[(int) pos.X][(int) pos.Y] == -1) {
-				distanceFromCharacter[(int) pos.X][(int) pos.Y] = distance;
-				int[] shiftRowIndex = { (int) pos.X, (int) pos.X - 1, (int) pos.X + 1 };
-				int[] shiftColIndex = { (int) pos.Y, (int) pos.Y - 1, (int) pos.Y + 1 };
-
-				for (int rowPos = 0; rowPos < shiftRowIndex.length; rowPos++) {
-					for (int colPos = 0; colPos < shiftColIndex.length; colPos++) {
-						if (shiftRowIndex[rowPos] >= 0 && shiftColIndex[colPos] >= 0
-								&& shiftRowIndex[rowPos] < distanceFromCharacter.length
-								&& shiftColIndex[colPos] < distanceFromCharacter[0].length
-								&& GameState.getGameMap().isWalkable(shiftColIndex[colPos] * Config.TILE_W,
-										shiftRowIndex[rowPos] * Config.TILE_H)
-								&& distanceFromCharacter[shiftRowIndex[rowPos]][shiftColIndex[colPos]] == -1) {
-							int deltaRow = (int) (shiftRowIndex[rowPos] - pos.X);
-							int deltaCol = (int) (shiftColIndex[colPos] - pos.Y);
-							if (Math.abs(deltaRow) == 1 && Math.abs(deltaCol) == 1) {
-								if (GameState.getGameMap().isWalkable(
-										(shiftColIndex[colPos] - deltaCol) * Config.TILE_W,
-										shiftRowIndex[rowPos] * Config.TILE_H)
-										&& GameState.getGameMap().isWalkable(shiftColIndex[colPos] * Config.TILE_W,
-												(shiftRowIndex[rowPos] - deltaRow) * Config.TILE_H)) {
-									queue.add(new Pair<>(distance + 1,
-											new Position(shiftRowIndex[rowPos], shiftColIndex[colPos])));
-								}
-							} else {
-								queue.add(new Pair<>(distance + 1,
-										new Position(shiftRowIndex[rowPos], shiftColIndex[colPos])));
-							}
-						}
-					}
-				}
-			}
-		}
+		Utility.calculateDistanceFromGameObject(this, distanceFromCharacter);
 	}
 
 	public ArrayList<Position> getTowardMovingVector(Position pos) {
@@ -208,19 +158,47 @@ public class MainCharacter extends Character implements Inputable, Updatable {
 						InputManager.getMousePos().X - (Config.SCREEN_W / 2)));
 				weapon.attack(getCenterPos(), degree);
 			}
+			// Mouse Select Tile
+			if (GameState.getSceneResource() == SceneResource.PLAYING) {
+				Position mapPos = GameState.getGameMap().getMapPos();
+				Position mousePos = InputManager.getMousePos();
+				Position selectedTile = new Position((int) ((mousePos.Y + mapPos.Y) / Config.TILE_H),
+						(int) ((mousePos.X + mapPos.X) / Config.TILE_W));
+
+				GameState.getGameMap().setHighLightTile((int) selectedTile.X, (int) selectedTile.Y);
+				if (!selectedTile.equals(this.selectedTile)) {
+					Logger.log(
+							String.format("Selected Tile Row:%2d Col:%2d", (int) selectedTile.X, (int) selectedTile.Y));
+					this.selectedTile = selectedTile;
+				}
+			}
+			// Test
+			if (InputManager.isKeyClick(KeyCode.T)) {
+				System.out.println("Test Key Press");
+				MachineGunTower tower = new MachineGunTower(16, 2, team);
+			}
 			isTurnLeft = (InputManager.getMousePos().X < Config.SCREEN_W / 2);
 		}
 	}
 
 	public void update() {
-		calculateDistanceFromCharacter();
 		if (GameState.getSceneResource() == SceneResource.PLAYING) {
-			ObjectManager.collideWithBullet(this);
+			if (!GameState.isPause()) {
+				calculateDistanceFromCharacter();
+				ObjectManager.collideWithBullet(this);
+			}
 		}
 	}
 
 	public boolean isRemoveFromUpdate() {
 		return false;
+	}
+
+	public int getManhattanDistanceFromCharacter(int row, int col) {
+		if (row >= 0 && col >= 0 && row < GameState.getMapHeight() && col < GameState.getMapWidth()) {
+			return distanceFromCharacter[row][col];
+		}
+		return -1;
 	}
 
 }

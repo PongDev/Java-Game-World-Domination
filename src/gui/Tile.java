@@ -6,7 +6,7 @@ public class Tile {
 
 	private ImageResource imageResource;
 	private String tileCode;
-	private boolean isWalkable, isPlacable, isPenetrable;
+	private boolean isWalkable, isPlacable, isPenetrable, isHighlight;
 
 	public Tile(ImageResource imageResource, String tileCode, boolean isWalkable, boolean isPlacable,
 			boolean isPenetrable) {
@@ -31,6 +31,14 @@ public class Tile {
 
 	public boolean isPenetrable() {
 		return isPenetrable;
+	}
+
+	public boolean isHighlight() {
+		return isHighlight;
+	}
+
+	public void setHighlight(boolean isHighlight) {
+		this.isHighlight = isHighlight;
 	}
 
 }
