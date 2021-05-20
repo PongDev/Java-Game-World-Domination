@@ -33,9 +33,9 @@ public class ResourceManager {
 	public enum ImageResource {
 		BG_TITLE, INFO_NORMALMODE, INFO_ENDLESSMODE, BTN, BTN_HOVER, BTN_NEWGAME, BTN_LOADGAME, BTN_EXITGAME, BTN_PLAY,
 		BTN_BACK, BTN_NEXT, BTN_PREVIOUS, TILE_FLOOR, TILE_FLOOR_1, TILE_FLOOR_2, TILE_WALL, TILE_UNWALKABLE_FLOOR,
-		TILE_UNPLACABLE_FLOOR, TILE_GATE_CLOSE, CHARACTER_MAIN, BULLET, ENEMY_BULLET, GUN_AK47, SPRITE_KNIGHT_SWORD,
-		CROSS_HAIR, AMMO_PANE, HEALTH_POTION_PANE, STATUS_PANE, HEALTH_POTION, ITEM_BUTTON, ITEM_BUTTON_TRANSPARENT,
-		ITEM_DESCRIPTION, MACHINE_GUN_TOWER, SNIPER_TOWER
+		TILE_UNPLACABLE_FLOOR, TILE_GATE_CLOSE, CHARACTER_MAIN, BULLET, ENEMY_BULLET, GUN_AK47, GUN_SHOTGUN, GUN_SNIPER,
+		SPRITE_KNIGHT_SWORD, CROSS_HAIR, AMMO_PANE, HEALTH_POTION_PANE, STATUS_PANE, HEALTH_POTION, ITEM_BUTTON,
+		ITEM_BUTTON_TRANSPARENT, ITEM_DESCRIPTION, MACHINE_GUN_TOWER, SNIPER_TOWER, BARRIER_TOWER
 	}
 
 	public enum SoundResource {
@@ -47,10 +47,7 @@ public class ResourceManager {
 	}
 
 	public enum ItemResource {
-		HEALTH_POTION,
-
-		// this is just for testing
-		POTION_1, POTION_2, POTION_3, POTION_4, POTION_5, POTION_7
+		MACHINE_GUN_TOWER, SNIPER_TOWER, BARRIER_TOWER, HEALTH_POTION, GUN_AK47, GUN_SHOTGUN, GUN_SNIPER
 	}
 
 	public enum UIResource {
@@ -120,10 +117,13 @@ public class ResourceManager {
 		imageResource.put(ImageResource.BULLET, getImage("sprite/bullet.png"));
 		imageResource.put(ImageResource.ENEMY_BULLET, getImage("sprite/enemy_bullet.png"));
 		imageResource.put(ImageResource.GUN_AK47, getImage("weapon/gun_ak47.png"));
+		imageResource.put(ImageResource.GUN_SHOTGUN, getImage("weapon/gun_shotgun.png"));
+		imageResource.put(ImageResource.GUN_SNIPER, getImage("weapon/gun_sniper.png"));
 		imageResource.put(ImageResource.SPRITE_KNIGHT_SWORD, getImage("sprite/sprite_knight_sword.png"));
 		imageResource.put(ImageResource.CROSS_HAIR, getImage("sprite/crosshair.png"));
 		imageResource.put(ImageResource.MACHINE_GUN_TOWER, getImage("sprite/tower_machine_gun.png"));
 		imageResource.put(ImageResource.SNIPER_TOWER, getImage("sprite/tower_sniper.png"));
+		imageResource.put(ImageResource.BARRIER_TOWER, getImage("sprite/tower_barrier.png"));
 		imageResource.put(ImageResource.HEALTH_POTION, getImage("sprite/healing_potion.png"));
 		Logger.log("Complete Loading Image");
 	}
@@ -163,22 +163,20 @@ public class ResourceManager {
 	}
 
 	private static void loadItem() {
+		itemResource.put(ItemResource.MACHINE_GUN_TOWER, new Potion("Machine gun tower",
+				"fast attack speed, medium damage", ImageResource.MACHINE_GUN_TOWER, 40));
+		itemResource.put(ItemResource.SNIPER_TOWER,
+				new Potion("Sniper tower", "low attack speed, very high damage", ImageResource.SNIPER_TOWER, 40));
+		itemResource.put(ItemResource.BARRIER_TOWER,
+				new Potion("Barrier tower", "can block enemies bullet", ImageResource.BARRIER_TOWER, 40));
 		itemResource.put(ItemResource.HEALTH_POTION,
 				new Potion("Health Potion", "Heal 40 health", ImageResource.HEALTH_POTION, 20));
-
-		// just for testing
-		itemResource.put(ItemResource.POTION_1,
-				new Potion("Health Potion_1", "Heal 41 health", ImageResource.HEALTH_POTION, 21));
-		itemResource.put(ItemResource.POTION_2,
-				new Potion("Health Potion_2", "Heal 42 health", ImageResource.HEALTH_POTION, 22));
-		itemResource.put(ItemResource.POTION_3,
-				new Potion("Health Potion_3", "Heal 43 health", ImageResource.HEALTH_POTION, 23));
-		itemResource.put(ItemResource.POTION_4,
-				new Potion("Health Potion_4", "Heal 44 health", ImageResource.HEALTH_POTION, 24));
-		itemResource.put(ItemResource.POTION_5,
-				new Potion("Health Potion_5", "Heal 45 health", ImageResource.HEALTH_POTION, 25));
-		itemResource.put(ItemResource.POTION_7,
-				new Potion("AK47", "5 dmg, 10 atk speed, 120 bullet", ImageResource.GUN_AK47, 27));
+		itemResource.put(ItemResource.GUN_AK47,
+				new Potion("AK47", "3 damage, 0.5 second firerate, 120 ammo", ImageResource.GUN_AK47, 60));
+		itemResource.put(ItemResource.GUN_SHOTGUN,
+				new Potion("Shotgun", "3-9 damage, 1.0 second firerate, 20 ammo", ImageResource.GUN_SHOTGUN, 50));
+		itemResource.put(ItemResource.GUN_SNIPER,
+				new Potion("Sniper", "12 damage, 1.0 second firerate, 30 ammo", ImageResource.GUN_SNIPER, 75));
 	}
 
 	private static void loadUI() {

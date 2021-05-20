@@ -67,8 +67,8 @@ public class Shop extends StackPane {
 
 		descriptionText = new GameText("", Config.SCREEN_H / 25);
 		descriptionText.setAlignment(Pos.TOP_LEFT);
-		descriptionText.setPrefWidth(Config.SCREEN_W / 2.5);
-		descriptionText.setTranslateX(-Config.SCREEN_H / 4.5);
+		descriptionText.setPrefWidth(Config.SCREEN_W / 2);
+		descriptionText.setTranslateX(-Config.SCREEN_H / 8);
 		descriptionText.setTranslateY(Config.SCREEN_W / 5);
 
 		for (ItemResource itemResource : ItemResource.values()) {
