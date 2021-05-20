@@ -1,5 +1,7 @@
 package logic;
 
+import java.util.Date;
+
 import gui.GameMap;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -62,6 +64,8 @@ public class GameState {
 	private static int mapHeight;
 	private static GameMap gameMap;
 	private static boolean isPause = false;
+	private static long lastPauseTimestamp = 0;
+	private static long lastPauseDulation = 0;
 
 	public static void setMapSize(int width, int height) {
 		mapWidth = width;
@@ -141,7 +145,19 @@ public class GameState {
 	}
 
 	public static void setPause(boolean isPause) {
-		GameState.isPause = isPause;
+		if (GameState.isPause != isPause) {
+			GameState.isPause = isPause;
+			if (GameState.isPause) {
+				lastPauseTimestamp = (new Date()).getTime();
+			} else {
+				lastPauseDulation = (new Date()).getTime() - lastPauseTimestamp;
+				lastPauseTimestamp = 0;
+			}
+		}
+	}
+
+	public static long getLastPauseDulation() {
+		return lastPauseDulation;
 	}
 
 }

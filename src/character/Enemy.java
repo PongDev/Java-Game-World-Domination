@@ -24,16 +24,18 @@ public class Enemy extends Character implements Updatable {
 	private long zeroSumMovingVectorTimestamp = 0;
 	private long suspendUpdateMovingVectorTimestamp = 0;
 	private boolean allowUpdateMovingVector = true;
+	private int moneyDrop = 0;
 
 	public Enemy(ImageResource imageResource, int width, int height, String name, int maxHealth, int defense, int speed,
-			Weapon weapon, int team, int centerPosX, int centerPosY) {
-		this(imageResource, width, height, name, maxHealth, defense, speed, weapon, team,
+			Weapon weapon, int team, int moneyDrop, int centerPosX, int centerPosY) {
+		this(imageResource, width, height, name, maxHealth, defense, speed, weapon, team, moneyDrop,
 				new Position(centerPosX, centerPosY));
 	}
 
 	public Enemy(ImageResource imageResource, int width, int height, String name, int maxHealth, int defense, int speed,
-			Weapon weapon, int team, Position centerPos) {
+			Weapon weapon, int team, int moneyDrop, Position centerPos) {
 		super(imageResource, width, height, name, maxHealth, defense, speed, weapon, team, centerPos);
+		this.moneyDrop = moneyDrop;
 		UpdateManager.add(this);
 		RenderManager.add(this);
 	}
@@ -96,6 +98,12 @@ public class Enemy extends Character implements Updatable {
 
 	public boolean isDestroyed() {
 		return isDestroyed;
+	}
+
+	public void onDestroyed() {
+		MainCharacter mainCharacter = (MainCharacter) ResourceManager.getGameObject(GameObjectResource.MAIN_CHARACTER);
+
+		mainCharacter.setMoney(mainCharacter.getMoney() + this.moneyDrop);
 	}
 
 	public boolean isRemoveFromUpdate() {

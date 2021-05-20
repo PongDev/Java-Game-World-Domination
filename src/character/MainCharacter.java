@@ -3,6 +3,8 @@ package character;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
 
 import config.Config;
 import gui.Shop;
@@ -13,13 +15,16 @@ import javafx.util.Pair;
 import logic.GameState;
 import object.ObjectManager;
 import render.RenderManager;
+import tower.BarricadeTower;
 import tower.MachineGunTower;
+import tower.SniperTower;
 import update.Updatable;
 import update.UpdateManager;
 import utility.Logger;
 import utility.Position;
 import utility.ResourceManager;
 import utility.ResourceManager.ImageResource;
+import utility.ResourceManager.ItemResource;
 import utility.ResourceManager.SceneResource;
 import utility.ResourceManager.UIResource;
 import utility.Utility;
@@ -45,6 +50,9 @@ public class MainCharacter extends Character implements Inputable, Updatable {
 
 	private int[][] distanceFromCharacter;
 	private Position selectedTile;
+	private ItemResource selectedTower;
+	private int money = 0;
+	private Map<ItemResource, Integer> inventory = new HashMap<ItemResource, Integer>();
 
 	public MainCharacter(ImageResource imageResource, int width, int height, String name, int maxHealth, int defense,
 			int speed, Weapon weapon, int team, int centerPosX, int centerPosY) {
@@ -109,8 +117,16 @@ public class MainCharacter extends Character implements Inputable, Updatable {
 	public void processInput() {
 		// ESC
 		if (InputManager.isKeyClick(KeyCode.ESCAPE)) {
-			GameState.setPause(!GameState.isPause());
-			Logger.log("Game " + (GameState.isPause() ? "Pause" : "Resume"));
+			if (((Shop) ResourceManager.getUI(UIResource.SHOP)).isVisible()) {
+				((Shop) ResourceManager.getUI(UIResource.SHOP)).toggleVisible();
+			} else {
+				GameState.setPause(!GameState.isPause());
+				Logger.log("Game " + (GameState.isPause() ? "Pause" : "Resume"));
+			}
+		}
+		// B
+		if (InputManager.isKeyClick(KeyCode.B)) {
+			((Shop) ResourceManager.getUI(UIResource.SHOP)).toggleVisible();
 		}
 		if (!GameState.isPause()) {
 
@@ -148,18 +164,21 @@ public class MainCharacter extends Character implements Inputable, Updatable {
 					pos.X = (((int) ((pos.X + width + getSpeed()) / Config.TILE_W)) * Config.TILE_W) - width;
 				}
 			}
-			// B
-			if (InputManager.isKeyClick(KeyCode.B)) {
-				((Shop) ResourceManager.getUI(UIResource.SHOP)).toggleVisible();
-			}
-			// Mouse Click
-			if (InputManager.isLeftMousePress()) {
+			// Mouse Press
+			if (InputManager.isLeftMousePress() && selectedTower == null) {
 				double degree = Math.toDegrees(Math.atan2((Config.SCREEN_H / 2) - InputManager.getMousePos().Y,
 						InputManager.getMousePos().X - (Config.SCREEN_W / 2)));
 				weapon.attack(getCenterPos(), degree);
 			}
+			// Deploy Tower
+			if (InputManager.isLeftMouseClick() && selectedTower != null) {
+				if (this.countItemInInventory(selectedTower) > 0) {
+					this.removeItemFromInventory(selectedTower);
+					this.deployTower(selectedTower, (int) selectedTile.X, (int) selectedTile.Y);
+				}
+			}
 			// Mouse Select Tile
-			if (GameState.getSceneResource() == SceneResource.PLAYING) {
+			if (GameState.getSceneResource() == SceneResource.PLAYING && selectedTower != null) {
 				Position mapPos = GameState.getGameMap().getMapPos();
 				Position mousePos = InputManager.getMousePos();
 				Position selectedTile = new Position((int) ((mousePos.Y + mapPos.Y) / Config.TILE_H),
@@ -172,10 +191,18 @@ public class MainCharacter extends Character implements Inputable, Updatable {
 					this.selectedTile = selectedTile;
 				}
 			}
-			// Test
-			if (InputManager.isKeyClick(KeyCode.T)) {
-				System.out.println("Test Key Press");
-				MachineGunTower tower = new MachineGunTower(16, 2, team);
+			// Click 1
+			if (InputManager.isKeyClick(KeyCode.DIGIT1)) {
+				selectedTower = (selectedTower == ItemResource.BARRIER_TOWER ? null : ItemResource.BARRIER_TOWER);
+			}
+			// Click 2
+			if (InputManager.isKeyClick(KeyCode.DIGIT2)) {
+				selectedTower = (selectedTower == ItemResource.MACHINE_GUN_TOWER ? null
+						: ItemResource.MACHINE_GUN_TOWER);
+			}
+			// Click 3
+			if (InputManager.isKeyClick(KeyCode.DIGIT3)) {
+				selectedTower = (selectedTower == ItemResource.SNIPER_TOWER ? null : ItemResource.SNIPER_TOWER);
 			}
 			isTurnLeft = (InputManager.getMousePos().X < Config.SCREEN_W / 2);
 		}
@@ -190,6 +217,14 @@ public class MainCharacter extends Character implements Inputable, Updatable {
 		}
 	}
 
+	public boolean isDestroyed() {
+		return false;
+	}
+
+	public void onDestroyed() {
+
+	}
+
 	public boolean isRemoveFromUpdate() {
 		return false;
 	}
@@ -199,6 +234,60 @@ public class MainCharacter extends Character implements Inputable, Updatable {
 			return distanceFromCharacter[row][col];
 		}
 		return -1;
+	}
+
+	public int getMoney() {
+		return money;
+	}
+
+	public void setMoney(int money) {
+		this.money = money;
+	}
+
+	public void addItemToInventory(ItemResource item, int amount) {
+		if (!inventory.containsKey(item)) {
+			inventory.put(item, amount);
+		} else {
+			inventory.put(item, inventory.get(item) + amount);
+		}
+	}
+
+	public void addItemToInventory(ItemResource item) {
+		this.addItemToInventory(item, 1);
+	}
+
+	public void removeItemFromInventory(ItemResource item, int amount) {
+		if (inventory.containsKey(item)) {
+			inventory.put(item, Math.max(inventory.get(item) - amount, 0));
+		}
+	}
+
+	public void removeItemFromInventory(ItemResource item) {
+		this.removeItemFromInventory(item, 1);
+	}
+
+	public int countItemInInventory(ItemResource item) {
+		return inventory.containsKey(item) ? inventory.get(item) : 0;
+	}
+
+	public ItemResource getSelectedTower() {
+		return selectedTower;
+	}
+
+	public void deployTower(ItemResource tower, int row, int col) {
+		switch (tower) {
+		case BARRIER_TOWER:
+			new BarricadeTower(row, col, team);
+			break;
+		case MACHINE_GUN_TOWER:
+			new MachineGunTower(row, col, team);
+			break;
+		case SNIPER_TOWER:
+			new SniperTower(row, col, team);
+			break;
+		default:
+			break;
+		}
 	}
 
 }

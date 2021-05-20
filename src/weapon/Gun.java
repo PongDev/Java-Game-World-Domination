@@ -13,7 +13,7 @@ public class Gun extends Weapon {
 	private BulletProperties bulletProperties;
 	private long lastAttack = 0;
 
-	public Gun(ImageResource imageResource, int attackDamage, int attackSpeed, ImageResource bulletImageResource,
+	public Gun(ImageResource imageResource, int attackDamage, double attackSpeed, ImageResource bulletImageResource,
 			int bulletSpeed, int bulletWidth, int bulleteHeight, int team, int holderZIndex) {
 		super(imageResource, attackDamage, attackSpeed);
 		setBulletProperties(new BulletProperties(bulletImageResource, bulletWidth, bulleteHeight, attackDamage,

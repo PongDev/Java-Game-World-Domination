@@ -13,7 +13,9 @@ public class InputManager {
 	private static Map<KeyCode, Boolean> keyClick = new HashMap<KeyCode, Boolean>();
 	private static ArrayList<Inputable> inputableObject = new ArrayList<Inputable>();
 	private static boolean isLeftDown = false;
+	private static boolean isLeftClick = false;
 	private static boolean isRightDown = false;
+	private static boolean isRightClick = false;
 	private static boolean isMouseOnScreen = false;
 	private static long leftMousePressTime;
 	private static long rightMousePressTime;
@@ -47,10 +49,12 @@ public class InputManager {
 			if (e.getButton() == MouseButton.PRIMARY) {
 				isLeftDown = false;
 				leftMousePressTime = 0;
+				isLeftClick = true;
 			}
 			if (e.getButton() == MouseButton.SECONDARY) {
 				isRightDown = false;
 				rightMousePressTime = 0;
+				isRightClick = true;
 			}
 		});
 		scene.setOnMouseEntered((e) -> {
@@ -81,8 +85,16 @@ public class InputManager {
 		return isLeftDown;
 	}
 
+	public static boolean isLeftMouseClick() {
+		return isLeftClick;
+	}
+
 	public static boolean isRightMousePress() {
 		return isRightDown;
+	}
+
+	public static boolean isRightMouseClick() {
+		return isRightClick;
 	}
 
 	public static long leftMousePressDuration() {
@@ -105,6 +117,8 @@ public class InputManager {
 		for (Inputable object : inputableObject) {
 			object.processInput();
 		}
+		isLeftClick = false;
+		isRightClick = false;
 		keyClick.clear();
 	}
 

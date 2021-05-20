@@ -2,6 +2,7 @@ package gui;
 
 import java.util.ArrayList;
 
+import character.MainCharacter;
 import config.Config;
 import item.Buyable;
 import javafx.event.ActionEvent;
@@ -19,8 +20,11 @@ import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.TextAlignment;
+import logic.GameState;
 import render.Renderable;
+import utility.Logger;
 import utility.ResourceManager;
+import utility.ResourceManager.GameObjectResource;
 import utility.ResourceManager.ImageResource;
 import utility.ResourceManager.ItemResource;
 
@@ -37,9 +41,9 @@ public class Shop extends StackPane {
 	private ItemResource selectedItem;
 
 	public Shop() {
-		
-		//TODO ownText, nextPageBTN, previousPageBTN;
-		
+
+		// TODO ownText, nextPageBTN, previousPageBTN;
+
 		this.currentPage = 0;
 		this.setVisible(false);
 		this.setMinHeight(Config.SCREEN_H / 1.1);
@@ -90,8 +94,7 @@ public class Shop extends StackPane {
 					(int) (Config.SCREEN_W / 6), (int) (Config.SCREEN_H / 4.25));
 			itemButtonList.add(itemButton);
 
-			
-			//Selected item to buy
+			// Selected item to buy
 			itemButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
 				public void handle(MouseEvent event) {
 					descriptionText.setText(item.getName() + "\n" + item.getDescription());
@@ -102,7 +105,6 @@ public class Shop extends StackPane {
 				}
 			});
 
-			
 			StackPane itemStackPane = new StackPane();
 			itemStackPane.getChildren().addAll(itemButtonBG, itemVBox, itemButton);
 			itemStackPaneList.add(itemStackPane);
@@ -124,7 +126,21 @@ public class Shop extends StackPane {
 		buyButton = new GameButton("Buy", ImageResource.BTN, Config.SCREEN_W / 6, Config.SCREEN_H / 10);
 		buyButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			public void handle(MouseEvent event) {
-				//System.out.println("Bought " + ResourceManager.getItem(selectedItem).getName());
+				Buyable item = ResourceManager.getItem(selectedItem);
+				MainCharacter mainCharacter = ((MainCharacter) ResourceManager
+						.getGameObject(GameObjectResource.MAIN_CHARACTER));
+
+				if (item.isAllowBuy()) {
+					if (mainCharacter.getMoney() >= item.getCost()) {
+						mainCharacter.setMoney(mainCharacter.getMoney() - item.getCost());
+						mainCharacter.addItemToInventory(selectedItem);
+						Logger.log("Bought " + ResourceManager.getItem(selectedItem).getName());
+					} else {
+						Logger.log("Money Not Enough To Buy " + ResourceManager.getItem(selectedItem).getName());
+					}
+				} else {
+					Logger.log(ResourceManager.getItem(selectedItem).getName() + " Is Not Allow To Buy");
+				}
 			}
 		});
 		buyButton.setTextFill(Color.WHITE);
@@ -137,6 +153,7 @@ public class Shop extends StackPane {
 
 	public void toggleVisible() {
 		this.setVisible(!this.isVisible());
+		GameState.setPause(this.isVisible());
 	}
 
 }

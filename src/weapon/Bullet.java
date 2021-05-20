@@ -88,4 +88,9 @@ public class Bullet extends GameObject implements Updatable {
 		return;
 	}
 
+	public void onDestroyed() {
+		// Bullet Do Nothing On Destroyed
+		return;
+	}
+
 }

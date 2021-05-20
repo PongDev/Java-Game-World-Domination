@@ -26,7 +26,6 @@ import object.GameObject;
 import render.RenderManager;
 import update.Updatable;
 import update.UpdateManager;
-import utility.ResourceManager.ImageResource;
 
 public class ResourceManager {
 
@@ -47,7 +46,7 @@ public class ResourceManager {
 	}
 
 	public enum ItemResource {
-		MACHINE_GUN_TOWER, SNIPER_TOWER, BARRIER_TOWER, HEALTH_POTION, GUN_AK47, GUN_SHOTGUN, GUN_SNIPER
+		BARRIER_TOWER, MACHINE_GUN_TOWER, SNIPER_TOWER, HEALTH_POTION, GUN_AK47, GUN_SHOTGUN, GUN_SNIPER
 	}
 
 	public enum UIResource {

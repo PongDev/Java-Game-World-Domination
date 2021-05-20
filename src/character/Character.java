@@ -79,10 +79,6 @@ public abstract class Character extends GameObject {
 		return GameState.getSceneResource() == SceneResource.PLAYING;
 	}
 
-	public boolean isDestroyed() {
-		return false;
-	}
-
 	public abstract int getZ();
 
 	public String getName() {
@@ -102,6 +98,7 @@ public abstract class Character extends GameObject {
 			this.health = Math.min(maxHealth, health);
 		} else {
 			this.health = 0;
+			this.onDestroyed();
 			this.isDestroyed = true;
 		}
 	}

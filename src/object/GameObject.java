@@ -35,6 +35,8 @@ public abstract class GameObject implements Renderable {
 
 	public abstract boolean isDestroyed();
 
+	public abstract void onDestroyed();
+
 	public abstract int getZ();
 
 	public abstract void dealDamage(int damage);

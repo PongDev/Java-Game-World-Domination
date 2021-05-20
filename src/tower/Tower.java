@@ -83,6 +83,10 @@ public abstract class Tower extends GameObject implements Updatable {
 		return isDestroyed;
 	}
 
+	public void onDestroyed() {
+		return;
+	}
+
 	public boolean isRemoveFromUpdate() {
 		return isDestroyed;
 	}
@@ -93,7 +97,7 @@ public abstract class Tower extends GameObject implements Updatable {
 				calculateDistanceFromTower();
 				ObjectManager.collideWithBullet(this);
 
-				if (!targetObject.isDestroyed()) {
+				if (targetObject != null && !targetObject.isDestroyed()) {
 					double degree = Math.toDegrees(Math.atan2(
 							(this.getCenterPos().Y) - (targetObject.getCenterPos().Y)
 									+ (Math.random() * Config.TOWER_DISPERSION * (Math.random() <= 0.5 ? 1 : -1)),

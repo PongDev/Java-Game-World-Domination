@@ -18,6 +18,7 @@ public class WaveManager {
 	private static long displayWaveTextTimestamp = 0;
 	private static long waveEndTimestamp = 0;
 	private static boolean isWaveEnd = false;
+	private static boolean isPauseBetweenWaveEnd = false;
 
 	public static void initialize() {
 		wave = 0;
@@ -44,7 +45,7 @@ public class WaveManager {
 				"Knight Sword", 3, 0, 1,
 				new Gun(ImageResource.GUN_AK47, 1, 2, ImageResource.ENEMY_BULLET, 10, 10, 10, Config.ENEMY_TEAM,
 						Config.ZINDEX_ENEMY),
-				Config.ENEMY_TEAM,
+				Config.ENEMY_TEAM, 1000,
 				new Position((int) (Config.TILE_W * 2 * i), (GameState.getMapHeight() * Config.TILE_H) / 2)));
 	}
 
@@ -58,25 +59,34 @@ public class WaveManager {
 
 	public static void update() {
 		if (GameState.getSceneResource() == SceneResource.PLAYING) {
-			for (int i = enemyList.size() - 1; i >= 0; i--) {
-				if (enemyList.get(i).isDestroyed()) {
-					enemyList.remove(i);
+			if (!GameState.isPause()) {
+				if (isPauseBetweenWaveEnd) {
+					waveEndTimestamp += GameState.getLastPauseDulation();
+					isPauseBetweenWaveEnd = false;
 				}
-			}
-			if (!isWaveEnd && enemyList.isEmpty()) {
-				Logger.log(String.format("Wave %d End", wave));
-				isWaveEnd = true;
-				waveEndTimestamp = (new Date()).getTime();
-			}
-			if (isWaveEnd) {
-				displayWaveText = String.format("Wave %d Begin In %d Second(s)", wave + 1,
-						(Config.DELAY_BETWEEN_WAVE - ((new Date()).getTime() - waveEndTimestamp)) / 1000);
-				if ((new Date()).getTime() - waveEndTimestamp >= Config.DELAY_BETWEEN_WAVE) {
-					startNewWave();
+				for (int i = enemyList.size() - 1; i >= 0; i--) {
+					if (enemyList.get(i).isDestroyed()) {
+						enemyList.remove(i);
+					}
 				}
-			}
-			if (!isWaveEnd && (new Date()).getTime() - displayWaveTextTimestamp >= Config.DISPLAY_WAVE_TEXT_DURATION) {
-				displayWaveText = "";
+				if (!isWaveEnd && enemyList.isEmpty()) {
+					Logger.log(String.format("Wave %d End", wave));
+					isWaveEnd = true;
+					waveEndTimestamp = (new Date()).getTime();
+				}
+				if (isWaveEnd) {
+					displayWaveText = String.format("Wave %d Begin In %d Second(s)", wave + 1,
+							(Config.DELAY_BETWEEN_WAVE - ((new Date()).getTime() - waveEndTimestamp)) / 1000);
+					if ((new Date()).getTime() - waveEndTimestamp >= Config.DELAY_BETWEEN_WAVE) {
+						startNewWave();
+					}
+				}
+				if (!isWaveEnd
+						&& (new Date()).getTime() - displayWaveTextTimestamp >= Config.DISPLAY_WAVE_TEXT_DURATION) {
+					displayWaveText = "";
+				}
+			} else if (isWaveEnd == true) {
+				isPauseBetweenWaveEnd = true;
 			}
 		}
 	}
