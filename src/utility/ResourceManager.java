@@ -14,6 +14,8 @@ import gui.PlayScenePane;
 import gui.Shop;
 import gui.TitleScenePane;
 import input.InputManager;
+import item.Buyable;
+import item.Potion;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -24,6 +26,7 @@ import object.GameObject;
 import render.RenderManager;
 import update.Updatable;
 import update.UpdateManager;
+import utility.ResourceManager.ImageResource;
 
 public class ResourceManager {
 
@@ -31,7 +34,8 @@ public class ResourceManager {
 		BG_TITLE, INFO_NORMALMODE, INFO_ENDLESSMODE, BTN, BTN_HOVER, BTN_NEWGAME, BTN_LOADGAME, BTN_EXITGAME, BTN_PLAY,
 		BTN_BACK, BTN_NEXT, BTN_PREVIOUS, TILE_FLOOR, TILE_FLOOR_1, TILE_FLOOR_2, TILE_WALL, TILE_UNWALKABLE_FLOOR,
 		TILE_UNPLACABLE_FLOOR, TILE_GATE_CLOSE, CHARACTER_MAIN, BULLET, ENEMY_BULLET, GUN_AK47, SPRITE_KNIGHT_SWORD,
-		CROSS_HAIR, AMMO_PANE, HEALTH_POTION_PANE, STATUS_PANE, MACHINE_GUN_TOWER, SNIPER_TOWER
+		CROSS_HAIR, AMMO_PANE, HEALTH_POTION_PANE, STATUS_PANE, HEALTH_POTION, ITEM_BUTTON, ITEM_BUTTON_TRANSPARENT,
+		ITEM_DESCRIPTION, MACHINE_GUN_TOWER, SNIPER_TOWER
 	}
 
 	public enum SoundResource {
@@ -40,6 +44,13 @@ public class ResourceManager {
 
 	public enum SceneResource {
 		TITLE, SETTING, MODE_SELECTING, PLAYING
+	}
+
+	public enum ItemResource {
+		HEALTH_POTION,
+
+		// this is just for testing
+		POTION_1, POTION_2, POTION_3, POTION_4, POTION_5, POTION_7
 	}
 
 	public enum UIResource {
@@ -54,6 +65,7 @@ public class ResourceManager {
 	private static Map<SoundResource, AudioClip> soundResource = new HashMap<SoundResource, AudioClip>();
 	private static String[][] mapResource;
 	private static Map<SceneResource, Scene> sceneResource = new HashMap<SceneResource, Scene>();
+	private static Map<ItemResource, Buyable> itemResource = new HashMap<ItemResource, Buyable>();
 	private static Map<UIResource, Pane> uiResource = new HashMap<UIResource, Pane>();
 	private static Map<GameObjectResource, GameObject> gameObjectResource = new HashMap<GameObjectResource, GameObject>();
 
@@ -62,6 +74,7 @@ public class ResourceManager {
 		loadImage();
 		loadSound();
 		loadMap();
+		loadItem();
 		loadUI();
 		loadScene();
 		loadGameObject();
@@ -84,11 +97,14 @@ public class ResourceManager {
 		imageResource.put(ImageResource.AMMO_PANE, getImage("info/ammo_pane.png"));
 		imageResource.put(ImageResource.HEALTH_POTION_PANE, getImage("info/healthPotion_pane.png"));
 		imageResource.put(ImageResource.STATUS_PANE, getImage("info/status_pane.png"));
+		imageResource.put(ImageResource.ITEM_DESCRIPTION, getImage("info/item_description.png"));
 		imageResource.put(ImageResource.BTN, getImage("btn/button.png"));
 		imageResource.put(ImageResource.BTN_HOVER, getImage("btn/button_hover.png"));
 		imageResource.put(ImageResource.BTN_NEWGAME, getImage("btn/new_game.png"));
 		imageResource.put(ImageResource.BTN_LOADGAME, getImage("btn/load_game.png"));
 		imageResource.put(ImageResource.BTN_EXITGAME, getImage("btn/exit_game.png"));
+		imageResource.put(ImageResource.ITEM_BUTTON, getImage("btn/item_button.png"));
+		imageResource.put(ImageResource.ITEM_BUTTON_TRANSPARENT, getImage("btn/item_button_bg.png"));
 		imageResource.put(ImageResource.BTN_PLAY, getImage("btn/play.png"));
 		imageResource.put(ImageResource.BTN_BACK, getImage("btn/back.png"));
 		imageResource.put(ImageResource.BTN_NEXT, getImage("btn/next.png"));
@@ -108,6 +124,7 @@ public class ResourceManager {
 		imageResource.put(ImageResource.CROSS_HAIR, getImage("sprite/crosshair.png"));
 		imageResource.put(ImageResource.MACHINE_GUN_TOWER, getImage("sprite/tower_machine_gun.png"));
 		imageResource.put(ImageResource.SNIPER_TOWER, getImage("sprite/tower_sniper.png"));
+		imageResource.put(ImageResource.HEALTH_POTION, getImage("sprite/healing_potion.png"));
 		Logger.log("Complete Loading Image");
 	}
 
@@ -143,6 +160,25 @@ public class ResourceManager {
 		}
 		RenderManager.add(GameState.getGameMap());
 		Logger.log("Complete Loading Map");
+	}
+
+	private static void loadItem() {
+		itemResource.put(ItemResource.HEALTH_POTION,
+				new Potion("Health Potion", "Heal 40 health", ImageResource.HEALTH_POTION, 20));
+
+		// just for testing
+		itemResource.put(ItemResource.POTION_1,
+				new Potion("Health Potion_1", "Heal 41 health", ImageResource.HEALTH_POTION, 21));
+		itemResource.put(ItemResource.POTION_2,
+				new Potion("Health Potion_2", "Heal 42 health", ImageResource.HEALTH_POTION, 22));
+		itemResource.put(ItemResource.POTION_3,
+				new Potion("Health Potion_3", "Heal 43 health", ImageResource.HEALTH_POTION, 23));
+		itemResource.put(ItemResource.POTION_4,
+				new Potion("Health Potion_4", "Heal 44 health", ImageResource.HEALTH_POTION, 24));
+		itemResource.put(ItemResource.POTION_5,
+				new Potion("Health Potion_5", "Heal 45 health", ImageResource.HEALTH_POTION, 25));
+		itemResource.put(ItemResource.POTION_7,
+				new Potion("AK47", "5 dmg, 10 atk speed, 120 bullet", ImageResource.GUN_AK47, 27));
 	}
 
 	private static void loadUI() {
@@ -194,6 +230,10 @@ public class ResourceManager {
 
 	public static AudioClip getSound(SoundResource sound) {
 		return soundResource.get(sound);
+	}
+
+	public static Buyable getItem(ItemResource item) {
+		return itemResource.get(item);
 	}
 
 	public static Pane getUI(UIResource ui) {
