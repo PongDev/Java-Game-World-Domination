@@ -29,7 +29,7 @@ public class ResourceManager {
 		BG_TITLE, INFO_NORMALMODE, INFO_ENDLESSMODE, BTN, BTN_HOVER, BTN_NEWGAME, BTN_LOADGAME, BTN_EXITGAME, BTN_PLAY,
 		BTN_BACK, BTN_NEXT, BTN_PREVIOUS, TILE_FLOOR, TILE_FLOOR_1, TILE_FLOOR_2, TILE_WALL, TILE_UNWALKABLE_FLOOR,
 		TILE_UNPLACABLE_FLOOR, TILE_GATE_CLOSE, CHARACTER_MAIN, BULLET, ENEMY_BULLET, GUN_AK47, SPRITE_KNIGHT_SWORD,
-		CROSS_HAIR
+		CROSS_HAIR, AMMO_PANE, HEALTH_POTION_PANE, STATUS_PANE
 	}
 
 	public enum SoundResource {
@@ -73,6 +73,9 @@ public class ResourceManager {
 		imageResource.put(ImageResource.BG_TITLE, getImage("bg/title.png"));
 		imageResource.put(ImageResource.INFO_NORMALMODE, getImage("info/normal_mode.png"));
 		imageResource.put(ImageResource.INFO_ENDLESSMODE, getImage("info/endless_mode.png"));
+		imageResource.put(ImageResource.AMMO_PANE, getImage("info/ammo_pane.png"));
+		imageResource.put(ImageResource.HEALTH_POTION_PANE, getImage("info/healthPotion_pane.png"));
+		imageResource.put(ImageResource.STATUS_PANE, getImage("info/status_pane.png"));
 		imageResource.put(ImageResource.BTN, getImage("btn/button.png"));
 		imageResource.put(ImageResource.BTN_HOVER, getImage("btn/button_hover.png"));
 		imageResource.put(ImageResource.BTN_NEWGAME, getImage("btn/new_game.png"));
