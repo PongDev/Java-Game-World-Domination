@@ -48,6 +48,7 @@ public class Config {
 	public static final int DISPLAY_WAVE_TEXT_DURATION = 2000;
 
 	public static final int DELAY_BETWEEN_WAVE = 10000;
+	public static final int DELAY_BETWEEN_WAVE_TO_MONEY = 1;
 
 	public static final int SCREEN_TILE_W = 16;
 	public static final int SCREEN_TILE_H = 10;

@@ -28,6 +28,7 @@ import utility.ResourceManager.ItemResource;
 import utility.ResourceManager.SceneResource;
 import utility.ResourceManager.UIResource;
 import utility.Utility;
+import utility.WaveManager;
 import weapon.Weapon;
 
 public class MainCharacter extends Character implements Inputable, Updatable {
@@ -164,6 +165,12 @@ public class MainCharacter extends Character implements Inputable, Updatable {
 					pos.X = (((int) ((pos.X + width + getSpeed()) / Config.TILE_W)) * Config.TILE_W) - width;
 				}
 			}
+			// Space Bar
+			if (InputManager.isKeyClick(KeyCode.SPACE)) {
+				if (WaveManager.isWaveEnd()) {
+					this.money += WaveManager.forceStartNewWave() * Config.DELAY_BETWEEN_WAVE_TO_MONEY;
+				}
+			}
 			// Mouse Press
 			if (InputManager.isLeftMousePress() && selectedTower == null) {
 				double degree = Math.toDegrees(Math.atan2((Config.SCREEN_H / 2) - InputManager.getMousePos().Y,
@@ -175,6 +182,7 @@ public class MainCharacter extends Character implements Inputable, Updatable {
 				if (this.countItemInInventory(selectedTower) > 0) {
 					this.removeItemFromInventory(selectedTower);
 					this.deployTower(selectedTower, (int) selectedTile.X, (int) selectedTile.Y);
+					selectedTower = null;
 				}
 			}
 			// Mouse Select Tile

@@ -90,4 +90,19 @@ public class WaveManager {
 			}
 		}
 	}
+
+	public static boolean isWaveEnd() {
+		return isWaveEnd;
+	}
+
+	public static int forceStartNewWave() {
+		if (isWaveEnd) {
+			int timeLeft = (int) (Config.DELAY_BETWEEN_WAVE - ((new Date()).getTime() - waveEndTimestamp)) / 1000;
+
+			waveEndTimestamp = (new Date()).getTime() - Config.DELAY_BETWEEN_WAVE;
+			return timeLeft;
+		} else {
+			return 0;
+		}
+	}
 }

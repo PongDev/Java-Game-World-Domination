@@ -4,6 +4,7 @@ import config.Config;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.text.TextAlignment;
+import javafx.scene.transform.Rotate;
 import logic.GameState;
 import object.GameObject;
 import object.ObjectManager;
@@ -26,11 +27,14 @@ public abstract class Tower extends GameObject implements Updatable {
 	protected boolean isDestroyed = false;
 	private int[][] distanceFromTower;
 	private GameObject targetObject = null;
+	private double lastAttackDegree = 0;
+	private ImageResource towerHeadImageResource;
 
-	public Tower(ImageResource imageResource, String name, int maxHealth, int defense, Weapon weapon, int team, int row,
-			int col) {
+	public Tower(ImageResource imageResource, ImageResource towerHeadImageResource, String name, int maxHealth,
+			int defense, Weapon weapon, int team, int row, int col) {
 		super(imageResource, Config.TILE_W, Config.TILE_H, (int) (Config.TILE_W * (col + 0.5)),
 				(int) (Config.TILE_H * (row + 0.5)));
+		this.towerHeadImageResource = towerHeadImageResource;
 		this.setName(name);
 		this.setMaxHealth(maxHealth);
 		this.setHealth(maxHealth);
@@ -52,6 +56,19 @@ public abstract class Tower extends GameObject implements Updatable {
 
 		gc.drawImage(ResourceManager.getImage(imageResource), -GameState.getGameMap().getMapPos().X + pos.X,
 				-GameState.getGameMap().getMapPos().Y + pos.Y, width, height);
+
+		if (towerHeadImageResource != null) {
+			gc.save();
+			Rotate rotate = new Rotate(-this.lastAttackDegree,
+					-GameState.getGameMap().getMapPos().X + pos.X + (width / 2),
+					-GameState.getGameMap().getMapPos().Y + pos.Y + (height / 2));
+			gc.transform(rotate.getMxx(), rotate.getMyx(), rotate.getMxy(), rotate.getMyy(), rotate.getTx(),
+					rotate.getTy());
+			gc.drawImage(ResourceManager.getImage(towerHeadImageResource),
+					-GameState.getGameMap().getMapPos().X + pos.X, -GameState.getGameMap().getMapPos().Y + pos.Y, width,
+					height);
+			gc.restore();
+		}
 
 		int hpBarWidth = width + (2 * (Config.SCREEN_W / 35));
 		int hpBarHeight = Config.SCREEN_H / 30;
@@ -104,6 +121,7 @@ public abstract class Tower extends GameObject implements Updatable {
 							(targetObject.getCenterPos().X) - (this.getCenterPos().X)
 									+ (Math.random() * Config.TOWER_DISPERSION * (Math.random() <= 0.5 ? 1 : -1))));
 					weapon.attack(getCenterPos(), degree);
+					this.lastAttackDegree = degree;
 				}
 			}
 		}
