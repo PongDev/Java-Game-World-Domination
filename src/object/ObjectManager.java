@@ -29,7 +29,7 @@ public class ObjectManager {
 	}
 
 	public static boolean isTowerDeployable(Tower tower) {
-		if (GameState.getGameMap().isPlacable(tower.getTowerRow(), tower.getTowerRow())) {
+		if (GameState.getGameMap().isPlacable(tower.getTowerRow(), tower.getTowerCol())) {
 			for (Tower e : towerList) {
 				if (isObjectCollide(e, tower)) {
 					return false;
