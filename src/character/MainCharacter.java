@@ -179,18 +179,18 @@ public class MainCharacter extends Character implements Inputable {
 					this.money += WaveManager.forceStartNewWave() * Config.DELAY_BETWEEN_WAVE_TO_MONEY;
 				}
 			}
+			// Calculate Degree And Weapon Degree
+			double degree = Math.toDegrees(Math.atan2((Config.SCREEN_H / 2) - InputManager.getMousePos().Y,
+					InputManager.getMousePos().X - (Config.SCREEN_W / 2)));
+			isTurnLeft = (degree > 90 || degree < -90) ? true : false;
+			if (isTurnLeft) {
+				this.weaponTurningDegree = (180 * (degree > 0 ? 1 : -1)) - degree;
+			} else {
+				this.weaponTurningDegree = degree;
+			}
 			// Mouse Press
 			if (InputManager.isLeftMousePress() && selectedTower == null) {
-				double degree = Math.toDegrees(Math.atan2((Config.SCREEN_H / 2) - InputManager.getMousePos().Y,
-						InputManager.getMousePos().X - (Config.SCREEN_W / 2)));
-				if (weapon.attack(getCenterPos(), degree)) {
-					isTurnLeft = (degree > 90 || degree < -90) ? true : false;
-					if (isTurnLeft) {
-						this.weaponTurningDegree = (180 * (degree > 0 ? 1 : -1)) - degree;
-					} else {
-						this.weaponTurningDegree = degree;
-					}
-				}
+				weapon.attack(getCenterPos(), degree);
 			}
 			// Deploy Tower
 			if (InputManager.isLeftMouseClick() && selectedTower != null) {

@@ -117,6 +117,7 @@ public class Enemy extends Character {
 				ObjectManager.collideWithBullet(this);
 
 				double degree;
+				double noDispersionDegree;
 				Tower targetTower = ObjectManager.findNearestOpponentTower(this, team);
 				int row = (int) (this.getCenterPos().Y / Config.TILE_H);
 				int col = (int) (this.getCenterPos().X / Config.TILE_W);
@@ -129,20 +130,25 @@ public class Enemy extends Character {
 									+ (Math.random() * Config.ENEMY_DISPERSION * (Math.random() <= 0.5 ? 1 : -1)),
 							(targetTower.getCenterPos().X) - (this.getCenterPos().X)
 									+ (Math.random() * Config.ENEMY_DISPERSION * (Math.random() <= 0.5 ? 1 : -1))));
+					noDispersionDegree = Math
+							.toDegrees(Math.atan2((this.getCenterPos().Y) - (targetTower.getCenterPos().Y),
+									(targetTower.getCenterPos().X) - (this.getCenterPos().X)));
 				} else {
 					degree = Math.toDegrees(Math.atan2(
 							(-GameState.getGameMap().getMapPos().Y + pos.Y + (height / 2)) - (Config.SCREEN_H / 2)
 									+ (Math.random() * Config.ENEMY_DISPERSION * (Math.random() <= 0.5 ? 1 : -1)),
 							(Config.SCREEN_W / 2) - (-GameState.getGameMap().getMapPos().X + pos.X + (width / 2))
 									+ (Math.random() * Config.ENEMY_DISPERSION * (Math.random() <= 0.5 ? 1 : -1))));
+					noDispersionDegree = Math.toDegrees(Math.atan2(
+							(-GameState.getGameMap().getMapPos().Y + pos.Y + (height / 2)) - (Config.SCREEN_H / 2),
+							(Config.SCREEN_W / 2) - (-GameState.getGameMap().getMapPos().X + pos.X + (width / 2))));
 				}
-				if (weapon.attack(getCenterPos(), degree)) {
-					isTurnLeft = (degree > 90 || degree < -90) ? true : false;
-					if (isTurnLeft) {
-						this.weaponTurningDegree = (180 * (degree > 0 ? 1 : -1)) - degree;
-					} else {
-						this.weaponTurningDegree = degree;
-					}
+				weapon.attack(getCenterPos(), degree);
+				isTurnLeft = (noDispersionDegree > 90 || noDispersionDegree < -90) ? true : false;
+				if (isTurnLeft) {
+					this.weaponTurningDegree = (180 * (noDispersionDegree > 0 ? 1 : -1)) - noDispersionDegree;
+				} else {
+					this.weaponTurningDegree = noDispersionDegree;
 				}
 				this.move();
 			}
