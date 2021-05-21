@@ -26,6 +26,7 @@ public class GameMap extends Canvas implements Renderable {
 	private Tile[][] mapData;
 	private Tower[][] deployedTower;
 	private Position mapPos, mapCenter;
+	private static Position shopPos;
 	private static ArrayList<Position> enemySpawnableTile = new ArrayList<Position>();
 
 	public GameMap() {
@@ -74,6 +75,15 @@ public class GameMap extends Canvas implements Renderable {
 					isWhitelist.put(0, false);
 					isWhitelist.put(1, true);
 					enemySpawnableTile.add(new Position(colPos, rowPos));
+					break;
+				case "S":
+					tileImage = ImageResource.TILE_SHOP;
+					isWalkable = true;
+					isPlacable = false;
+					isPenetrable = true;
+					isWhitelist.put(0, true);
+					isWhitelist.put(1, true);
+					shopPos = new Position(colPos, rowPos);
 					break;
 				case "W":
 					tileImage = ImageResource.TILE_WALL;
@@ -148,6 +158,10 @@ public class GameMap extends Canvas implements Renderable {
 
 	public Position getMapPos() {
 		return mapPos;
+	}
+	
+	public static Position getShopPos() {
+		return shopPos;
 	}
 
 	public boolean isCollideTower(double posX, double posY) {

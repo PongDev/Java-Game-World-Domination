@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import config.Config;
+import gui.GameMap;
 import gui.Shop;
 import input.InputManager;
 import input.Inputable;
@@ -123,10 +124,6 @@ public class MainCharacter extends Character implements Inputable {
 				Logger.log("Game " + (GameState.isPause() ? "Pause" : "Resume"));
 			}
 		}
-		// B
-		if (InputManager.isKeyClick(KeyCode.B)) {
-			((Shop) ResourceManager.getUI(UIResource.SHOP)).toggleVisible();
-		}
 		if (!GameState.isPause()) {
 
 			// W
@@ -192,6 +189,21 @@ public class MainCharacter extends Character implements Inputable {
 			if (InputManager.isLeftMousePress() && selectedTower == null) {
 				weapon.attack(getCenterPos(), degree);
 			}
+			// Open Shop
+			if (InputManager.isLeftMouseClick()) {
+				Position mapPos = GameState.getGameMap().getMapPos();
+				Position mousePos = InputManager.getMousePos();
+				Position selectedTile = new Position((int) ((mousePos.Y + mapPos.Y) / Config.TILE_H),
+						(int) ((mousePos.X + mapPos.X) / Config.TILE_W));
+				double distantFromShop = Utility.euclideanDistance(this.getCenterPos(),
+						new Position((GameMap.getShopPos().X * Config.TILE_W) + Config.TILE_W / 2,
+								(GameMap.getShopPos().Y * Config.TILE_H) + Config.TILE_H / 2));
+				if (selectedTile.Y == GameMap.getShopPos().X && selectedTile.X == GameMap.getShopPos().Y
+						&& distantFromShop < (Config.TILE_W*3) ) {
+					((Shop) ResourceManager.getUI(UIResource.SHOP)).toggleVisible();
+				}
+			}
+
 			// Deploy Tower
 			if (InputManager.isLeftMouseClick() && selectedTower != null) {
 				if (selectedTile != null

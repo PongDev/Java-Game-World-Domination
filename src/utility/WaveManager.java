@@ -21,8 +21,12 @@ public class WaveManager {
 	private static String displayWaveText = "";
 	private static long displayWaveTextTimestamp = 0;
 	private static long waveEndTimestamp = 0;
+	private static long enemySpawnTimeDelay = 0, lastEnemySpawnTime = 0;
 	private static boolean isWaveEnd = false;
 	private static boolean isPauseBetweenWaveEnd = false;
+	private static boolean isSpawningEnemy = false;
+	private static int enemyPerWave;
+	private static int enemySpawnedInCurrentWave;
 
 	public static void initialize() {
 		wave = 0;
@@ -38,17 +42,19 @@ public class WaveManager {
 		displayWaveTextTimestamp = (new Date()).getTime();
 
 		if (GameState.getGameMode().getGameModeName() == "Normal") {
-			for (int i = 1; i <= enemyPerWaveList[wave - 1]; i++) {
-				spawnEnemy(i);
-			}
-		} else if (GameState.getGameMode().getGameModeName() == "Endless"){
-			int enemyPerWave = wave;
-			if (wave % 10 == 0)
-				enemyPerWave += 3;
-			for (int i = 1; i <= enemyPerWave; i++) {
-				spawnEnemy(i);
-			}
+			enemyPerWave = enemyPerWaveList[wave - 1];
+		} else if (GameState.getGameMode().getGameModeName() == "Endless") {
+			enemyPerWave = (wave % 10 == 0) ? wave + 3 : wave;
 		}
+		//for (int i = 1; i <= enemyPerWave; i++) {
+		//	spawnEnemy(i);
+		//}
+
+		enemySpawnedInCurrentWave = 0;
+		lastEnemySpawnTime = (new Date()).getTime();
+		enemySpawnTimeDelay = (long) Math.random() * 500; // half second
+		isSpawningEnemy = true;
+
 		Logger.log("Start Wave " + wave);
 	}
 
@@ -58,22 +64,30 @@ public class WaveManager {
 				(int) (GameMap.getEnemySpawnableTile().get(randomSpawnTile).X * Config.TILE_W + (Config.TILE_W / 2)),
 				(int) (GameMap.getEnemySpawnableTile().get(randomSpawnTile).Y * Config.TILE_H) + (Config.TILE_H / 2));
 
-		if(i == 1 && wave % 5 == 0) {
+		if (i == 1 && wave % 5 == 0 && wave != 5) {
 			enemyList.add(new Enemy(ImageResource.SPRITE_ELITE_KNIGHT, Config.CHARACTER_W, Config.CHARACTER_H,
-					"Elite Knight", 10, 0, 1, new Gun(ImageResource.GUN_AK47, 1, 5, ImageResource.ENEMY_BULLET, 15, 10, 10,
-					Config.ENEMY_TEAM, Config.ZINDEX_ENEMY),Config.ENEMY_TEAM, 1000, spawnLocation));
-		}
-		else {
+					"Elite Knight", 15 + (wave / 10) * 3, 0, 1, new Gun(ImageResource.GUN_AK47, 1 + (wave / 10), 2,
+							ImageResource.ENEMY_BULLET, 10, 10, 10, Config.ENEMY_TEAM, Config.ZINDEX_ENEMY),
+					Config.ENEMY_TEAM, 1000, spawnLocation));
+		} else {
 			int randomEnemyType = (Math.random() > 0.7 ? 1 : 0);
-			if(randomEnemyType == 0) {
+			if (randomEnemyType == 0) {
 				enemyList.add(new Enemy(ImageResource.SPRITE_KNIGHT, Config.CHARACTER_W, Config.CHARACTER_H,
-						"Knight Rifle", 3, 0, 1, new Gun(ImageResource.GUN_AK47, 1, 2, ImageResource.ENEMY_BULLET, 10, 10, 10,
-								Config.ENEMY_TEAM, Config.ZINDEX_ENEMY),Config.ENEMY_TEAM, 1000, spawnLocation));
-			}
-			else if(randomEnemyType == 1) {
-				enemyList.add(new Enemy(ImageResource.SPRITE_KNIGHT, Config.CHARACTER_W, Config.CHARACTER_H,
-						"Knight Sword", 2, 0, 2, new Gun(ImageResource.GUN_SHOTGUN, 1, 1, ImageResource.ENEMY_BULLET, 5, 10, 10,
-								Config.ENEMY_TEAM, Config.ZINDEX_ENEMY),Config.ENEMY_TEAM, 1000, spawnLocation));
+						"Knight Rifle", 3 + (wave / 10), 0, 1, new Gun(ImageResource.GUN_AK47, 1, 0.7,
+								ImageResource.ENEMY_BULLET, 6, 10, 10, Config.ENEMY_TEAM, Config.ZINDEX_ENEMY),
+						Config.ENEMY_TEAM, 1000, spawnLocation));
+			} else if (randomEnemyType == 1) {
+				if (wave > 20 && (Math.random() > 0.7 ? 1 : 0) == 1) {
+					enemyList.add(new Enemy(ImageResource.SPRITE_ELITE_KNIGHT, Config.CHARACTER_W, Config.CHARACTER_H,
+							"Elite Knight", 15 + (wave / 10) * 3, 0, 1, new Gun(ImageResource.GUN_AK47, 1 + (wave / 10),
+									2, ImageResource.ENEMY_BULLET, 10, 10, 10, Config.ENEMY_TEAM, Config.ZINDEX_ENEMY),
+							Config.ENEMY_TEAM, 1000, spawnLocation));
+				} else {
+					enemyList.add(new Enemy(ImageResource.SPRITE_KNIGHT, Config.CHARACTER_W, Config.CHARACTER_H,
+							"Knight Sword", 2 + (wave / 10), 0, 2, new Gun(ImageResource.GUN_SHOTGUN, 1, 0.5,
+									ImageResource.ENEMY_BULLET, 4, 10, 10, Config.ENEMY_TEAM, Config.ZINDEX_ENEMY),
+							Config.ENEMY_TEAM, 1000, spawnLocation));
+				}
 			}
 		}
 		Logger.log("Spawn enemy at " + GameMap.getEnemySpawnableTile().get(randomSpawnTile).X + " "
@@ -92,6 +106,19 @@ public class WaveManager {
 	public static void update() {
 		if (GameState.getSceneResource() == SceneResource.PLAYING) {
 			if (!GameState.isPause()) {
+				if (isSpawningEnemy == true && (new Date()).getTime() - lastEnemySpawnTime > enemySpawnTimeDelay) {
+					
+					spawnEnemy(enemySpawnedInCurrentWave);
+					enemySpawnedInCurrentWave += 1;
+					
+					lastEnemySpawnTime = (new Date()).getTime();
+					enemySpawnTimeDelay = (long)(Math.random() * 500); //half second
+					System.out.println(enemySpawnedInCurrentWave + " "+enemySpawnTimeDelay);
+					if(enemySpawnedInCurrentWave == enemyPerWave) {
+						isSpawningEnemy = false;
+					}
+				}
+				
 				if (isPauseBetweenWaveEnd) {
 					waveEndTimestamp += GameState.getLastPauseDulation();
 					isPauseBetweenWaveEnd = false;

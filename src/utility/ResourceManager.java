@@ -38,7 +38,7 @@ public class ResourceManager {
 	public enum ImageResource {
 		BG_TITLE, INFO_NORMALMODE, INFO_ENDLESSMODE, BTN, BTN_HOVER, BTN_NEWGAME, BTN_LOADGAME, BTN_EXITGAME, BTN_PLAY,
 		BTN_BACK, BTN_NEXT, BTN_PREVIOUS, TILE_FLOOR, TILE_FLOOR_1, TILE_FLOOR_2, TILE_WALL, TILE_UNWALKABLE_FLOOR,
-		TILE_UNPLACABLE_FLOOR, TILE_GATE_CLOSE, CHARACTER_MAIN, BULLET, ENEMY_BULLET, GUN_PISTOL, GUN_AK47, GUN_SHOTGUN,
+		TILE_UNPLACABLE_FLOOR, TILE_GATE_CLOSE, TILE_SHOP, CHARACTER_MAIN, BULLET, ENEMY_BULLET, GUN_PISTOL, GUN_AK47, GUN_SHOTGUN,
 		GUN_SNIPER, SPRITE_KNIGHT, SPRITE_ELITE_KNIGHT, CROSS_HAIR, AMMO_PANE, HEALTH_POTION_PANE, STATUS_PANE,
 		HEALTH_POTION, ITEM_BUTTON, ITEM_BUTTON_TRANSPARENT, ITEM_DESCRIPTION, BARRIER_TOWER, MACHINE_GUN_TOWER,
 		MACHINE_GUN_TOWER_BASE, MACHINE_GUN_TOWER_HEAD, SNIPER_TOWER, SNIPER_TOWER_BASE, SNIPER_TOWER_HEAD, AMMO_PISTOL,
@@ -120,7 +120,7 @@ public class ResourceManager {
 		imageResource.put(ImageResource.TILE_WALL, getImage("tile/tile_wall.png"));
 		imageResource.put(ImageResource.TILE_UNWALKABLE_FLOOR, getImage("tile/tile_unwalkable_floor.png"));
 		imageResource.put(ImageResource.TILE_UNPLACABLE_FLOOR, getImage("tile/tile_unplaceable_floor.png"));
-		imageResource.put(ImageResource.TILE_GATE_CLOSE, getImage("tile/tile_gate_close.png"));
+		imageResource.put(ImageResource.TILE_SHOP, getImage("tile/tile_shop.png"));
 		imageResource.put(ImageResource.CHARACTER_MAIN, getImage("sprite/main_character.png"));
 		imageResource.put(ImageResource.BULLET, getImage("sprite/bullet.png"));
 		imageResource.put(ImageResource.ENEMY_BULLET, getImage("sprite/enemy_bullet.png"));
