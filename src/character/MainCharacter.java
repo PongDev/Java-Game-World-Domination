@@ -287,10 +287,12 @@ public class MainCharacter extends Character implements Inputable {
 
 	public boolean isDestroyed() {
 		return false;
+		//return isDestroyed;
 	}
 
 	public void onDestroyed() {
-
+		//TODO clear everything i guess
+		//GameState.setSceneResource(SceneResource.TITLE);
 	}
 
 	public boolean isRemoveFromUpdate() {

@@ -45,7 +45,7 @@ public class ResourceManager {
 		GUN_SNIPER, SPRITE_KNIGHT, SPRITE_ELITE_KNIGHT, CROSS_HAIR, AMMO_PANE, HEALTH_POTION_PANE, STATUS_PANE,
 		HEALTH_POTION, ITEM_BUTTON, ITEM_BUTTON_TRANSPARENT, ITEM_DESCRIPTION, BARRIER_TOWER, MACHINE_GUN_TOWER,
 		MACHINE_GUN_TOWER_BASE, MACHINE_GUN_TOWER_HEAD, SNIPER_TOWER, SNIPER_TOWER_BASE, SNIPER_TOWER_HEAD, AMMO_PISTOL,
-		AMMO_RIFLE, AMMO_SHOTGUN, COIN
+		AMMO_RIFLE, AMMO_SHOTGUN, COIN, BEGINNING_LORE
 	}
 
 	public enum SoundResource {
@@ -146,6 +146,7 @@ public class ResourceManager {
 		imageResource.put(ImageResource.BARRIER_TOWER, getImage("sprite/tower_barrier.png"));
 		imageResource.put(ImageResource.HEALTH_POTION, getImage("sprite/healing_potion.png"));
 		imageResource.put(ImageResource.COIN, getImage("sprite/coin.png"));
+		imageResource.put(ImageResource.BEGINNING_LORE, getImage("info/begining_lore_spare.png"));
 		Logger.log("Complete Loading Image");
 	}
 

@@ -45,10 +45,6 @@ public class WaveManager {
 		} else if (GameState.getGameMode().getGameModeName() == "Endless") {
 			enemyPerWave = (wave % 10 == 0) ? wave + 3 : wave;
 		}
-		// for (int i = 1; i <= enemyPerWave; i++) {
-		// spawnEnemy(i);
-		// }
-
 		enemySpawnedInCurrentWave = 0;
 		lastEnemySpawnTime = (new Date()).getTime();
 		enemySpawnTimeDelay = (long) Math.random() * 500; // half second
@@ -89,9 +85,6 @@ public class WaveManager {
 				}
 			}
 		}
-		Logger.log("Spawn enemy at " + GameMap.getEnemySpawnableTile().get(randomSpawnTile).X + " "
-				+ GameMap.getEnemySpawnableTile().get(randomSpawnTile).Y);
-
 	}
 
 	public static int getWave() {
@@ -111,9 +104,8 @@ public class WaveManager {
 					enemySpawnedInCurrentWave += 1;
 
 					lastEnemySpawnTime = (new Date()).getTime();
-					enemySpawnTimeDelay = (long) (Math.random() * 500); // half second
-					System.out.println(enemySpawnedInCurrentWave + " " + enemySpawnTimeDelay);
-					if (enemySpawnedInCurrentWave == enemyPerWave) {
+					enemySpawnTimeDelay = (long)(Math.random() * 500); //half second
+					if(enemySpawnedInCurrentWave == enemyPerWave) {
 						isSpawningEnemy = false;
 					}
 				}
