@@ -66,12 +66,12 @@ public class WaveManager {
 		else {
 			int randomEnemyType = (Math.random() > 0.7 ? 1 : 0);
 			if(randomEnemyType == 0) {
-				enemyList.add(new Enemy(ImageResource.SPRITE_KNIGHT_SMG, Config.CHARACTER_W, Config.CHARACTER_H,
+				enemyList.add(new Enemy(ImageResource.SPRITE_KNIGHT, Config.CHARACTER_W, Config.CHARACTER_H,
 						"Knight Rifle", 3, 0, 1, new Gun(ImageResource.GUN_AK47, 1, 2, ImageResource.ENEMY_BULLET, 10, 10, 10,
 								Config.ENEMY_TEAM, Config.ZINDEX_ENEMY),Config.ENEMY_TEAM, 1000, spawnLocation));
 			}
 			else if(randomEnemyType == 1) {
-				enemyList.add(new Enemy(ImageResource.SPRITE_KNIGHT_SWORD, Config.CHARACTER_W, Config.CHARACTER_H,
+				enemyList.add(new Enemy(ImageResource.SPRITE_KNIGHT, Config.CHARACTER_W, Config.CHARACTER_H,
 						"Knight Sword", 2, 0, 2, new Gun(ImageResource.GUN_SHOTGUN, 1, 1, ImageResource.ENEMY_BULLET, 5, 10, 10,
 								Config.ENEMY_TEAM, Config.ZINDEX_ENEMY),Config.ENEMY_TEAM, 1000, spawnLocation));
 			}
