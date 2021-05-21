@@ -3,6 +3,7 @@ package weapon;
 import java.util.Date;
 
 import character.MainCharacter;
+import object.GameObject;
 import object.ObjectManager;
 import render.RenderManager;
 import update.UpdateManager;
@@ -22,10 +23,16 @@ public class Gun extends Weapon {
 	private long lastAttack = 0;
 
 	public Gun(ImageResource imageResource, int attackDamage, double attackSpeed, ImageResource bulletImageResource,
-			int bulletSpeed, int bulletWidth, int bulleteHeight, int team, int holderZIndex) {
+			int bulletSpeed, int bulletWidth, int bulleteHeight, int team, int holderZIndex, GameObject owner) {
 		super(imageResource, attackDamage, attackSpeed);
 		setBulletProperties(new BulletProperties(bulletImageResource, bulletWidth, bulleteHeight, attackDamage,
-				bulletSpeed, team, holderZIndex + 1));
+				bulletSpeed, team, holderZIndex + 1, owner));
+	}
+
+	public Gun(ImageResource imageResource, int attackDamage, double attackSpeed, ImageResource bulletImageResource,
+			int bulletSpeed, int bulletWidth, int bulleteHeight, int team, int holderZIndex) {
+		this(imageResource, attackDamage, attackSpeed, bulletImageResource, bulletSpeed, bulletWidth, bulleteHeight,
+				team, holderZIndex, null);
 	}
 
 	public BulletProperties getBulletProperties() {
@@ -36,13 +43,16 @@ public class Gun extends Weapon {
 		this.bulletProperties = bulletProperties;
 	}
 
-	public void attack(Position centerPos, double degree) {
+	public boolean attack(Position centerPos, double degree) {
 		if ((new Date()).getTime() - lastAttack >= 1000 / attackSpeed) {
 			lastAttack = (new Date()).getTime();
 			Bullet bullet = new Bullet(bulletProperties, centerPos, degree);
 			UpdateManager.add(bullet);
 			RenderManager.add(bullet);
 			ObjectManager.addBullet(bullet);
+			return true;
+		} else {
+			return false;
 		}
 	}
 

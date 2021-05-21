@@ -29,6 +29,8 @@ public abstract class Tower extends GameObject implements Updatable, Buyable {
 	private boolean isDeploy = false;
 	private int[][] distanceFromTower;
 	private double lastAttackDegree = 0;
+	private int towerRow;
+	private int towerCol;
 	private ImageResource towerHeadImageResource;
 
 	public Tower(ImageResource imageResource, ImageResource towerHeadImageResource, String name, int maxHealth,
@@ -41,8 +43,11 @@ public abstract class Tower extends GameObject implements Updatable, Buyable {
 		this.setHealth(maxHealth);
 		this.setDefense(defense);
 		this.setWeapon(weapon);
+		this.towerRow = row;
+		this.towerCol = col;
 		this.team = team;
 		distanceFromTower = new int[GameState.getMapHeight()][GameState.getMapWidth()];
+		calculateDistanceFromTower();
 	}
 
 	private void calculateDistanceFromTower() {
@@ -112,15 +117,18 @@ public abstract class Tower extends GameObject implements Updatable, Buyable {
 				calculateDistanceFromTower();
 				ObjectManager.collideWithBullet(this);
 
-				GameObject targetObject = ObjectManager.findNearestOpponentCharacter(this, team);
-				if (targetObject != null && !targetObject.isDestroyed()) {
-					double degree = Math.toDegrees(Math.atan2(
-							(this.getCenterPos().Y) - (targetObject.getCenterPos().Y)
-									+ (Math.random() * Config.TOWER_DISPERSION * (Math.random() <= 0.5 ? 1 : -1)),
-							(targetObject.getCenterPos().X) - (this.getCenterPos().X)
-									+ (Math.random() * Config.TOWER_DISPERSION * (Math.random() <= 0.5 ? 1 : -1))));
-					weapon.attack(getCenterPos(), degree);
-					this.lastAttackDegree = degree;
+				if (weapon != null) {
+					GameObject targetObject = ObjectManager.findNearestOpponentCharacter(this, team);
+					if (targetObject != null && !targetObject.isDestroyed()) {
+						double degree = Math.toDegrees(Math.atan2(
+								(this.getCenterPos().Y) - (targetObject.getCenterPos().Y)
+										+ (Math.random() * Config.TOWER_DISPERSION * (Math.random() <= 0.5 ? 1 : -1)),
+								(targetObject.getCenterPos().X) - (this.getCenterPos().X)
+										+ (Math.random() * Config.TOWER_DISPERSION * (Math.random() <= 0.5 ? 1 : -1))));
+						if (weapon.attack(getCenterPos(), degree)) {
+							this.lastAttackDegree = degree;
+						}
+					}
 				}
 			}
 		}
@@ -185,6 +193,14 @@ public abstract class Tower extends GameObject implements Updatable, Buyable {
 			return distanceFromTower[row][col];
 		}
 		return -1;
+	}
+
+	public int getTowerRow() {
+		return towerRow;
+	}
+
+	public int getTowerCol() {
+		return towerCol;
 	}
 
 	public void deploy() {

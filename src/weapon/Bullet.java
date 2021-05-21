@@ -58,7 +58,8 @@ public class Bullet extends GameObject implements Updatable {
 		if (!GameState.isPause()) {
 			Position delta = new Position(bulletProperties.getSpeed() * Math.cos(Math.toRadians(degree)),
 					-(bulletProperties.getSpeed() * Math.sin(Math.toRadians(degree))));
-			if (GameState.getGameMap().isPenetrable(this, delta.X, delta.Y)) {
+			if (GameState.getGameMap().isPenetrable(this, delta.X, delta.Y)
+					&& !GameState.getGameMap().isCollideTeamTower(this, delta.X, delta.Y)) {
 				pos.X += delta.X;
 				pos.Y += delta.Y;
 			} else {
@@ -81,6 +82,10 @@ public class Bullet extends GameObject implements Updatable {
 
 	public void destroy() {
 		isDestroyed = true;
+	}
+
+	public GameObject getOwner() {
+		return bulletProperties.getOwner();
 	}
 
 	public void dealDamage(int damage) {

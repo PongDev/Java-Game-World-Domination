@@ -20,6 +20,6 @@ public abstract class Weapon implements Buyable {
 		return imageResourse;
 	}
 
-	public abstract void attack(Position centerPos, double degree);
+	public abstract boolean attack(Position centerPos, double degree);
 
 }

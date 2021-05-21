@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import character.Character;
 import config.Config;
+import logic.GameState;
 import tower.Tower;
 import utility.Utility;
 import weapon.Bullet;
@@ -25,6 +26,23 @@ public class ObjectManager {
 				|| isObjectCollide(obj1, obj2.getPos().X + obj2.getWidth() - 1, obj2.getPos().Y)
 				|| isObjectCollide(obj1, obj2.getPos().X, obj2.getPos().Y + obj2.getHeight() - 1)
 				|| isObjectCollide(obj1, obj2.getPos().X + obj2.getWidth() - 1, obj2.getPos().Y + obj2.getHeight() - 1);
+	}
+
+	public static boolean isTowerDeployable(Tower tower) {
+		if (GameState.getGameMap().isPlacable(tower.getTowerRow(), tower.getTowerRow())) {
+			for (Tower e : towerList) {
+				if (isObjectCollide(e, tower)) {
+					return false;
+				}
+			}
+			for (Character e : characterList) {
+				if (isObjectCollide(e, tower)) {
+					return false;
+				}
+			}
+			return true;
+		}
+		return false;
 	}
 
 	public static void addBullet(Bullet bullet) {

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import character.Enemy;
 import config.Config;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -12,16 +11,20 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import logic.GameState;
 import object.GameObject;
+import object.ObjectManager;
 import render.Renderable;
+import tower.Tower;
 import utility.Position;
 import utility.ResourceManager;
 import utility.ResourceManager.GameObjectResource;
 import utility.ResourceManager.ImageResource;
 import utility.ResourceManager.SceneResource;
+import weapon.Bullet;
 
 public class GameMap extends Canvas implements Renderable {
 
 	private Tile[][] mapData;
+	private Tower[][] deployedTower;
 	private Position mapPos, mapCenter;
 	private static ArrayList<Position> enemySpawnableTile = new ArrayList<Position>();
 
@@ -31,6 +34,7 @@ public class GameMap extends Canvas implements Renderable {
 		mapCenter = new Position();
 
 		mapData = new Tile[GameState.getMapHeight()][GameState.getMapWidth()];
+		deployedTower = new Tower[GameState.getMapHeight()][GameState.getMapWidth()];
 		for (int rowPos = 0; rowPos < GameState.getMapHeight(); rowPos++) {
 			for (int colPos = 0; colPos < GameState.getMapWidth(); colPos++) {
 				ImageResource tileImage;
@@ -146,6 +150,64 @@ public class GameMap extends Canvas implements Renderable {
 		return mapPos;
 	}
 
+	public boolean isCollideTower(double posX, double posY) {
+		int posRow = (int) (posY / Config.TILE_H);
+		int posCol = (int) (posX / Config.TILE_W);
+
+		if (posRow >= 0 && posCol >= 0 && posRow < GameState.getMapHeight() && posCol < GameState.getMapWidth()) {
+			if (deployedTower[posRow][posCol] != null) {
+				if (deployedTower[posRow][posCol].isDestroyed()) {
+					deployedTower[posRow][posCol] = null;
+					return false;
+				} else {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	public boolean isCollideTower(GameObject gameObject, double deltaX, double deltaY) {
+		return isCollideTower(gameObject.getPos().X + deltaX, gameObject.getPos().Y + deltaY)
+				|| isCollideTower(gameObject.getPos().X + gameObject.getWidth() - 1 + deltaX,
+						gameObject.getPos().Y + deltaY)
+				|| isCollideTower(gameObject.getPos().X + deltaX,
+						gameObject.getPos().Y + gameObject.getHeight() - 1 + deltaY)
+				|| isCollideTower(gameObject.getPos().X + gameObject.getWidth() - 1 + deltaX,
+						gameObject.getPos().Y + gameObject.getHeight() - 1 + deltaY);
+	}
+
+	public boolean isCollideTeamTower(double posX, double posY, GameObject gameObject) {
+		int posRow = (int) (posY / Config.TILE_H);
+		int posCol = (int) (posX / Config.TILE_W);
+
+		if (posRow >= 0 && posCol >= 0 && posRow < GameState.getMapHeight() && posCol < GameState.getMapWidth()) {
+			if (deployedTower[posRow][posCol] != null) {
+				if (deployedTower[posRow][posCol].isDestroyed()) {
+					deployedTower[posRow][posCol] = null;
+					return false;
+				} else {
+					if (gameObject instanceof Bullet
+							&& ((Bullet) gameObject).getOwner() == deployedTower[posRow][posCol]) {
+						return false;
+					}
+					return deployedTower[posRow][posCol].getTeam() == gameObject.getTeam();
+				}
+			}
+		}
+		return false;
+	}
+
+	public boolean isCollideTeamTower(GameObject gameObject, double deltaX, double deltaY) {
+		return isCollideTeamTower(gameObject.getPos().X + deltaX, gameObject.getPos().Y + deltaY, gameObject)
+				|| isCollideTeamTower(gameObject.getPos().X + gameObject.getWidth() - 1 + deltaX,
+						gameObject.getPos().Y + deltaY, gameObject)
+				|| isCollideTeamTower(gameObject.getPos().X + deltaX,
+						gameObject.getPos().Y + gameObject.getHeight() - 1 + deltaY, gameObject)
+				|| isCollideTeamTower(gameObject.getPos().X + gameObject.getWidth() - 1 + deltaX,
+						gameObject.getPos().Y + gameObject.getHeight() - 1 + deltaY, gameObject);
+	}
+
 	public boolean isWalkable(double posX, double posY, int team) {
 		int posRow = (int) (posY / Config.TILE_H);
 		int posCol = (int) (posX / Config.TILE_W);
@@ -166,7 +228,7 @@ public class GameMap extends Canvas implements Renderable {
 		return isWalkable(posX, posY, gameObject.getTeam());
 	}
 
-	public boolean isWalkable(GameObject gameObject, int deltaX, int deltaY) {
+	public boolean isWalkable(GameObject gameObject, double deltaX, double deltaY) {
 		return isWalkable(gameObject.getPos().X + deltaX, gameObject.getPos().Y + deltaY, gameObject)
 				&& isWalkable(gameObject.getPos().X + gameObject.getWidth() - 1 + deltaX,
 						gameObject.getPos().Y + deltaY, gameObject)
@@ -174,6 +236,10 @@ public class GameMap extends Canvas implements Renderable {
 						gameObject.getPos().Y + gameObject.getHeight() - 1 + deltaY, gameObject)
 				&& isWalkable(gameObject.getPos().X + gameObject.getWidth() - 1 + deltaX,
 						gameObject.getPos().Y + gameObject.getHeight() - 1 + deltaY, gameObject);
+	}
+
+	public boolean isWalkableAndNotCollideTower(GameObject gameObject, double deltaX, double deltaY) {
+		return isWalkable(gameObject, deltaX, deltaY) && !isCollideTower(gameObject, deltaX, deltaY);
 	}
 
 	public boolean isPenetrable(double posX, double posY) {
@@ -197,10 +263,29 @@ public class GameMap extends Canvas implements Renderable {
 						gameObject.getPos().Y + gameObject.getHeight() - 1 + deltaY);
 	}
 
+	public boolean isPlacable(int row, int col) {
+		return (row >= 0 && col >= 0 && row < GameState.getMapHeight() && col < GameState.getMapWidth())
+				? mapData[row][col].isPlacable()
+				: false;
+	}
+
 	public void setHighLightTile(int row, int col) {
 		if (row >= 0 && col >= 0 && row < GameState.getMapHeight() && col < GameState.getMapWidth()) {
 			mapData[row][col].setHighlight(true);
 		}
+	}
+
+	public boolean deployTower(Tower tower) {
+		int row = tower.getTowerRow();
+		int col = tower.getTowerCol();
+
+		if (row >= 0 && col >= 0 && row < GameState.getMapHeight() && col < GameState.getMapWidth()
+				&& ObjectManager.isTowerDeployable(tower)) {
+			deployedTower[row][col] = tower;
+			deployedTower[row][col].deploy();
+			return true;
+		}
+		return false;
 	}
 
 }

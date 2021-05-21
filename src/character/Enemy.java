@@ -83,7 +83,7 @@ public class Enemy extends Character {
 			movingVector = requestMovingVector;
 		}
 
-		if (GameState.getGameMap().isWalkable(this, (int) movingVector.X * this.getSpeed(),
+		if (GameState.getGameMap().isWalkableAndNotCollideTower(this, (int) movingVector.X * this.getSpeed(),
 				(int) movingVector.Y * this.getSpeed())) {
 			this.pos.X += movingVector.X * this.getSpeed();
 			this.pos.Y += movingVector.Y * this.getSpeed();

@@ -127,7 +127,7 @@ public class MainCharacter extends Character implements Inputable {
 
 			// W
 			if (InputManager.isKeyPress(KeyCode.W)) {
-				if (GameState.getGameMap().isWalkable(this, 0, -getSpeed())) {
+				if (GameState.getGameMap().isWalkableAndNotCollideTower(this, 0, -getSpeed())) {
 					pos.Y -= getSpeed();
 				} else {
 					pos.Y = ((int) (pos.Y / Config.TILE_H)) * Config.TILE_H;
@@ -136,7 +136,7 @@ public class MainCharacter extends Character implements Inputable {
 			// A
 			if (InputManager.isKeyPress(KeyCode.A)) {
 				isTurnLeft = true;
-				if (GameState.getGameMap().isWalkable(this, -getSpeed(), 0)) {
+				if (GameState.getGameMap().isWalkableAndNotCollideTower(this, -getSpeed(), 0)) {
 					pos.X -= getSpeed();
 				} else {
 					pos.X = ((int) (pos.X / Config.TILE_W)) * Config.TILE_W;
@@ -144,7 +144,7 @@ public class MainCharacter extends Character implements Inputable {
 			}
 			// S
 			if (InputManager.isKeyPress(KeyCode.S)) {
-				if (GameState.getGameMap().isWalkable(this, 0, +getSpeed())) {
+				if (GameState.getGameMap().isWalkableAndNotCollideTower(this, 0, +getSpeed())) {
 					pos.Y += getSpeed();
 				} else {
 					pos.Y = (((int) ((pos.Y + height + getSpeed()) / Config.TILE_H)) * Config.TILE_H) - height;
@@ -153,7 +153,7 @@ public class MainCharacter extends Character implements Inputable {
 			// D
 			if (InputManager.isKeyPress(KeyCode.D)) {
 				isTurnLeft = false;
-				if (GameState.getGameMap().isWalkable(this, +getSpeed(), 0)) {
+				if (GameState.getGameMap().isWalkableAndNotCollideTower(this, +getSpeed(), 0)) {
 					pos.X += getSpeed();
 				} else {
 					pos.X = (((int) ((pos.X + width + getSpeed()) / Config.TILE_W)) * Config.TILE_W) - width;
@@ -173,11 +173,14 @@ public class MainCharacter extends Character implements Inputable {
 			}
 			// Deploy Tower
 			if (InputManager.isLeftMouseClick() && selectedTower != null) {
-				if (this.countItemInInventory(selectedTower) > 0) {
-					this.removeItemFromInventory(selectedTower);
-					this.deployTower(selectedTower, (int) selectedTile.X, (int) selectedTile.Y);
-					selectedTower = null;
+				if (selectedTile != null
+						&& GameState.getGameMap().isPlacable((int) selectedTile.X, (int) selectedTile.Y)
+						&& this.countItemInInventory(selectedTower) > 0) {
+					if (this.deployTower(selectedTower, (int) selectedTile.X, (int) selectedTile.Y)) {
+						this.removeItemFromInventory(selectedTower);
+					}
 				}
+				selectedTower = null;
 			}
 			// Heal
 			if (InputManager.isKeyClick(KeyCode.H)) {
@@ -194,11 +197,16 @@ public class MainCharacter extends Character implements Inputable {
 				Position selectedTile = new Position((int) ((mousePos.Y + mapPos.Y) / Config.TILE_H),
 						(int) ((mousePos.X + mapPos.X) / Config.TILE_W));
 
-				GameState.getGameMap().setHighLightTile((int) selectedTile.X, (int) selectedTile.Y);
-				if (!selectedTile.equals(this.selectedTile)) {
-					Logger.log(
-							String.format("Selected Tile Row:%2d Col:%2d", (int) selectedTile.X, (int) selectedTile.Y));
-					this.selectedTile = selectedTile;
+				if (GameState.getGameMap().isPlacable((int) selectedTile.X, (int) selectedTile.Y) && !GameState
+						.getGameMap().isCollideTower(selectedTile.Y * Config.TILE_W, selectedTile.X * Config.TILE_H)) {
+					GameState.getGameMap().setHighLightTile((int) selectedTile.X, (int) selectedTile.Y);
+					if (!selectedTile.equals(this.selectedTile)) {
+						Logger.log(String.format("Selected Tile Row:%2d Col:%2d", (int) selectedTile.X,
+								(int) selectedTile.Y));
+						this.selectedTile = selectedTile;
+					}
+				} else {
+					this.selectedTile = null;
 				}
 			}
 			// Click 1
@@ -277,19 +285,16 @@ public class MainCharacter extends Character implements Inputable {
 		return selectedTower;
 	}
 
-	public void deployTower(ItemResource tower, int row, int col) {
+	public boolean deployTower(ItemResource tower, int row, int col) {
 		switch (tower) {
 		case BARRIER_TOWER:
-			(new BarricadeTower(row, col, team)).deploy();
-			break;
+			return GameState.getGameMap().deployTower(new BarricadeTower(row, col, team));
 		case MACHINE_GUN_TOWER:
-			(new MachineGunTower(row, col, team)).deploy();
-			break;
+			return GameState.getGameMap().deployTower(new MachineGunTower(row, col, team));
 		case SNIPER_TOWER:
-			(new SniperTower(row, col, team)).deploy();
-			break;
+			return GameState.getGameMap().deployTower(new SniperTower(row, col, team));
 		default:
-			break;
+			return false;
 		}
 	}
 

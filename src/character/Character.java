@@ -44,6 +44,7 @@ public abstract class Character extends GameObject implements Updatable {
 		this.team = team;
 
 		distanceFromCharacter = new int[GameState.getMapHeight()][GameState.getMapWidth()];
+		calculateDistanceFromCharacter();
 	}
 
 	protected void calculateDistanceFromCharacter() {

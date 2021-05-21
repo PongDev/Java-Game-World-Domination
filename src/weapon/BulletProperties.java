@@ -1,5 +1,6 @@
 package weapon;
 
+import object.GameObject;
 import utility.ResourceManager.ImageResource;
 
 public class BulletProperties {
@@ -11,9 +12,10 @@ public class BulletProperties {
 	private double speed;
 	private int team;
 	private int zIndex;
+	private GameObject owner;
 
 	public BulletProperties(ImageResource imageResource, int width, int height, int damage, double speed, int team,
-			int zIndex) {
+			int zIndex, GameObject owner) {
 		this.imageResource = imageResource;
 		this.width = width;
 		this.height = height;
@@ -21,6 +23,7 @@ public class BulletProperties {
 		this.speed = speed;
 		this.team = team;
 		this.zIndex = zIndex;
+		this.owner = owner;
 	}
 
 	public ImageResource getImageResource() {
@@ -49,6 +52,14 @@ public class BulletProperties {
 
 	public int getzIndex() {
 		return zIndex;
+	}
+
+	public GameObject getOwner() {
+		return owner;
+	}
+
+	public void setOwner(GameObject owner) {
+		this.owner = owner;
 	}
 
 }
