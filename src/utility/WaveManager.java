@@ -10,7 +10,6 @@ import logic.GameState;
 import utility.ResourceManager.ImageResource;
 import utility.ResourceManager.SceneResource;
 import weapon.Gun;
-import weapon.Weapon;
 
 public class WaveManager {
 
@@ -46,9 +45,9 @@ public class WaveManager {
 		} else if (GameState.getGameMode().getGameModeName() == "Endless") {
 			enemyPerWave = (wave % 10 == 0) ? wave + 3 : wave;
 		}
-		//for (int i = 1; i <= enemyPerWave; i++) {
-		//	spawnEnemy(i);
-		//}
+		// for (int i = 1; i <= enemyPerWave; i++) {
+		// spawnEnemy(i);
+		// }
 
 		enemySpawnedInCurrentWave = 0;
 		lastEnemySpawnTime = (new Date()).getTime();
@@ -107,18 +106,18 @@ public class WaveManager {
 		if (GameState.getSceneResource() == SceneResource.PLAYING) {
 			if (!GameState.isPause()) {
 				if (isSpawningEnemy == true && (new Date()).getTime() - lastEnemySpawnTime > enemySpawnTimeDelay) {
-					
+
 					spawnEnemy(enemySpawnedInCurrentWave);
 					enemySpawnedInCurrentWave += 1;
-					
+
 					lastEnemySpawnTime = (new Date()).getTime();
-					enemySpawnTimeDelay = (long)(Math.random() * 500); //half second
-					System.out.println(enemySpawnedInCurrentWave + " "+enemySpawnTimeDelay);
-					if(enemySpawnedInCurrentWave == enemyPerWave) {
+					enemySpawnTimeDelay = (long) (Math.random() * 500); // half second
+					System.out.println(enemySpawnedInCurrentWave + " " + enemySpawnTimeDelay);
+					if (enemySpawnedInCurrentWave == enemyPerWave) {
 						isSpawningEnemy = false;
 					}
 				}
-				
+
 				if (isPauseBetweenWaveEnd) {
 					waveEndTimestamp += GameState.getLastPauseDulation();
 					isPauseBetweenWaveEnd = false;

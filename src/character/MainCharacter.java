@@ -208,7 +208,7 @@ public class MainCharacter extends Character implements Inputable {
 						new Position((GameMap.getShopPos().X * Config.TILE_W) + Config.TILE_W / 2,
 								(GameMap.getShopPos().Y * Config.TILE_H) + Config.TILE_H / 2));
 				if (selectedTile.Y == GameMap.getShopPos().X && selectedTile.X == GameMap.getShopPos().Y
-						&& distantFromShop < (Config.TILE_W*3) ) {
+						&& distantFromShop < (Config.TILE_W * 3)) {
 					((Shop) ResourceManager.getUI(UIResource.SHOP)).toggleVisible();
 				}
 			}
@@ -255,18 +255,22 @@ public class MainCharacter extends Character implements Inputable {
 					this.selectedTile = null;
 				}
 			}
-			// Click 1
-			if (InputManager.isKeyClick(KeyCode.DIGIT1)) {
-				selectedTower = (selectedTower == ItemResource.BARRIER_TOWER ? null : ItemResource.BARRIER_TOWER);
-			}
-			// Click 2
-			if (InputManager.isKeyClick(KeyCode.DIGIT2)) {
-				selectedTower = (selectedTower == ItemResource.MACHINE_GUN_TOWER ? null
-						: ItemResource.MACHINE_GUN_TOWER);
-			}
-			// Click 3
-			if (InputManager.isKeyClick(KeyCode.DIGIT3)) {
-				selectedTower = (selectedTower == ItemResource.SNIPER_TOWER ? null : ItemResource.SNIPER_TOWER);
+			if (WaveManager.isWaveEnd()) {
+				// Click 1
+				if (InputManager.isKeyClick(KeyCode.DIGIT1)) {
+					selectedTower = (selectedTower == ItemResource.BARRIER_TOWER ? null : ItemResource.BARRIER_TOWER);
+				}
+				// Click 2
+				if (InputManager.isKeyClick(KeyCode.DIGIT2)) {
+					selectedTower = (selectedTower == ItemResource.MACHINE_GUN_TOWER ? null
+							: ItemResource.MACHINE_GUN_TOWER);
+				}
+				// Click 3
+				if (InputManager.isKeyClick(KeyCode.DIGIT3)) {
+					selectedTower = (selectedTower == ItemResource.SNIPER_TOWER ? null : ItemResource.SNIPER_TOWER);
+				}
+			} else {
+				selectedTower = null;
 			}
 			isTurnLeft = (InputManager.getMousePos().X < Config.SCREEN_W / 2);
 		}
