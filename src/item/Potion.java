@@ -10,9 +10,9 @@ public class Potion implements Buyable {
 	private int healAmount;
 	private boolean isAllowbuy = true;
 
-	public Potion(String name, String description, ImageResource image, int cost, int healAmount) {
+	public Potion(String name, ImageResource image, int cost, int healAmount) {
 		this.name = name;
-		this.description = description;
+		this.description = String.format("Heal %d health", healAmount);
 		this.image = image;
 		this.cost = cost;
 		this.healAmount = healAmount;
