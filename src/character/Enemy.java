@@ -17,20 +17,73 @@ import utility.ResourceManager.ImageResource;
 import utility.ResourceManager.SceneResource;
 import weapon.Weapon;
 
+/**
+ * Subclass Of Character: In Game Enemy
+ */
 public class Enemy extends Character {
 
+	/**
+	 * Enemy Moving Vector
+	 */
 	private Position movingVector = new Position(0, 0);
+
+	/**
+	 * Time Stamp Count For movingVector Is Zero Sum
+	 */
 	private long zeroSumMovingVectorTimestamp = 0;
+
+	/**
+	 * Time Stamp For Suspend movingVector Auto Update
+	 */
 	private long suspendUpdateMovingVectorTimestamp = 0;
+
+	/**
+	 * Allow Update For Moving Vector
+	 */
 	private boolean allowUpdateMovingVector = true;
+
+	/**
+	 * Enemy Money Drop Amount On Destroyed
+	 */
 	private int moneyDrop = 0;
 
+	/**
+	 * Enemy Alternative Constructor
+	 * 
+	 * @param imageResource
+	 * @param width
+	 * @param height
+	 * @param name
+	 * @param maxHealth
+	 * @param defense
+	 * @param speed
+	 * @param weapon
+	 * @param team
+	 * @param moneyDrop
+	 * @param centerPosX
+	 * @param centerPosY
+	 */
 	public Enemy(ImageResource imageResource, int width, int height, String name, int maxHealth, int defense, int speed,
 			Weapon weapon, int team, int moneyDrop, int centerPosX, int centerPosY) {
 		this(imageResource, width, height, name, maxHealth, defense, speed, weapon, team, moneyDrop,
 				new Position(centerPosX, centerPosY));
 	}
 
+	/**
+	 * Enemy Main Constructor
+	 * 
+	 * @param imageResource
+	 * @param width
+	 * @param height
+	 * @param name
+	 * @param maxHealth
+	 * @param defense
+	 * @param speed
+	 * @param weapon
+	 * @param team
+	 * @param moneyDrop
+	 * @param centerPos
+	 */
 	public Enemy(ImageResource imageResource, int width, int height, String name, int maxHealth, int defense, int speed,
 			Weapon weapon, int team, int moneyDrop, Position centerPos) {
 		super(imageResource, width, height, name, maxHealth, defense, speed, weapon, team, centerPos);
@@ -40,6 +93,11 @@ public class Enemy extends Character {
 		ObjectManager.addCharacter(this);
 	}
 
+	/**
+	 * Get Walkable Moving Vector
+	 * 
+	 * @return
+	 */
 	private Position getMovingVector() {
 		ArrayList<Position> movingVectorList = ((MainCharacter) ResourceManager
 				.getGameObject(GameObjectResource.MAIN_CHARACTER)).getTowardMovingVector(this.getCenterPos());
@@ -53,6 +111,9 @@ public class Enemy extends Character {
 		return new Position(0, 0);
 	}
 
+	/**
+	 * Move Action For Enemy
+	 */
 	private void move() {
 		Position requestMovingVector = this.getMovingVector();
 
@@ -92,24 +153,39 @@ public class Enemy extends Character {
 		}
 	}
 
+	/**
+	 * Enemy ZIndex
+	 */
 	public int getZ() {
 		return Config.ZINDEX_ENEMY;
 	}
 
+	/**
+	 * Is Enemy Destroyed
+	 */
 	public boolean isDestroyed() {
 		return isDestroyed;
 	}
 
+	/**
+	 * Action On Enemy Destroyed
+	 */
 	public void onDestroyed() {
 		MainCharacter mainCharacter = (MainCharacter) ResourceManager.getGameObject(GameObjectResource.MAIN_CHARACTER);
 
 		mainCharacter.setMoney(mainCharacter.getMoney() + this.moneyDrop);
 	}
 
+	/**
+	 * Is Enemy Should Remove From Update
+	 */
 	public boolean isRemoveFromUpdate() {
 		return isDestroyed;
 	}
 
+	/**
+	 * Update Enemy
+	 */
 	public void update() {
 		if (GameState.getSceneResource() == SceneResource.PLAYING) {
 			if (!GameState.isPause()) {

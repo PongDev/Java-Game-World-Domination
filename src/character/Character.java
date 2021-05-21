@@ -15,25 +15,96 @@ import utility.ResourceManager.ImageResource;
 import utility.ResourceManager.SceneResource;
 import weapon.Weapon;
 
+/**
+ * Subclass Of GameObject: Game Character Base Class
+ */
 public abstract class Character extends GameObject implements Updatable {
 
+	/**
+	 * Character Name
+	 */
 	private String name;
+
+	/**
+	 * Character Max Health
+	 */
 	private int maxHealth;
+
+	/**
+	 * Character Current Health
+	 */
 	private int health;
+
+	/**
+	 * Character Defense
+	 */
 	private double defense;
+
+	/**
+	 * Character Move Speed
+	 */
 	private int speed;
+
+	/**
+	 * Character Weapon Turing Degree
+	 */
 	protected double weaponTurningDegree;
+
+	/**
+	 * Character Current Weapon
+	 */
 	protected Weapon weapon;
+
+	/**
+	 * Is Character Turn Left
+	 */
 	protected boolean isTurnLeft = false;
+
+	/**
+	 * Is Character Destroyed
+	 */
 	protected boolean isDestroyed = false;
+
+	/**
+	 * Distance From Character To Map Tile
+	 */
 	protected int[][] distanceFromCharacter;
 
+	/**
+	 * Character Alternative Constructor
+	 * 
+	 * @param imageResource
+	 * @param width
+	 * @param height
+	 * @param name
+	 * @param maxHealth
+	 * @param defense
+	 * @param speed
+	 * @param weapon
+	 * @param team
+	 * @param centerPosX
+	 * @param centerPosY
+	 */
 	public Character(ImageResource imageResource, int width, int height, String name, int maxHealth, int defense,
 			int speed, Weapon weapon, int team, int centerPosX, int centerPosY) {
 		this(imageResource, width, height, name, maxHealth, defense, speed, weapon, team,
 				new Position(centerPosX, centerPosY));
 	}
 
+	/**
+	 * Character Main Constructor
+	 * 
+	 * @param imageResource
+	 * @param width
+	 * @param height
+	 * @param name
+	 * @param maxHealth
+	 * @param defense
+	 * @param speed
+	 * @param weapon
+	 * @param team
+	 * @param centerPos
+	 */
 	public Character(ImageResource imageResource, int width, int height, String name, int maxHealth, int defense,
 			int speed, Weapon weapon, int team, Position centerPos) {
 		super(imageResource, width, height, centerPos);
@@ -49,10 +120,20 @@ public abstract class Character extends GameObject implements Updatable {
 		calculateDistanceFromCharacter();
 	}
 
+	/**
+	 * Update distanceFromCharacter Array
+	 */
 	protected void calculateDistanceFromCharacter() {
 		Utility.calculateDistanceFromGameObject(this, distanceFromCharacter);
 	}
 
+	/**
+	 * Return Manhattan Distance Between Character And Tile With Row, Column
+	 * 
+	 * @param row Tile Row
+	 * @param col Tile Column
+	 * @return
+	 */
 	public int getManhattanDistanceFromCharacter(int row, int col) {
 		if (row >= 0 && col >= 0 && row < GameState.getMapHeight() && col < GameState.getMapWidth()) {
 			return distanceFromCharacter[row][col];
@@ -60,6 +141,9 @@ public abstract class Character extends GameObject implements Updatable {
 		return -1;
 	}
 
+	/**
+	 * Character Render Function
+	 */
 	public void render() {
 		GraphicsContext gc = GameState.getGameMap().getGraphicsContext2D();
 
@@ -101,24 +185,50 @@ public abstract class Character extends GameObject implements Updatable {
 		}
 	}
 
+	/**
+	 * Is Character Allow Render
+	 */
 	public boolean isAllowRender() {
 		return GameState.getSceneResource() == SceneResource.PLAYING;
 	}
 
+	/**
+	 * Abstract Function Return ZIndex Of Character
+	 */
 	public abstract int getZ();
 
+	/**
+	 * Get Character Name
+	 * 
+	 * @return
+	 */
 	public String getName() {
 		return name;
 	}
 
+	/**
+	 * Set Character Name
+	 * 
+	 * @param name
+	 */
 	public void setName(String name) {
 		this.name = name;
 	}
 
+	/**
+	 * Get Character Health
+	 * 
+	 * @return
+	 */
 	public int getHealth() {
 		return health;
 	}
 
+	/**
+	 * Set Character Health
+	 * 
+	 * @param health
+	 */
 	public void setHealth(int health) {
 		if (health > 0) {
 			this.health = Math.min(maxHealth, health);
@@ -129,39 +239,82 @@ public abstract class Character extends GameObject implements Updatable {
 		}
 	}
 
+	/**
+	 * Get Character Max Health
+	 * 
+	 * @return
+	 */
 	public int getMaxHealth() {
 		return maxHealth;
 	}
 
+	/**
+	 * Set Character Max Health
+	 * 
+	 * @param maxHealth
+	 */
 	public void setMaxHealth(int maxHealth) {
 		this.maxHealth = Math.max(0, maxHealth);
 		this.health = Math.min(this.maxHealth, this.health);
 	}
 
+	/**
+	 * Get Character Defense
+	 * 
+	 * @return
+	 */
 	public double getDefense() {
 		return defense;
 	}
 
+	/**
+	 * Set Character Defense
+	 * 
+	 * @param defense
+	 */
 	public void setDefense(double defense) {
 		this.defense = defense;
 	}
 
+	/**
+	 * Get Character Speed
+	 * 
+	 * @return
+	 */
 	public int getSpeed() {
 		return speed;
 	}
 
+	/**
+	 * Set Character Speed
+	 * 
+	 * @param speed
+	 */
 	public void setSpeed(int speed) {
 		this.speed = speed;
 	}
 
+	/**
+	 * Get Character Weapon
+	 * 
+	 * @return
+	 */
 	public Weapon getWeapon() {
 		return weapon;
 	}
 
+	/**
+	 * Set Character Weapon
+	 * 
+	 * @param weapon
+	 */
 	public void setWeapon(Weapon weapon) {
 		this.weapon = weapon;
 	}
 
+	/**
+	 * Deal Damage To This Character
+	 */
 	public void dealDamage(int damage) {
 		setHealth(getHealth() - damage);
 	}

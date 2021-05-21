@@ -34,8 +34,14 @@ import utility.WaveManager;
 import weapon.Gun;
 import weapon.Weapon;
 
+/**
+ * Subclass Of Character: Player Main Character
+ */
 public class MainCharacter extends Character implements Inputable {
 
+	/**
+	 * Comparator For Sort Moving Vector
+	 */
 	private static Comparator<Pair<Pair<Integer, Double>, Position>> movingVectorComparator = (
 			Pair<Pair<Integer, Double>, Position> obj1, Pair<Pair<Integer, Double>, Position> obj2) -> {
 		int manhattanDistance1 = obj1.getKey().getKey();
@@ -52,19 +58,71 @@ public class MainCharacter extends Character implements Inputable {
 		}
 	};
 
+	/**
+	 * Current Selected Tile
+	 */
 	private Position selectedTile;
+
+	/**
+	 * Current Selected Tower
+	 */
 	private ItemResource selectedTower;
+
+	/**
+	 * Current Money
+	 */
 	private int money = 0;
+
+	/**
+	 * Main Character Inventory Storage
+	 */
 	private Map<ItemResource, Integer> inventory = new HashMap<ItemResource, Integer>();
+
+	/**
+	 * Main Character Available Weapon List
+	 */
 	private ArrayList<Weapon> weaponList = new ArrayList<Weapon>();
+
+	/**
+	 * Current Weapon Index Of weaponList
+	 */
 	private int weaponIndex = 0;
 
+	/**
+	 * Main Character Alternative Constructor
+	 * 
+	 * @param imageResource
+	 * @param width
+	 * @param height
+	 * @param name
+	 * @param maxHealth
+	 * @param defense
+	 * @param speed
+	 * @param weapon
+	 * @param team
+	 * @param centerPosX
+	 * @param centerPosY
+	 */
 	public MainCharacter(ImageResource imageResource, int width, int height, String name, int maxHealth, int defense,
 			int speed, Weapon weapon, int team, int centerPosX, int centerPosY) {
 		this(imageResource, width, height, name, maxHealth, defense, speed, weapon, team,
 				new Position(centerPosX, centerPosY));
 	}
 
+	/**
+	 * Main Character Main Constructor
+	 * 
+	 * @param imageResource
+	 * @param width
+	 * @param height
+	 * @param name
+	 * @param maxHealth
+	 * @param defense
+	 * @param speed
+	 * @param weapon
+	 * @param team
+	 * @param centerPos
+	 */
 	public MainCharacter(ImageResource imageResource, int width, int height, String name, int maxHealth, int defense,
 			int speed, Weapon weapon, int team, Position centerPos) {
 		super(imageResource, width, height, name, maxHealth, defense, speed, weapon, team, centerPos);
@@ -75,6 +133,12 @@ public class MainCharacter extends Character implements Inputable {
 		ObjectManager.addCharacter(this);
 	}
 
+	/**
+	 * Get Moving Vector List Toward Main Character
+	 * 
+	 * @param pos Start Position To Find Moving Vector List Toward Main Character
+	 * @return
+	 */
 	public ArrayList<Position> getTowardMovingVector(Position pos) {
 		Position mainCharacterBlock = new Position((int) (this.getCenterPos().Y / Config.TILE_H),
 				(int) (this.getCenterPos().X / Config.TILE_W));
@@ -111,10 +175,16 @@ public class MainCharacter extends Character implements Inputable {
 		return returnMovingVectorList;
 	}
 
+	/**
+	 * Main Character ZIndex
+	 */
 	public int getZ() {
 		return Config.ZINDEX_MAIN_CHARACTER;
 	}
 
+	/**
+	 * Process Player Input
+	 */
 	public void processInput() {
 		// ESC
 		if (InputManager.isKeyClick(KeyCode.ESCAPE)) {
@@ -212,7 +282,6 @@ public class MainCharacter extends Character implements Inputable {
 					((Shop) ResourceManager.getUI(UIResource.SHOP)).toggleVisible();
 				}
 			}
-
 			// Deploy Tower
 			if (InputManager.isLeftMouseClick() && selectedTower != null) {
 				if (selectedTile != null
@@ -276,6 +345,9 @@ public class MainCharacter extends Character implements Inputable {
 		}
 	}
 
+	/**
+	 * Update Main Character
+	 */
 	public void update() {
 		if (GameState.getSceneResource() == SceneResource.PLAYING) {
 			if (!GameState.isPause()) {
@@ -285,28 +357,54 @@ public class MainCharacter extends Character implements Inputable {
 		}
 	}
 
+	/**
+	 * Is Main Character Destroyed
+	 */
 	public boolean isDestroyed() {
 		return false;
-		//return isDestroyed;
+		// return isDestroyed;
 	}
 
+	/**
+	 * Action On Main Character Destroyed
+	 */
 	public void onDestroyed() {
-		//TODO clear everything i guess
-		//GameState.setSceneResource(SceneResource.TITLE);
+		// TODO clear everything i guess
+		// GameState.setSceneResource(SceneResource.TITLE);
 	}
 
+	/**
+	 * Is Main Character Should Remove From Update
+	 */
 	public boolean isRemoveFromUpdate() {
 		return false;
+		// return isDestroyed;
 	}
 
+	/**
+	 * Get Current Main Character Money
+	 * 
+	 * @return
+	 */
 	public int getMoney() {
 		return money;
 	}
 
+	/**
+	 * Set Current Main Character Money
+	 * 
+	 * @param money
+	 */
 	public void setMoney(int money) {
 		this.money = money;
 	}
 
+	/**
+	 * Add Item To Main Character Inventory
+	 * 
+	 * @param item   ItemResource Of Item To Add
+	 * @param amount Amount Of Item To Add
+	 */
 	public void addItemToInventory(ItemResource item, int amount) {
 		if (!inventory.containsKey(item)) {
 			inventory.put(item, amount);
@@ -315,28 +413,63 @@ public class MainCharacter extends Character implements Inputable {
 		}
 	}
 
+	/**
+	 * Add 1 Item To Main Character Inventory
+	 * 
+	 * @param item ItemResource Of Item To Add
+	 */
 	public void addItemToInventory(ItemResource item) {
 		this.addItemToInventory(item, 1);
 	}
 
+	/**
+	 * Remove Item From Main Character Inventory
+	 * 
+	 * @param item   ItemResource Of Item To Remove
+	 * @param amount Amount Of Item To Remove
+	 */
 	public void removeItemFromInventory(ItemResource item, int amount) {
 		if (inventory.containsKey(item)) {
 			inventory.put(item, Math.max(inventory.get(item) - amount, 0));
 		}
 	}
 
+	/**
+	 * Remove 1 Item From Main Character Inventory
+	 * 
+	 * @param item ItemResource Of Item To Remove
+	 */
 	public void removeItemFromInventory(ItemResource item) {
 		this.removeItemFromInventory(item, 1);
 	}
 
+	/**
+	 * Count Item In Main Character Inventory
+	 * 
+	 * @param item ItemResource Of Item To Count
+	 * @return
+	 */
 	public int countItemInInventory(ItemResource item) {
 		return inventory.containsKey(item) ? inventory.get(item) : 0;
 	}
 
+	/**
+	 * Get Current Selected Tower ItemResource
+	 * 
+	 * @return
+	 */
 	public ItemResource getSelectedTower() {
 		return selectedTower;
 	}
 
+	/**
+	 * Deploy Tower To Selected Row, Column
+	 * 
+	 * @param tower ItemResource Of Tower To Deploy
+	 * @param row   Row To Deploy
+	 * @param col   Column To Deploy
+	 * @return
+	 */
 	public boolean deployTower(ItemResource tower, int row, int col) {
 		switch (tower) {
 		case BARRIER_TOWER:
@@ -350,6 +483,11 @@ public class MainCharacter extends Character implements Inputable {
 		}
 	}
 
+	/**
+	 * Add Weapon To Main Character And Set Current Weapon To Added Weapon
+	 * 
+	 * @param weapon
+	 */
 	public void addWeapon(Weapon weapon) {
 		weaponList.add(weapon);
 		weaponIndex = weaponList.size() - 1;

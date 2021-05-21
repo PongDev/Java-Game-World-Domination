@@ -11,7 +11,16 @@ import update.UpdateManager;
 import utility.Logger;
 import utility.WaveManager;
 
+/**
+ * Main Class Of Application
+ * 
+ * Use To Execute Application Entry Point
+ */
 public class Main extends Application {
+
+	/**
+	 * JavaFX Start Function
+	 */
 	@Override
 	public void start(Stage stage) {
 		GameState.setGameStage(stage);
@@ -36,6 +45,11 @@ public class Main extends Application {
 		animation.start();
 	}
 
+	/**
+	 * Main Entry Point
+	 * 
+	 * @param args Command Line Parameter
+	 */
 	public static void main(String[] args) {
 		Logger.log("Application Launch");
 		GameState.setRunning(true);
