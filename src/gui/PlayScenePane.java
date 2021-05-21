@@ -31,9 +31,9 @@ public class PlayScenePane extends StackPane implements Updatable {
 	private HBox statusBox;
 	private StackPane statusPane, healhtPotionBox, ammoBox, barricadeTower, machineGunTower, sniperTower;
 	private GameText waveText, pauseText, barricadeTowerAmount, machineGunTowerAmount, sniperTowerAmount;
-	private GameText statusBarWaveText, coinText, healthPotionText, ammoText;
-	private ImageView coinImage, statusPaneImage, healthPotionpPaneImage, ammoPaneImage, barricadeTowerIcon, machineGunTowerIcon,
-			sniperTowerIcon;
+	private GameText statusBarWaveText, coinText, healthPotionText, ammoText, deployTowerText;
+	private ImageView coinImage, statusPaneImage, healthPotionpPaneImage, ammoPaneImage, barricadeTowerIcon,
+			machineGunTowerIcon, sniperTowerIcon;
 	private int wave = 0;
 
 	public PlayScenePane() {
@@ -105,6 +105,11 @@ public class PlayScenePane extends StackPane implements Updatable {
 		AnchorPane.setLeftAnchor(towerUI, 10.0);
 		gameUI.getChildren().addAll(ammoBox, healhtPotionBox, statusPane, towerUI);
 
+		deployTowerText = new GameText("Select Nearby Tile To Deploy Tower", Config.SCREEN_H / 10);
+		deployTowerText.setAlignment(Pos.CENTER);
+		deployTowerText.setTranslateY(-Config.SCREEN_H / 5);
+		deployTowerText.setVisible(false);
+
 		waveText = new GameText("", Config.SCREEN_H / 9);
 		waveText.setAlignment(Pos.CENTER);
 		waveText.setTranslateY(-Config.SCREEN_H / 3);
@@ -113,7 +118,7 @@ public class PlayScenePane extends StackPane implements Updatable {
 		pauseText = new GameText(Config.PAUSE_MESSAGE, Config.SCREEN_H / 5);
 		pauseText.setAlignment(Pos.CENTER);
 		pauseText.setVisible(false);
-		this.getChildren().addAll(GameState.getGameMap(), gameUI, waveText, pauseText,
+		this.getChildren().addAll(GameState.getGameMap(), gameUI, deployTowerText, waveText, pauseText,
 				ResourceManager.getUI(UIResource.SHOP));
 	}
 
@@ -165,6 +170,7 @@ public class PlayScenePane extends StackPane implements Updatable {
 			SoundManager.setCurrentSound(SoundResource.PLAYING);
 		}
 		pauseText.setVisible(GameState.isPause());
+		deployTowerText.setVisible(mainCharacter.getSelectedTower() != null);
 	}
 
 	public boolean isRemoveFromUpdate() {

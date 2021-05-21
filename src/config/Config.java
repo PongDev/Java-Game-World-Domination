@@ -37,6 +37,7 @@ public class Config {
 	public static final int MAIN_CHARACTER_TEAM = 0;
 	public static final Weapon MAIN_CHARACTER_INITIAL_WEAPON = new AK47(Config.MAIN_CHARACTER_TEAM,
 			Config.ZINDEX_MAIN_CHARACTER);
+	public static final int MAIN_CHARACTER_DEPLOY_RANGE = Math.max(TILE_W, TILE_H) * 2;
 	public static final double TOWER_DISPERSION = 40;
 
 	public static final int ENEMY_TEAM = 1;

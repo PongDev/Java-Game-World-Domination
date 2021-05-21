@@ -197,8 +197,12 @@ public class MainCharacter extends Character implements Inputable {
 				Position selectedTile = new Position((int) ((mousePos.Y + mapPos.Y) / Config.TILE_H),
 						(int) ((mousePos.X + mapPos.X) / Config.TILE_W));
 
-				if (GameState.getGameMap().isPlacable((int) selectedTile.X, (int) selectedTile.Y) && !GameState
-						.getGameMap().isCollideTower(selectedTile.Y * Config.TILE_W, selectedTile.X * Config.TILE_H)) {
+				if (GameState.getGameMap().isPlacable((int) selectedTile.X, (int) selectedTile.Y)
+						&& !GameState.getGameMap().isCollideTower(selectedTile.Y * Config.TILE_W,
+								selectedTile.X * Config.TILE_H)
+						&& Utility.euclideanDistance(this.getCenterPos(),
+								new Position((selectedTile.Y + 0.5) * Config.TILE_W,
+										(selectedTile.X + 0.5) * Config.TILE_H)) < Config.MAIN_CHARACTER_DEPLOY_RANGE) {
 					GameState.getGameMap().setHighLightTile((int) selectedTile.X, (int) selectedTile.Y);
 					if (!selectedTile.equals(this.selectedTile)) {
 						Logger.log(String.format("Selected Tile Row:%2d Col:%2d", (int) selectedTile.X,
