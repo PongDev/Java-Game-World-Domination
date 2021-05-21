@@ -19,7 +19,6 @@ import render.RenderManager;
 import tower.BarricadeTower;
 import tower.MachineGunTower;
 import tower.SniperTower;
-import update.Updatable;
 import update.UpdateManager;
 import utility.Logger;
 import utility.Position;
@@ -32,7 +31,7 @@ import utility.Utility;
 import utility.WaveManager;
 import weapon.Weapon;
 
-public class MainCharacter extends Character implements Inputable, Updatable {
+public class MainCharacter extends Character implements Inputable {
 
 	private static Comparator<Pair<Pair<Integer, Double>, Position>> movingVectorComparator = (
 			Pair<Pair<Integer, Double>, Position> obj1, Pair<Pair<Integer, Double>, Position> obj2) -> {
@@ -50,7 +49,6 @@ public class MainCharacter extends Character implements Inputable, Updatable {
 		}
 	};
 
-	private int[][] distanceFromCharacter;
 	private Position selectedTile;
 	private ItemResource selectedTower;
 	private int money = 0;
@@ -68,12 +66,7 @@ public class MainCharacter extends Character implements Inputable, Updatable {
 		InputManager.addInputableObject(this);
 		UpdateManager.add(this);
 		RenderManager.add(this);
-
-		distanceFromCharacter = new int[GameState.getMapHeight()][GameState.getMapWidth()];
-	}
-
-	private void calculateDistanceFromCharacter() {
-		Utility.calculateDistanceFromGameObject(this, distanceFromCharacter);
+		ObjectManager.addCharacter(this);
 	}
 
 	public ArrayList<Position> getTowardMovingVector(Position pos) {
@@ -188,7 +181,8 @@ public class MainCharacter extends Character implements Inputable, Updatable {
 			}
 			// Heal
 			if (InputManager.isKeyClick(KeyCode.H)) {
-				if (this.countItemInInventory(ItemResource.HEALTH_POTION) > 0) {
+				if (this.getHealth() < this.getMaxHealth()
+						&& this.countItemInInventory(ItemResource.HEALTH_POTION) > 0) {
 					this.removeItemFromInventory(ItemResource.HEALTH_POTION);
 					((Potion) ResourceManager.getItem(ItemResource.HEALTH_POTION)).use(this);
 				}
@@ -243,13 +237,6 @@ public class MainCharacter extends Character implements Inputable, Updatable {
 
 	public boolean isRemoveFromUpdate() {
 		return false;
-	}
-
-	public int getManhattanDistanceFromCharacter(int row, int col) {
-		if (row >= 0 && col >= 0 && row < GameState.getMapHeight() && col < GameState.getMapWidth()) {
-			return distanceFromCharacter[row][col];
-		}
-		return -1;
 	}
 
 	public int getMoney() {

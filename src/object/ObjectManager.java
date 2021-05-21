@@ -2,6 +2,7 @@ package object;
 
 import java.util.ArrayList;
 
+import character.Character;
 import config.Config;
 import tower.Tower;
 import utility.Utility;
@@ -11,6 +12,7 @@ public class ObjectManager {
 
 	private static ArrayList<Bullet> bulletList = new ArrayList<Bullet>();
 	private static ArrayList<Tower> towerList = new ArrayList<Tower>();
+	private static ArrayList<Character> characterList = new ArrayList<Character>();
 
 	public static boolean isObjectCollide(GameObject gameObject, double posX, double posY) {
 		return posX >= gameObject.getPos().X && posY >= gameObject.getPos().Y
@@ -78,10 +80,46 @@ public class ObjectManager {
 				}
 			}
 		}
-		if (targetTower != null) {
-			targetTower.reportDetected(obj);
-		}
 		return targetTower;
+	}
+
+	public static void addCharacter(Character character) {
+		characterList.add(character);
+	}
+
+	public static Character findNearestOpponentCharacter(GameObject obj, int team) {
+		Character targetCharacter = null;
+		int row = (int) (obj.getCenterPos().Y / Config.TILE_H);
+		int col = (int) (obj.getCenterPos().X / Config.TILE_W);
+
+		for (int i = characterList.size() - 1; i >= 0; i--) {
+			if (characterList.get(i).isDestroyed()) {
+				characterList.remove(i);
+			}
+		}
+		for (Character character : characterList) {
+			if (character.getTeam() != team) {
+				if (targetCharacter == null) {
+					if (character.getManhattanDistanceFromCharacter(row, col) != -1) {
+						targetCharacter = character;
+					}
+				} else {
+					int targetTowerDistance = targetCharacter.getManhattanDistanceFromCharacter(row, col);
+					int loopTowerDistance = character.getManhattanDistanceFromCharacter(row, col);
+
+					if (loopTowerDistance != -1) {
+						if (loopTowerDistance < targetTowerDistance) {
+							targetCharacter = character;
+						} else if (loopTowerDistance == targetTowerDistance
+								&& Utility.euclideanDistance(character.getCenterPos(), obj.getCenterPos()) < Utility
+										.euclideanDistance(targetCharacter.getCenterPos(), obj.getCenterPos())) {
+							targetCharacter = character;
+						}
+					}
+				}
+			}
+		}
+		return targetCharacter;
 	}
 
 }

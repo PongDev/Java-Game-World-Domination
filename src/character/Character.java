@@ -6,13 +6,15 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.TextAlignment;
 import logic.GameState;
 import object.GameObject;
+import update.Updatable;
 import utility.Position;
 import utility.ResourceManager;
+import utility.Utility;
 import utility.ResourceManager.ImageResource;
 import utility.ResourceManager.SceneResource;
 import weapon.Weapon;
 
-public abstract class Character extends GameObject {
+public abstract class Character extends GameObject implements Updatable {
 
 	private String name;
 	private int maxHealth;
@@ -22,6 +24,7 @@ public abstract class Character extends GameObject {
 	protected Weapon weapon;
 	protected boolean isTurnLeft = false;
 	protected boolean isDestroyed = false;
+	protected int[][] distanceFromCharacter;
 
 	public Character(ImageResource imageResource, int width, int height, String name, int maxHealth, int defense,
 			int speed, Weapon weapon, int team, int centerPosX, int centerPosY) {
@@ -39,6 +42,19 @@ public abstract class Character extends GameObject {
 		this.setSpeed(speed);
 		this.setWeapon(weapon);
 		this.team = team;
+
+		distanceFromCharacter = new int[GameState.getMapHeight()][GameState.getMapWidth()];
+	}
+
+	protected void calculateDistanceFromCharacter() {
+		Utility.calculateDistanceFromGameObject(this, distanceFromCharacter);
+	}
+
+	public int getManhattanDistanceFromCharacter(int row, int col) {
+		if (row >= 0 && col >= 0 && row < GameState.getMapHeight() && col < GameState.getMapWidth()) {
+			return distanceFromCharacter[row][col];
+		}
+		return -1;
 	}
 
 	public void render() {

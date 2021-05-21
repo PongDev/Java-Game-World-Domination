@@ -8,7 +8,6 @@ import logic.GameState;
 import object.ObjectManager;
 import render.RenderManager;
 import tower.Tower;
-import update.Updatable;
 import update.UpdateManager;
 import utility.Position;
 import utility.ResourceManager;
@@ -18,7 +17,7 @@ import utility.ResourceManager.ImageResource;
 import utility.ResourceManager.SceneResource;
 import weapon.Weapon;
 
-public class Enemy extends Character implements Updatable {
+public class Enemy extends Character {
 
 	private Position movingVector = new Position(0, 0);
 	private long zeroSumMovingVectorTimestamp = 0;
@@ -38,6 +37,7 @@ public class Enemy extends Character implements Updatable {
 		this.moneyDrop = moneyDrop;
 		UpdateManager.add(this);
 		RenderManager.add(this);
+		ObjectManager.addCharacter(this);
 	}
 
 	private Position getMovingVector() {
@@ -113,6 +113,7 @@ public class Enemy extends Character implements Updatable {
 	public void update() {
 		if (GameState.getSceneResource() == SceneResource.PLAYING) {
 			if (!GameState.isPause()) {
+				calculateDistanceFromCharacter();
 				ObjectManager.collideWithBullet(this);
 
 				double degree;

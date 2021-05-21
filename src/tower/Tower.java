@@ -28,7 +28,6 @@ public abstract class Tower extends GameObject implements Updatable, Buyable {
 	protected boolean isDestroyed = false;
 	private boolean isDeploy = false;
 	private int[][] distanceFromTower;
-	private GameObject targetObject = null;
 	private double lastAttackDegree = 0;
 	private ImageResource towerHeadImageResource;
 
@@ -113,6 +112,7 @@ public abstract class Tower extends GameObject implements Updatable, Buyable {
 				calculateDistanceFromTower();
 				ObjectManager.collideWithBullet(this);
 
+				GameObject targetObject = ObjectManager.findNearestOpponentCharacter(this, team);
 				if (targetObject != null && !targetObject.isDestroyed()) {
 					double degree = Math.toDegrees(Math.atan2(
 							(this.getCenterPos().Y) - (targetObject.getCenterPos().Y)
@@ -193,16 +193,6 @@ public abstract class Tower extends GameObject implements Updatable, Buyable {
 			UpdateManager.add(this);
 			RenderManager.add(this);
 			ObjectManager.addTower(this);
-		}
-	}
-
-	public void reportDetected(GameObject obj) {
-		if (obj.getTeam() != this.getTeam()) {
-			if (targetObject == null || targetObject.isDestroyed()) {
-				targetObject = obj;
-			} else if (Utility.euclideanDistance(this, obj) < Utility.euclideanDistance(this, targetObject)) {
-				targetObject = obj;
-			}
 		}
 	}
 
