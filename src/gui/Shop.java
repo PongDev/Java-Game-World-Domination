@@ -24,6 +24,7 @@ import utility.ResourceManager;
 import utility.ResourceManager.GameObjectResource;
 import utility.ResourceManager.ImageResource;
 import utility.ResourceManager.ItemResource;
+import utility.ResourceManager.SceneResource;
 
 public class Shop extends StackPane {
 
@@ -33,13 +34,11 @@ public class Shop extends StackPane {
 	private ArrayList<Buyable> itemList = new ArrayList<Buyable>();
 	private ArrayList<ShopButton> itemButtonList = new ArrayList<ShopButton>();
 	private ArrayList<StackPane> itemStackPaneList = new ArrayList<StackPane>();
-	private GameButton buyButton;
+	private GameButton buyButton, nextPageBTN, previousPageBTN;
 	private int currentPage;
 	private ItemResource selectedItem;
 
 	public Shop() {
-
-		// TODO ownText, nextPageBTN, previousPageBTN;
 
 		this.currentPage = 0;
 		this.setVisible(false);
@@ -50,28 +49,7 @@ public class Shop extends StackPane {
 		this.setBackground(
 				new Background(new BackgroundFill(Color.rgb(160, 160, 160, 0.8), CornerRadii.EMPTY, new Insets(5))));
 
-		shopText = new GameText("Shop", Config.SCREEN_H / 10);
-		shopText.setAlignment(Pos.TOP_CENTER);
-		shopText.setTranslateY(-Config.SCREEN_H / 2.70);
-
-		descriptionImage = ResourceManager.getImageView(ImageResource.ITEM_DESCRIPTION, (int) (Config.SCREEN_W / 2),
-				(int) (Config.SCREEN_H / 8));
-		descriptionImage.setTranslateX(-Config.SCREEN_H / 6);
-		descriptionImage.setTranslateY(Config.SCREEN_W / 5);
-		descriptionImage.setVisible(false);
-
-		costText = new GameText("", Config.SCREEN_H / 25);
-		costText.setAlignment(Pos.CENTER);
-		costText.setTranslateX(Config.SCREEN_W / 4);
-		costText.setTranslateY(Config.SCREEN_H / 4);
-		costText.setVisible(false);
-
-		descriptionText = new GameText("", Config.SCREEN_H / 25);
-		descriptionText.setAlignment(Pos.TOP_LEFT);
-		descriptionText.setPrefWidth(Config.SCREEN_W / 2);
-		descriptionText.setTranslateX(-Config.SCREEN_H / 8);
-		descriptionText.setTranslateY(Config.SCREEN_W / 5);
-
+		// get all stack pane for every ENUM
 		for (ItemResource itemResource : ItemResource.values()) {
 			Buyable item = ResourceManager.getItem(itemResource);
 
@@ -101,12 +79,104 @@ public class Shop extends StackPane {
 					selectedItem = itemResource;
 				}
 			});
-
 			StackPane itemStackPane = new StackPane();
 			itemStackPane.getChildren().addAll(itemButtonBG, itemVBox, itemButton);
 			itemStackPaneList.add(itemStackPane);
 			itemList.add(item);
 		}
+
+		// init first page
+		drawNewPage(currentPage);
+
+		nextPageBTN = new GameButton(ImageResource.BTN_NEXT, Config.MODE_SELECT_BTN_SIZE, Config.MODE_SELECT_BTN_SIZE);
+		nextPageBTN.setOnMouseClicked((e) -> {
+			if (currentPage + 1 > ((int) Math.ceil((double) itemList.size() / 8)) - 1) {
+				currentPage = 0;
+			} else {
+				currentPage += 1;
+			}
+			selectedItem = null;
+			Logger.log("Next Button Click, go to" + Integer.toString(currentPage));
+			drawNewPage(currentPage);
+			this.getChildren().addAll(nextPageBTN, previousPageBTN);
+		});
+		nextPageBTN.setTranslateX(Config.SCREEN_W / 2.75);
+		nextPageBTN.setTranslateY(-Config.SCREEN_H / 2.75);
+
+		previousPageBTN = new GameButton(ImageResource.BTN_BACK, Config.MODE_SELECT_BTN_SIZE,
+				Config.MODE_SELECT_BTN_SIZE);
+		previousPageBTN.setOnMouseClicked((e) -> {
+			if (currentPage - 1 < 0) {
+				currentPage = ((int) Math.ceil((double) itemList.size() / 8)) - 1;
+			} else {
+				currentPage -= 1;
+			}
+			selectedItem = null;
+			Logger.log("previous Button Click, go to" + Integer.toString(currentPage));
+			drawNewPage(currentPage);
+			this.getChildren().addAll(nextPageBTN, previousPageBTN);
+		});
+		previousPageBTN.setTranslateX(-Config.SCREEN_W / 2.75);
+		previousPageBTN.setTranslateY(-Config.SCREEN_H / 2.75);
+
+		this.getChildren().addAll(nextPageBTN, previousPageBTN);
+
+	}
+
+	private void drawNewPage(int currentPage) {
+
+		this.getChildren().clear();
+		
+		shopText = new GameText("Shop", Config.SCREEN_H / 10);
+		shopText.setAlignment(Pos.TOP_CENTER);
+		shopText.setTranslateY(-Config.SCREEN_H / 2.70);
+
+		descriptionImage = ResourceManager.getImageView(ImageResource.ITEM_DESCRIPTION, (int) (Config.SCREEN_W / 2),
+				(int) (Config.SCREEN_H / 8));
+		descriptionImage.setTranslateX(-Config.SCREEN_H / 6);
+		descriptionImage.setTranslateY(Config.SCREEN_W / 5);
+		descriptionImage.setVisible(false);
+
+		costText = new GameText("", Config.SCREEN_H / 25);
+		costText.setAlignment(Pos.CENTER);
+		costText.setTranslateX(Config.SCREEN_W / 4);
+		costText.setTranslateY(Config.SCREEN_H / 4);
+		costText.setVisible(false);
+
+		descriptionText = new GameText("", Config.SCREEN_H / 25);
+		descriptionText.setAlignment(Pos.TOP_LEFT);
+		descriptionText.setPrefWidth(Config.SCREEN_W / 2);
+		descriptionText.setTranslateX(-Config.SCREEN_H / 8);
+		descriptionText.setTranslateY(Config.SCREEN_W / 5);
+
+		// Buy item
+		buyButton = new GameButton("Buy", ImageResource.BTN, Config.SCREEN_W / 6, Config.SCREEN_H / 10);
+		buyButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+			public void handle(MouseEvent event) {
+				if(selectedItem != null) {
+					Buyable item = ResourceManager.getItem(selectedItem);
+					MainCharacter mainCharacter = ((MainCharacter) ResourceManager
+							.getGameObject(GameObjectResource.MAIN_CHARACTER));
+	
+					if (item.isAllowBuy()) {
+						if (mainCharacter.getMoney() >= item.getCost()) {
+							mainCharacter.setMoney(mainCharacter.getMoney() - item.getCost());
+							mainCharacter.addItemToInventory(selectedItem);
+							Logger.log("Bought " + ResourceManager.getItem(selectedItem).getName());
+						} else {
+							Logger.log("Money Not Enough To Buy " + ResourceManager.getItem(selectedItem).getName());
+						}
+					} else {
+						Logger.log(ResourceManager.getItem(selectedItem).getName() + " Is Not Allow To Buy");
+					}
+				}
+			}
+		});
+		buyButton.setTextFill(Color.WHITE);
+		buyButton.setTranslateX(Config.SCREEN_W / 3.75);
+		buyButton.setTranslateY(Config.SCREEN_H / 3);
+		buyButton.setOnHoverBackground(ImageResource.BTN_HOVER);
+
 		itemPane = new GridPane();
 		itemPane.setAlignment(Pos.CENTER);
 		itemPane.setTranslateY(-Config.SCREEN_H / 17);
@@ -115,35 +185,10 @@ public class Shop extends StackPane {
 		itemPane.setPadding(new Insets(5));
 
 		// Auto generate gridPane at current page
-		for (int i = 0 * currentPage; i < Math.min(i + 8, itemStackPaneList.size()); i++) {
-			itemPane.add(itemStackPaneList.get(i), i % 4, i / 4, 1, 1);
+		int itemPerPage = Math.min((itemStackPaneList.size() - (currentPage * 8)),8);
+		for (int i = (currentPage * 8); i < (currentPage * 8) + itemPerPage; i++) {
+			itemPane.add(itemStackPaneList.get(i), (i % 8) % 4, (i % 8) / 4, 1, 1);
 		}
-
-		// Buy item
-		buyButton = new GameButton("Buy", ImageResource.BTN, Config.SCREEN_W / 6, Config.SCREEN_H / 10);
-		buyButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
-			public void handle(MouseEvent event) {
-				Buyable item = ResourceManager.getItem(selectedItem);
-				MainCharacter mainCharacter = ((MainCharacter) ResourceManager
-						.getGameObject(GameObjectResource.MAIN_CHARACTER));
-
-				if (item.isAllowBuy()) {
-					if (mainCharacter.getMoney() >= item.getCost()) {
-						mainCharacter.setMoney(mainCharacter.getMoney() - item.getCost());
-						mainCharacter.addItemToInventory(selectedItem);
-						Logger.log("Bought " + ResourceManager.getItem(selectedItem).getName());
-					} else {
-						Logger.log("Money Not Enough To Buy " + ResourceManager.getItem(selectedItem).getName());
-					}
-				} else {
-					Logger.log(ResourceManager.getItem(selectedItem).getName() + " Is Not Allow To Buy");
-				}
-			}
-		});
-		buyButton.setTextFill(Color.WHITE);
-		buyButton.setTranslateX(Config.SCREEN_W / 3.75);
-		buyButton.setTranslateY(Config.SCREEN_H / 3);
-		buyButton.setOnHoverBackground(ImageResource.BTN_HOVER);
 
 		this.getChildren().addAll(itemPane, shopText, descriptionImage, descriptionText, buyButton, costText);
 	}

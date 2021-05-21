@@ -41,7 +41,8 @@ public class ResourceManager {
 		TILE_UNPLACABLE_FLOOR, TILE_GATE_CLOSE, CHARACTER_MAIN, BULLET, ENEMY_BULLET, GUN_AK47, GUN_SHOTGUN, GUN_SNIPER,
 		SPRITE_KNIGHT_SWORD, CROSS_HAIR, AMMO_PANE, HEALTH_POTION_PANE, STATUS_PANE, HEALTH_POTION, ITEM_BUTTON,
 		ITEM_BUTTON_TRANSPARENT, ITEM_DESCRIPTION, BARRIER_TOWER, MACHINE_GUN_TOWER, MACHINE_GUN_TOWER_BASE,
-		MACHINE_GUN_TOWER_HEAD, SNIPER_TOWER, SNIPER_TOWER_BASE, SNIPER_TOWER_HEAD
+		MACHINE_GUN_TOWER_HEAD, SNIPER_TOWER, SNIPER_TOWER_BASE, SNIPER_TOWER_HEAD, AMMO_PISTOL, AMMO_RIFLE,
+		AMMO_SHOTGUN
 	}
 
 	public enum SoundResource {
@@ -53,7 +54,8 @@ public class ResourceManager {
 	}
 
 	public enum ItemResource {
-		BARRIER_TOWER, MACHINE_GUN_TOWER, SNIPER_TOWER, HEALTH_POTION, GUN_AK47, GUN_SHOTGUN, GUN_SNIPER
+		BARRIER_TOWER, MACHINE_GUN_TOWER, SNIPER_TOWER, HEALTH_POTION, GUN_AK47, GUN_SHOTGUN, GUN_SNIPER, AMMO_PISTOL,
+		AMMO_RIFLE, AMMO_SHOTGUN
 	}
 
 	public enum UIResource {
@@ -125,6 +127,9 @@ public class ResourceManager {
 		imageResource.put(ImageResource.GUN_AK47, getImage("weapon/gun_ak47.png"));
 		imageResource.put(ImageResource.GUN_SHOTGUN, getImage("weapon/gun_shotgun.png"));
 		imageResource.put(ImageResource.GUN_SNIPER, getImage("weapon/gun_sniper.png"));
+		imageResource.put(ImageResource.AMMO_PISTOL, getImage("weapon/ammo_pistol.png"));
+		imageResource.put(ImageResource.AMMO_RIFLE, getImage("weapon/ammo_rifle.png"));
+		imageResource.put(ImageResource.AMMO_SHOTGUN, getImage("weapon/ammo_shotgun.png"));
 		imageResource.put(ImageResource.SPRITE_KNIGHT_SWORD, getImage("sprite/sprite_knight_sword.png"));
 		imageResource.put(ImageResource.CROSS_HAIR, getImage("sprite/crosshair.png"));
 		imageResource.put(ImageResource.MACHINE_GUN_TOWER, getImage("sprite/tower_machine_gun.png"));
@@ -181,6 +186,11 @@ public class ResourceManager {
 		itemResource.put(ItemResource.GUN_SHOTGUN,
 				new Shotgun(Config.MAIN_CHARACTER_TEAM, Config.ZINDEX_MAIN_CHARACTER));
 		itemResource.put(ItemResource.GUN_SNIPER, new Sniper(Config.MAIN_CHARACTER_TEAM, Config.ZINDEX_MAIN_CHARACTER));
+		
+		//use HealthPotion as placeholder
+		itemResource.put(ItemResource.AMMO_PISTOL,new HealthPotion()); //ImageResource.AMMO_PISTOL
+		itemResource.put(ItemResource.AMMO_RIFLE,new HealthPotion()); //ImageResource.AMMO_RIFLE
+		itemResource.put(ItemResource.AMMO_SHOTGUN,new HealthPotion()); //ImageResource.AMMO_SHOTGUN
 	}
 
 	private static void loadUI() {
