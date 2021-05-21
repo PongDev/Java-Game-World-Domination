@@ -1,7 +1,9 @@
 package tower;
 
 import config.Config;
+import javafx.util.Pair;
 import utility.ResourceManager.ImageResource;
+import utility.ResourceManager.ItemResource;
 import weapon.Gun;
 
 public class SniperTower extends Tower {
@@ -12,6 +14,7 @@ public class SniperTower extends Tower {
 		this.setWeapon(new Gun(null, 100, 0.25,
 				team == Config.MAIN_CHARACTER_TEAM ? ImageResource.BULLET : ImageResource.ENEMY_BULLET, 10, 10, 10,
 				team, team == Config.MAIN_CHARACTER_TEAM ? Config.ZINDEX_MAIN_CHARACTER : Config.ZINDEX_ENEMY, this));
+		itemOnBuy.add(new Pair<>(ItemResource.SNIPER_TOWER, 1));
 	}
 
 	public String getDescription() {

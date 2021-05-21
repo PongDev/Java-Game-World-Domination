@@ -16,6 +16,9 @@ import gui.TitleScenePane;
 import input.InputManager;
 import item.Buyable;
 import item.HealthPotion;
+import item.PistolAmmo;
+import item.RifleAmmo;
+import item.ShotgunAmmo;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -189,11 +192,9 @@ public class ResourceManager {
 		itemResource.put(ItemResource.GUN_SHOTGUN,
 				new Shotgun(Config.MAIN_CHARACTER_TEAM, Config.ZINDEX_MAIN_CHARACTER));
 		itemResource.put(ItemResource.GUN_SNIPER, new Sniper(Config.MAIN_CHARACTER_TEAM, Config.ZINDEX_MAIN_CHARACTER));
-
-		// use HealthPotion as placeholder
-		itemResource.put(ItemResource.AMMO_PISTOL, new HealthPotion()); // ImageResource.AMMO_PISTOL
-		itemResource.put(ItemResource.AMMO_RIFLE, new HealthPotion()); // ImageResource.AMMO_RIFLE
-		itemResource.put(ItemResource.AMMO_SHOTGUN, new HealthPotion()); // ImageResource.AMMO_SHOTGUN
+		itemResource.put(ItemResource.AMMO_PISTOL, new PistolAmmo());
+		itemResource.put(ItemResource.AMMO_RIFLE, new RifleAmmo());
+		itemResource.put(ItemResource.AMMO_SHOTGUN, new ShotgunAmmo());
 	}
 
 	private static void loadUI() {

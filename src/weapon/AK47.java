@@ -1,5 +1,6 @@
 package weapon;
 
+import javafx.util.Pair;
 import utility.ResourceManager.ImageResource;
 import utility.ResourceManager.ItemResource;
 
@@ -12,6 +13,9 @@ public class AK47 extends Gun {
 				120);
 		this.cost = 60;
 		this.itemResource = ItemResource.GUN_AK47;
+		this.bulletUse = ItemResource.AMMO_RIFLE;
+		itemOnBuy.add(new Pair<>(this.itemResource, 1));
+		itemOnBuy.add(new Pair<>(this.bulletUse, 90));
 	}
 
 }

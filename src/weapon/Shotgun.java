@@ -2,6 +2,7 @@ package weapon;
 
 import java.util.Date;
 
+import javafx.util.Pair;
 import object.ObjectManager;
 import render.RenderManager;
 import update.UpdateManager;
@@ -23,6 +24,9 @@ public class Shotgun extends Gun {
 				attackDamage * bulletPerShot, 1 / attackSpeed, 20);
 		this.cost = 50;
 		this.itemResource = ItemResource.GUN_SHOTGUN;
+		this.bulletUse = ItemResource.AMMO_SHOTGUN;
+		itemOnBuy.add(new Pair<>(this.itemResource, 1));
+		itemOnBuy.add(new Pair<>(this.bulletUse, 40));
 	}
 
 	public boolean attack(Position centerPos, double degree) {

@@ -23,6 +23,7 @@ import utility.ResourceManager.SoundResource;
 import utility.ResourceManager.UIResource;
 import utility.ResourceManager;
 import utility.WaveManager;
+import weapon.Gun;
 
 public class PlayScenePane extends StackPane implements Updatable {
 
@@ -54,7 +55,7 @@ public class PlayScenePane extends StackPane implements Updatable {
 		statusPane = new StackPane();
 		statusPane.getChildren().addAll(statusPaneImage, statusBox);
 
-		healthPotionText = new GameText("", Config.SCREEN_H / 20, Color.WHITE);// ***
+		healthPotionText = new GameText("", Config.SCREEN_H / 20, Color.WHITE);
 		healthPotionText.setAlignment(Pos.CENTER);
 		healthPotionText.setTranslateY(Config.SCREEN_H / 25);
 		healthPotionpPaneImage = ResourceManager.getImageView(ImageResource.HEALTH_POTION_PANE,
@@ -62,7 +63,7 @@ public class PlayScenePane extends StackPane implements Updatable {
 		healhtPotionBox = new StackPane();
 		healhtPotionBox.getChildren().addAll(healthPotionpPaneImage, healthPotionText);
 
-		ammoText = new GameText("0", Config.SCREEN_H / 20, Color.WHITE);// ***
+		ammoText = new GameText("", Config.SCREEN_H / 20, Color.WHITE);
 		ammoText.setAlignment(Pos.CENTER);
 		ammoPaneImage = ResourceManager.getImageView(ImageResource.AMMO_PANE, (int) (Config.SCREEN_W / 10),
 				(int) (Config.SCREEN_H / 15));
@@ -164,6 +165,13 @@ public class PlayScenePane extends StackPane implements Updatable {
 			default:
 				break;
 			}
+		}
+
+		if (mainCharacter.getWeapon() instanceof Gun && ((Gun) mainCharacter.getWeapon()).getBulletUse() != null) {
+			ammoText.setText(Integer
+					.toString(mainCharacter.countItemInInventory(((Gun) mainCharacter.getWeapon()).getBulletUse())));
+		} else {
+			ammoText.setText("-");
 		}
 
 		if (SoundManager.getCurrentSoundResource() != SoundResource.PLAYING) {

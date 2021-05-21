@@ -1,11 +1,14 @@
 package tower;
 
+import java.util.ArrayList;
+
 import config.Config;
 import item.Buyable;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.transform.Rotate;
+import javafx.util.Pair;
 import logic.GameState;
 import object.GameObject;
 import object.ObjectManager;
@@ -16,6 +19,7 @@ import utility.ResourceManager;
 import utility.Utility;
 import weapon.Weapon;
 import utility.ResourceManager.ImageResource;
+import utility.ResourceManager.ItemResource;
 import utility.ResourceManager.SceneResource;
 
 public abstract class Tower extends GameObject implements Updatable, Buyable {
@@ -32,6 +36,7 @@ public abstract class Tower extends GameObject implements Updatable, Buyable {
 	private int towerRow;
 	private int towerCol;
 	private ImageResource towerHeadImageResource;
+	protected ArrayList<Pair<ItemResource, Integer>> itemOnBuy = new ArrayList<Pair<ItemResource, Integer>>();
 
 	public Tower(ImageResource imageResource, ImageResource towerHeadImageResource, String name, int maxHealth,
 			int defense, Weapon weapon, int team, int row, int col) {
@@ -210,6 +215,10 @@ public abstract class Tower extends GameObject implements Updatable, Buyable {
 			RenderManager.add(this);
 			ObjectManager.addTower(this);
 		}
+	}
+
+	public ArrayList<Pair<ItemResource, Integer>> itemOnBuy() {
+		return itemOnBuy;
 	}
 
 }

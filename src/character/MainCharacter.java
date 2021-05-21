@@ -31,6 +31,7 @@ import utility.ResourceManager.SceneResource;
 import utility.ResourceManager.UIResource;
 import utility.Utility;
 import utility.WaveManager;
+import weapon.Gun;
 import weapon.Weapon;
 
 public class MainCharacter extends Character implements Inputable {
@@ -187,7 +188,15 @@ public class MainCharacter extends Character implements Inputable {
 			}
 			// Mouse Press
 			if (InputManager.isLeftMousePress() && selectedTower == null) {
-				weapon.attack(getCenterPos(), degree);
+				if (weapon instanceof Gun && ((Gun) weapon).getBulletUse() != null) {
+					if (this.countItemInInventory(((Gun) weapon).getBulletUse()) > 0) {
+						if (weapon.attack(getCenterPos(), degree)) {
+							this.removeItemFromInventory(((Gun) weapon).getBulletUse());
+						}
+					}
+				} else {
+					weapon.attack(getCenterPos(), degree);
+				}
 			}
 			// Open Shop
 			if (InputManager.isLeftMouseClick()) {

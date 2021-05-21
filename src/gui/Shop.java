@@ -18,6 +18,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.TextAlignment;
+import javafx.util.Pair;
 import logic.GameState;
 import utility.Logger;
 import utility.ResourceManager;
@@ -161,7 +162,9 @@ public class Shop extends StackPane {
 					if (item.isAllowBuy()) {
 						if (mainCharacter.getMoney() >= item.getCost()) {
 							mainCharacter.setMoney(mainCharacter.getMoney() - item.getCost());
-							mainCharacter.addItemToInventory(selectedItem);
+							for (Pair<ItemResource, Integer> e : ResourceManager.getItem(selectedItem).itemOnBuy()) {
+								mainCharacter.addItemToInventory(e.getKey(), e.getValue());
+							}
 							if (ResourceManager.getItem(selectedItem) instanceof Weapon) {
 								mainCharacter.addWeapon((Weapon) ResourceManager.getItem(selectedItem));
 							}

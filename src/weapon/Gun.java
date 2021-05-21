@@ -20,6 +20,7 @@ public class Gun extends Weapon {
 	protected String description = "";
 	protected int cost = 0;
 	protected ItemResource itemResource = null;
+	protected ItemResource bulletUse = null;
 
 	public Gun(ImageResource imageResource, int attackDamage, double attackSpeed, ImageResource bulletImageResource,
 			int bulletSpeed, int bulletWidth, int bulleteHeight, int team, int holderZIndex, GameObject owner) {
@@ -74,6 +75,10 @@ public class Gun extends Weapon {
 	public boolean isAllowBuy() {
 		return ((MainCharacter) ResourceManager.getGameObject(GameObjectResource.MAIN_CHARACTER))
 				.countItemInInventory(itemResource) < 1;
+	}
+
+	public ItemResource getBulletUse() {
+		return bulletUse;
 	}
 
 }

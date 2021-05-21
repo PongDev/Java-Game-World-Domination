@@ -9,6 +9,7 @@ public class Pistol extends Gun {
 		this.name = "Pistol";
 		this.description = String.format("%d damage, %.1f second firerate, %d ammo", attackDamage, 1 / attackSpeed, 12);
 		this.cost = 0;
+		this.bulletUse = null;
 	}
 
 }
