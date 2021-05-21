@@ -10,10 +10,13 @@ import logic.GameState;
 import utility.ResourceManager.ImageResource;
 import utility.ResourceManager.SceneResource;
 import weapon.Gun;
+import weapon.Weapon;
 
 public class WaveManager {
 
 	private static ArrayList<Enemy> enemyList = new ArrayList<Enemy>();
+	private static int[] enemyPerWaveList = { 3, 3, 4, 4, 5, 5, 5, 6, 6, 8, 9, 9, 10, 10, 11, 11, 12, 12, 13, 16, 17,
+			17, 18, 18, 19, 19, 20, 20, 21, 25 };
 	private static int wave = 0;
 	private static String displayWaveText = "";
 	private static long displayWaveTextTimestamp = 0;
@@ -33,24 +36,46 @@ public class WaveManager {
 		wave += 1;
 		displayWaveText = "Wave " + Integer.toString(WaveManager.getWave());
 		displayWaveTextTimestamp = (new Date()).getTime();
-		for (int i = 1; i <= wave; i++) {
-			testSpawnEnemy(i);
+
+		if (GameState.getGameMode().getGameModeName() == "Normal") {
+			for (int i = 1; i <= enemyPerWaveList[wave - 1]; i++) {
+				spawnEnemy(i);
+			}
+		} else if (GameState.getGameMode().getGameModeName() == "Endless"){
+			int enemyPerWave = wave;
+			if (wave % 10 == 0)
+				enemyPerWave += 3;
+			for (int i = 1; i <= enemyPerWave; i++) {
+				spawnEnemy(i);
+			}
 		}
 		Logger.log("Start Wave " + wave);
 	}
 
-	private static void testSpawnEnemy(int i) {
+	private static void spawnEnemy(int i) {
 		int randomSpawnTile = (int) (Math.random() * GameMap.getEnemySpawnableTile().size());
-		enemyList.add(new Enemy(ImageResource.SPRITE_KNIGHT_SWORD, Config.CHARACTER_W, Config.CHARACTER_H,
-				"Knight Sword", 3, 0, 1,
-				new Gun(ImageResource.GUN_AK47, 1, 2, ImageResource.ENEMY_BULLET, 10, 10, 10, Config.ENEMY_TEAM,
-						Config.ZINDEX_ENEMY),
-				Config.ENEMY_TEAM, 1000,
-				new Position(
-						(int) (GameMap.getEnemySpawnableTile().get(randomSpawnTile).X * Config.TILE_W
-								+ (Config.TILE_W / 2)),
-						(int) (GameMap.getEnemySpawnableTile().get(randomSpawnTile).Y * Config.TILE_H)
-								+ (Config.TILE_H / 2))));
+		Position spawnLocation = new Position(
+				(int) (GameMap.getEnemySpawnableTile().get(randomSpawnTile).X * Config.TILE_W + (Config.TILE_W / 2)),
+				(int) (GameMap.getEnemySpawnableTile().get(randomSpawnTile).Y * Config.TILE_H) + (Config.TILE_H / 2));
+
+		if(i == 1 && wave % 5 == 0) {
+			enemyList.add(new Enemy(ImageResource.SPRITE_ELITE_KNIGHT, Config.CHARACTER_W, Config.CHARACTER_H,
+					"Elite Knight", 10, 0, 1, new Gun(ImageResource.GUN_AK47, 1, 5, ImageResource.ENEMY_BULLET, 15, 10, 10,
+					Config.ENEMY_TEAM, Config.ZINDEX_ENEMY),Config.ENEMY_TEAM, 1000, spawnLocation));
+		}
+		else {
+			int randomEnemyType = (Math.random() > 0.7 ? 1 : 0);
+			if(randomEnemyType == 0) {
+				enemyList.add(new Enemy(ImageResource.SPRITE_KNIGHT_SMG, Config.CHARACTER_W, Config.CHARACTER_H,
+						"Knight Rifle", 3, 0, 1, new Gun(ImageResource.GUN_AK47, 1, 2, ImageResource.ENEMY_BULLET, 10, 10, 10,
+								Config.ENEMY_TEAM, Config.ZINDEX_ENEMY),Config.ENEMY_TEAM, 1000, spawnLocation));
+			}
+			else if(randomEnemyType == 1) {
+				enemyList.add(new Enemy(ImageResource.SPRITE_KNIGHT_SWORD, Config.CHARACTER_W, Config.CHARACTER_H,
+						"Knight Sword", 2, 0, 2, new Gun(ImageResource.GUN_SHOTGUN, 1, 1, ImageResource.ENEMY_BULLET, 5, 10, 10,
+								Config.ENEMY_TEAM, Config.ZINDEX_ENEMY),Config.ENEMY_TEAM, 1000, spawnLocation));
+			}
+		}
 		Logger.log("Spawn enemy at " + GameMap.getEnemySpawnableTile().get(randomSpawnTile).X + " "
 				+ GameMap.getEnemySpawnableTile().get(randomSpawnTile).Y);
 

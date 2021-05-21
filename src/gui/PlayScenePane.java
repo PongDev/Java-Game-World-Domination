@@ -2,11 +2,13 @@ package gui;
 
 import character.MainCharacter;
 import config.Config;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.ImageCursor;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -24,12 +26,13 @@ import utility.WaveManager;
 
 public class PlayScenePane extends StackPane implements Updatable {
 
-	private AnchorPane gameUI, statusPane;
+	private AnchorPane gameUI;
 	private VBox towerUI;
-	private StackPane statusBox, healhtPotionBox, ammoBox, barricadeTower, machineGunTower, sniperTower;
+	private HBox statusBox;
+	private StackPane statusPane, healhtPotionBox, ammoBox, barricadeTower, machineGunTower, sniperTower;
 	private GameText waveText, pauseText, barricadeTowerAmount, machineGunTowerAmount, sniperTowerAmount;
 	private GameText statusBarWaveText, coinText, healthPotionText, ammoText;
-	private ImageView statusPaneImage, healthPotionpPaneImage, ammoPaneImage, barricadeTowerIcon, machineGunTowerIcon,
+	private ImageView coinImage, statusPaneImage, healthPotionpPaneImage, ammoPaneImage, barricadeTowerIcon, machineGunTowerIcon,
 			sniperTowerIcon;
 	private int wave = 0;
 
@@ -41,12 +44,15 @@ public class PlayScenePane extends StackPane implements Updatable {
 		coinText = new GameText("", Config.SCREEN_H / 20, Color.WHITE);
 		statusPaneImage = ResourceManager.getImageView(ImageResource.STATUS_PANE, (int) (Config.SCREEN_W / 4),
 				(int) (Config.SCREEN_H / 15));
-		statusPane = new AnchorPane();
-		AnchorPane.setLeftAnchor(statusBarWaveText, 10.0);
-		AnchorPane.setRightAnchor(coinText, 10.0);
-		statusPane.getChildren().addAll(coinText, statusBarWaveText);
-		statusBox = new StackPane();
-		statusBox.getChildren().addAll(statusPaneImage, statusPane);
+		coinImage = ResourceManager.getImageView(ImageResource.COIN, (int) (Config.SCREEN_W / 25),
+				(int) (Config.SCREEN_H / 15));
+		statusBox = new HBox();
+		statusBox.setAlignment(Pos.CENTER);
+		statusBox.setSpacing(5);
+		statusBox.setPadding(new Insets(5));
+		statusBox.getChildren().addAll(statusBarWaveText, coinImage, coinText);
+		statusPane = new StackPane();
+		statusPane.getChildren().addAll(statusPaneImage, statusBox);
 
 		healthPotionText = new GameText("", Config.SCREEN_H / 20, Color.WHITE);// ***
 		healthPotionText.setAlignment(Pos.CENTER);
@@ -86,8 +92,8 @@ public class PlayScenePane extends StackPane implements Updatable {
 		towerUI.getChildren().addAll(barricadeTower, machineGunTower, sniperTower);
 
 		gameUI = new AnchorPane();
-		AnchorPane.setTopAnchor(statusBox, 10.0);
-		AnchorPane.setLeftAnchor(statusBox, 10.0);
+		AnchorPane.setTopAnchor(statusPane, 10.0);
+		AnchorPane.setLeftAnchor(statusPane, 10.0);
 
 		AnchorPane.setTopAnchor(healhtPotionBox, 10.0);
 		AnchorPane.setRightAnchor(healhtPotionBox, 10.0);
@@ -97,7 +103,7 @@ public class PlayScenePane extends StackPane implements Updatable {
 
 		AnchorPane.setBottomAnchor(towerUI, 10.0);
 		AnchorPane.setLeftAnchor(towerUI, 10.0);
-		gameUI.getChildren().addAll(ammoBox, healhtPotionBox, statusBox, towerUI);
+		gameUI.getChildren().addAll(ammoBox, healhtPotionBox, statusPane, towerUI);
 
 		waveText = new GameText("", Config.SCREEN_H / 9);
 		waveText.setAlignment(Pos.CENTER);

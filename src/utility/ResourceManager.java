@@ -39,10 +39,10 @@ public class ResourceManager {
 		BG_TITLE, INFO_NORMALMODE, INFO_ENDLESSMODE, BTN, BTN_HOVER, BTN_NEWGAME, BTN_LOADGAME, BTN_EXITGAME, BTN_PLAY,
 		BTN_BACK, BTN_NEXT, BTN_PREVIOUS, TILE_FLOOR, TILE_FLOOR_1, TILE_FLOOR_2, TILE_WALL, TILE_UNWALKABLE_FLOOR,
 		TILE_UNPLACABLE_FLOOR, TILE_GATE_CLOSE, CHARACTER_MAIN, BULLET, ENEMY_BULLET, GUN_AK47, GUN_SHOTGUN, GUN_SNIPER,
-		SPRITE_KNIGHT_SWORD, CROSS_HAIR, AMMO_PANE, HEALTH_POTION_PANE, STATUS_PANE, HEALTH_POTION, ITEM_BUTTON,
+		SPRITE_KNIGHT_SWORD, SPRITE_KNIGHT_SMG, SPRITE_ELITE_KNIGHT, CROSS_HAIR, AMMO_PANE, HEALTH_POTION_PANE, STATUS_PANE, HEALTH_POTION, ITEM_BUTTON,
 		ITEM_BUTTON_TRANSPARENT, ITEM_DESCRIPTION, BARRIER_TOWER, MACHINE_GUN_TOWER, MACHINE_GUN_TOWER_BASE,
 		MACHINE_GUN_TOWER_HEAD, SNIPER_TOWER, SNIPER_TOWER_BASE, SNIPER_TOWER_HEAD, AMMO_PISTOL, AMMO_RIFLE,
-		AMMO_SHOTGUN
+		AMMO_SHOTGUN, COIN
 	}
 
 	public enum SoundResource {
@@ -131,6 +131,8 @@ public class ResourceManager {
 		imageResource.put(ImageResource.AMMO_RIFLE, getImage("weapon/ammo_rifle.png"));
 		imageResource.put(ImageResource.AMMO_SHOTGUN, getImage("weapon/ammo_shotgun.png"));
 		imageResource.put(ImageResource.SPRITE_KNIGHT_SWORD, getImage("sprite/sprite_knight_sword.png"));
+		imageResource.put(ImageResource.SPRITE_KNIGHT_SMG, getImage("sprite/sprite_knight_smg.png"));
+		imageResource.put(ImageResource.SPRITE_ELITE_KNIGHT, getImage("sprite/sprite_elite_knight_rifle.png"));
 		imageResource.put(ImageResource.CROSS_HAIR, getImage("sprite/crosshair.png"));
 		imageResource.put(ImageResource.MACHINE_GUN_TOWER, getImage("sprite/tower_machine_gun.png"));
 		imageResource.put(ImageResource.MACHINE_GUN_TOWER_BASE, getImage("sprite/tower_base_machine_gun.png"));
@@ -140,6 +142,7 @@ public class ResourceManager {
 		imageResource.put(ImageResource.SNIPER_TOWER_HEAD, getImage("sprite/tower_gun_sniper.png"));
 		imageResource.put(ImageResource.BARRIER_TOWER, getImage("sprite/tower_barrier.png"));
 		imageResource.put(ImageResource.HEALTH_POTION, getImage("sprite/healing_potion.png"));
+		imageResource.put(ImageResource.COIN, getImage("sprite/coin.png"));
 		Logger.log("Complete Loading Image");
 	}
 
