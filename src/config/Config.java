@@ -2,8 +2,7 @@ package config;
 
 import logic.GameState;
 import utility.Position;
-import utility.ResourceManager.ImageResource;
-import weapon.Gun;
+import weapon.AK47;
 import weapon.Weapon;
 
 public class Config {
@@ -36,8 +35,8 @@ public class Config {
 	public static final int MAIN_CHARACTER_INITIAL_DEFENSE = 0;
 	public static final int MAIN_CHARACTER_INITIAL_SPD = 2;
 	public static final int MAIN_CHARACTER_TEAM = 0;
-	public static final Weapon MAIN_CHARACTER_INITIAL_WEAPON = new Gun(ImageResource.GUN_AK47, 1, 5,
-			ImageResource.BULLET, 10, 10, 10, Config.MAIN_CHARACTER_TEAM, Config.ZINDEX_MAIN_CHARACTER);
+	public static final Weapon MAIN_CHARACTER_INITIAL_WEAPON = new AK47(Config.MAIN_CHARACTER_TEAM,
+			Config.ZINDEX_MAIN_CHARACTER);
 	public static final double TOWER_DISPERSION = 40;
 
 	public static final int ENEMY_TEAM = 1;

@@ -15,7 +15,7 @@ import gui.Shop;
 import gui.TitleScenePane;
 import input.InputManager;
 import item.Buyable;
-import item.Potion;
+import item.HealthPotion;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -24,8 +24,14 @@ import javafx.scene.media.AudioClip;
 import logic.GameState;
 import object.GameObject;
 import render.RenderManager;
+import tower.BarricadeTower;
+import tower.MachineGunTower;
+import tower.SniperTower;
 import update.Updatable;
 import update.UpdateManager;
+import weapon.AK47;
+import weapon.Shotgun;
+import weapon.Sniper;
 
 public class ResourceManager {
 
@@ -167,20 +173,14 @@ public class ResourceManager {
 	}
 
 	private static void loadItem() {
-		itemResource.put(ItemResource.MACHINE_GUN_TOWER, new Potion("Machine gun tower",
-				"fast attack speed, medium damage", ImageResource.MACHINE_GUN_TOWER, 40));
-		itemResource.put(ItemResource.SNIPER_TOWER,
-				new Potion("Sniper tower", "low attack speed, very high damage", ImageResource.SNIPER_TOWER, 40));
-		itemResource.put(ItemResource.BARRIER_TOWER,
-				new Potion("Barrier tower", "can block enemies bullet", ImageResource.BARRIER_TOWER, 40));
-		itemResource.put(ItemResource.HEALTH_POTION,
-				new Potion("Health Potion", "Heal 40 health", ImageResource.HEALTH_POTION, 20));
-		itemResource.put(ItemResource.GUN_AK47,
-				new Potion("AK47", "3 damage, 0.5 second firerate, 120 ammo", ImageResource.GUN_AK47, 60));
+		itemResource.put(ItemResource.MACHINE_GUN_TOWER, new MachineGunTower(0, 0, 0));
+		itemResource.put(ItemResource.SNIPER_TOWER, new SniperTower(0, 0, 0));
+		itemResource.put(ItemResource.BARRIER_TOWER, new BarricadeTower(0, 0, 0));
+		itemResource.put(ItemResource.HEALTH_POTION, new HealthPotion());
+		itemResource.put(ItemResource.GUN_AK47, new AK47(Config.MAIN_CHARACTER_TEAM, Config.ZINDEX_MAIN_CHARACTER));
 		itemResource.put(ItemResource.GUN_SHOTGUN,
-				new Potion("Shotgun", "3-9 damage, 1.0 second firerate, 20 ammo", ImageResource.GUN_SHOTGUN, 50));
-		itemResource.put(ItemResource.GUN_SNIPER,
-				new Potion("Sniper", "12 damage, 1.0 second firerate, 30 ammo", ImageResource.GUN_SNIPER, 75));
+				new Shotgun(Config.MAIN_CHARACTER_TEAM, Config.ZINDEX_MAIN_CHARACTER));
+		itemResource.put(ItemResource.GUN_SNIPER, new Sniper(Config.MAIN_CHARACTER_TEAM, Config.ZINDEX_MAIN_CHARACTER));
 	}
 
 	private static void loadUI() {

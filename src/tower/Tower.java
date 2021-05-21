@@ -1,6 +1,7 @@
 package tower;
 
 import config.Config;
+import item.Buyable;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.text.TextAlignment;
@@ -17,7 +18,7 @@ import weapon.Weapon;
 import utility.ResourceManager.ImageResource;
 import utility.ResourceManager.SceneResource;
 
-public abstract class Tower extends GameObject implements Updatable {
+public abstract class Tower extends GameObject implements Updatable, Buyable {
 
 	private String name;
 	private int maxHealth;
@@ -25,6 +26,7 @@ public abstract class Tower extends GameObject implements Updatable {
 	private double defense;
 	private Weapon weapon;
 	protected boolean isDestroyed = false;
+	private boolean isDeploy = false;
 	private int[][] distanceFromTower;
 	private GameObject targetObject = null;
 	private double lastAttackDegree = 0;
@@ -42,9 +44,6 @@ public abstract class Tower extends GameObject implements Updatable {
 		this.setWeapon(weapon);
 		this.team = team;
 		distanceFromTower = new int[GameState.getMapHeight()][GameState.getMapWidth()];
-		UpdateManager.add(this);
-		RenderManager.add(this);
-		ObjectManager.addTower(this);
 	}
 
 	private void calculateDistanceFromTower() {
@@ -186,6 +185,15 @@ public abstract class Tower extends GameObject implements Updatable {
 			return distanceFromTower[row][col];
 		}
 		return -1;
+	}
+
+	public void deploy() {
+		if (!isDeploy) {
+			isDeploy = true;
+			UpdateManager.add(this);
+			RenderManager.add(this);
+			ObjectManager.addTower(this);
+		}
 	}
 
 	public void reportDetected(GameObject obj) {

@@ -14,4 +14,20 @@ public class BarricadeTower extends Tower {
 				team, row, col);
 	}
 
+	public String getDescription() {
+		return "can block enemies bullet";
+	}
+
+	public ImageResource getImage() {
+		return ImageResource.BARRIER_TOWER;
+	}
+
+	public int getCost() {
+		return 40;
+	}
+
+	public boolean isAllowBuy() {
+		return true;
+	}
+
 }

@@ -1,9 +1,10 @@
 package weapon;
 
+import item.Buyable;
 import utility.Position;
 import utility.ResourceManager.ImageResource;
 
-public abstract class Weapon {
+public abstract class Weapon implements Buyable {
 
 	private ImageResource imageResourse;
 	protected int attackDamage;

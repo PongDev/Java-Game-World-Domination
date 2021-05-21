@@ -15,4 +15,20 @@ public class MachineGunTower extends Tower {
 				team, row, col);
 	}
 
+	public String getDescription() {
+		return "fast attack speed, medium damage";
+	}
+
+	public ImageResource getImage() {
+		return ImageResource.MACHINE_GUN_TOWER;
+	}
+
+	public int getCost() {
+		return 40;
+	}
+
+	public boolean isAllowBuy() {
+		return true;
+	}
+
 }

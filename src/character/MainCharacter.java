@@ -10,6 +10,7 @@ import config.Config;
 import gui.Shop;
 import input.InputManager;
 import input.Inputable;
+import item.Potion;
 import javafx.scene.input.KeyCode;
 import javafx.util.Pair;
 import logic.GameState;
@@ -185,6 +186,13 @@ public class MainCharacter extends Character implements Inputable, Updatable {
 					selectedTower = null;
 				}
 			}
+			// Heal
+			if (InputManager.isKeyClick(KeyCode.H)) {
+				if (this.countItemInInventory(ItemResource.HEALTH_POTION) > 0) {
+					this.removeItemFromInventory(ItemResource.HEALTH_POTION);
+					((Potion) ResourceManager.getItem(ItemResource.HEALTH_POTION)).use(this);
+				}
+			}
 			// Mouse Select Tile
 			if (GameState.getSceneResource() == SceneResource.PLAYING && selectedTower != null) {
 				Position mapPos = GameState.getGameMap().getMapPos();
@@ -285,13 +293,13 @@ public class MainCharacter extends Character implements Inputable, Updatable {
 	public void deployTower(ItemResource tower, int row, int col) {
 		switch (tower) {
 		case BARRIER_TOWER:
-			new BarricadeTower(row, col, team);
+			(new BarricadeTower(row, col, team)).deploy();
 			break;
 		case MACHINE_GUN_TOWER:
-			new MachineGunTower(row, col, team);
+			(new MachineGunTower(row, col, team)).deploy();
 			break;
 		case SNIPER_TOWER:
-			new SniperTower(row, col, team);
+			(new SniperTower(row, col, team)).deploy();
 			break;
 		default:
 			break;

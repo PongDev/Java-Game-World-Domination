@@ -2,15 +2,23 @@ package weapon;
 
 import java.util.Date;
 
+import character.MainCharacter;
 import object.ObjectManager;
 import render.RenderManager;
 import update.UpdateManager;
 import utility.Position;
+import utility.ResourceManager;
+import utility.ResourceManager.GameObjectResource;
 import utility.ResourceManager.ImageResource;
+import utility.ResourceManager.ItemResource;
 
 public class Gun extends Weapon {
 
 	private BulletProperties bulletProperties;
+	protected String name = "";
+	protected String description = "";
+	protected int cost = 0;
+	protected ItemResource itemResource = null;
 	private long lastAttack = 0;
 
 	public Gun(ImageResource imageResource, int attackDamage, double attackSpeed, ImageResource bulletImageResource,
@@ -36,6 +44,27 @@ public class Gun extends Weapon {
 			RenderManager.add(bullet);
 			ObjectManager.addBullet(bullet);
 		}
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public ImageResource getImage() {
+		return getImageResourse();
+	}
+
+	public int getCost() {
+		return cost;
+	}
+
+	public boolean isAllowBuy() {
+		return ((MainCharacter) ResourceManager.getGameObject(GameObjectResource.MAIN_CHARACTER))
+				.countItemInInventory(itemResource) < 1;
 	}
 
 }

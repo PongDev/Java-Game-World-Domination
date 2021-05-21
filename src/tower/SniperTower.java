@@ -13,4 +13,20 @@ public class SniperTower extends Tower {
 				team, row, col);
 	}
 
+	public String getDescription() {
+		return "low attack speed, very high damage";
+	}
+
+	public ImageResource getImage() {
+		return ImageResource.SNIPER_TOWER;
+	}
+
+	public int getCost() {
+		return 40;
+	}
+
+	public boolean isAllowBuy() {
+		return true;
+	}
+
 }

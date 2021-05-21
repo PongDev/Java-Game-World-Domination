@@ -1,18 +1,21 @@
 package item;
 
+import character.Character;
 import utility.ResourceManager.ImageResource;
 
 public class Potion implements Buyable {
 	private String name, description;
 	private ImageResource image;
 	private int cost;
+	private int healAmount;
 	private boolean isAllowbuy = true;
 
-	public Potion(String name, String description, ImageResource image, int cost) {
+	public Potion(String name, String description, ImageResource image, int cost, int healAmount) {
 		this.name = name;
 		this.description = description;
 		this.image = image;
 		this.cost = cost;
+		this.healAmount = healAmount;
 	}
 
 	public String getName() {
@@ -31,11 +34,11 @@ public class Potion implements Buyable {
 		return cost;
 	}
 
-	public boolean isAllowBuy() {
-		return this.isAllowbuy;
+	public void use(Character character) {
+		character.setHealth(character.getHealth() + healAmount);
 	}
 
-	public Buyable buy() {
-		return new Potion(name, description, image, cost);
+	public boolean isAllowBuy() {
+		return this.isAllowbuy;
 	}
 }

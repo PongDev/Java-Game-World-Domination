@@ -11,8 +11,6 @@ public interface Buyable {
 	public ImageResource getImage();
 
 	public int getCost();
-	
+
 	public boolean isAllowBuy();
-	
-	public Buyable buy();
 }
