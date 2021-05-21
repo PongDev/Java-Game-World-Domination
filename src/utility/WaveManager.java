@@ -5,6 +5,7 @@ import java.util.Date;
 
 import character.Enemy;
 import config.Config;
+import gui.GameMap;
 import logic.GameState;
 import utility.ResourceManager.ImageResource;
 import utility.ResourceManager.SceneResource;
@@ -39,14 +40,20 @@ public class WaveManager {
 	}
 
 	private static void testSpawnEnemy(int i) {
-		// TODO random enemy spawn point
-
+		int randomSpawnTile = (int) (Math.random() * GameMap.getEnemySpawnableTile().size());
 		enemyList.add(new Enemy(ImageResource.SPRITE_KNIGHT_SWORD, Config.CHARACTER_W, Config.CHARACTER_H,
 				"Knight Sword", 3, 0, 1,
 				new Gun(ImageResource.GUN_AK47, 1, 2, ImageResource.ENEMY_BULLET, 10, 10, 10, Config.ENEMY_TEAM,
 						Config.ZINDEX_ENEMY),
 				Config.ENEMY_TEAM, 1000,
-				new Position((int) (Config.TILE_W * 2 * i), (GameState.getMapHeight() * Config.TILE_H) / 2)));
+				new Position(
+						(int) (GameMap.getEnemySpawnableTile().get(randomSpawnTile).X * Config.TILE_W
+								+ (Config.TILE_W / 2)),
+						(int) (GameMap.getEnemySpawnableTile().get(randomSpawnTile).Y * Config.TILE_H)
+								+ (Config.TILE_H / 2))));
+		Logger.log("Spawn enemy at " + GameMap.getEnemySpawnableTile().get(randomSpawnTile).X + " "
+				+ GameMap.getEnemySpawnableTile().get(randomSpawnTile).Y);
+
 	}
 
 	public static int getWave() {

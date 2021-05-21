@@ -1,5 +1,10 @@
 package gui;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+import character.Enemy;
 import config.Config;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -18,6 +23,7 @@ public class GameMap extends Canvas implements Renderable {
 
 	private Tile[][] mapData;
 	private Position mapPos, mapCenter;
+	private static ArrayList<Position> enemySpawnableTile = new ArrayList<Position>();
 
 	public GameMap() {
 		super(Config.SCREEN_W, Config.SCREEN_H);
@@ -30,6 +36,7 @@ public class GameMap extends Canvas implements Renderable {
 				ImageResource tileImage;
 				String tileCode = ResourceManager.getMapResource()[rowPos][colPos];
 				boolean isWalkable, isPlacable, isPenetrable;
+				Map<Integer, Boolean> isWhitelist = new HashMap<Integer, Boolean>();
 
 				switch (tileCode) {
 				case "0":
@@ -44,24 +51,33 @@ public class GameMap extends Canvas implements Renderable {
 					isWalkable = true;
 					isPlacable = true;
 					isPenetrable = true;
+					isWhitelist.put(0, true);
+					isWhitelist.put(1, true);
 					break;
 				case "1":
 					tileImage = ImageResource.TILE_UNPLACABLE_FLOOR;
 					isWalkable = true;
 					isPlacable = false;
 					isPenetrable = true;
+					isWhitelist.put(0, true);
+					isWhitelist.put(1, true);
 					break;
 				case "2":
 					tileImage = ImageResource.TILE_UNWALKABLE_FLOOR;
 					isWalkable = false;
 					isPlacable = false;
 					isPenetrable = true;
+					isWhitelist.put(0, false);
+					isWhitelist.put(1, true);
+					enemySpawnableTile.add(new Position(colPos, rowPos));
 					break;
 				case "W":
 					tileImage = ImageResource.TILE_WALL;
 					isWalkable = false;
 					isPlacable = false;
 					isPenetrable = false;
+					isWhitelist.put(0, false);
+					isWhitelist.put(1, false);
 					break;
 				default:
 					tileImage = ImageResource.TILE_WALL;
@@ -71,7 +87,8 @@ public class GameMap extends Canvas implements Renderable {
 					break;
 				}
 
-				mapData[rowPos][colPos] = new Tile(tileImage, tileCode, isWalkable, isPlacable, isPenetrable);
+				mapData[rowPos][colPos] = new Tile(tileImage, tileCode, isWalkable, isPlacable, isPenetrable,
+						isWhitelist);
 			}
 		}
 		this.getGraphicsContext2D()
@@ -121,11 +138,15 @@ public class GameMap extends Canvas implements Renderable {
 		return false;
 	}
 
+	public static ArrayList<Position> getEnemySpawnableTile() {
+		return enemySpawnableTile;
+	}
+
 	public Position getMapPos() {
 		return mapPos;
 	}
 
-	public boolean isWalkable(double posX, double posY) {
+	public boolean isWalkable(double posX, double posY, int team) {
 		int posRow = (int) (posY / Config.TILE_H);
 		int posCol = (int) (posX / Config.TILE_W);
 
@@ -133,17 +154,26 @@ public class GameMap extends Canvas implements Renderable {
 				|| posCol >= mapData[0].length) {
 			return false;
 		}
-		return mapData[posRow][posCol].isWalkable();
+
+		if (mapData[posRow][posCol].IsWhitelist(team)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public boolean isWalkable(double posX, double posY, GameObject gameObject) {
+		return isWalkable(posX, posY, gameObject.getTeam());
 	}
 
 	public boolean isWalkable(GameObject gameObject, int deltaX, int deltaY) {
-		return isWalkable(gameObject.getPos().X + deltaX, gameObject.getPos().Y + deltaY)
+		return isWalkable(gameObject.getPos().X + deltaX, gameObject.getPos().Y + deltaY, gameObject)
 				&& isWalkable(gameObject.getPos().X + gameObject.getWidth() - 1 + deltaX,
-						gameObject.getPos().Y + deltaY)
+						gameObject.getPos().Y + deltaY, gameObject)
 				&& isWalkable(gameObject.getPos().X + deltaX,
-						gameObject.getPos().Y + gameObject.getHeight() - 1 + deltaY)
+						gameObject.getPos().Y + gameObject.getHeight() - 1 + deltaY, gameObject)
 				&& isWalkable(gameObject.getPos().X + gameObject.getWidth() - 1 + deltaX,
-						gameObject.getPos().Y + gameObject.getHeight() - 1 + deltaY);
+						gameObject.getPos().Y + gameObject.getHeight() - 1 + deltaY, gameObject);
 	}
 
 	public boolean isPenetrable(double posX, double posY) {

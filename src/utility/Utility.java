@@ -53,7 +53,9 @@ public class Utility {
 			int distance = queue.remove().getKey();
 			if ((int) pos.X >= 0 && (int) pos.Y >= 0 && (int) pos.X < distanceFromObject.length
 					&& (int) pos.Y < distanceFromObject[0].length
-					&& GameState.getGameMap().isWalkable(posCol * Config.TILE_W, posRow * Config.TILE_H)
+					&& GameState.getGameMap().isWalkable(posCol * Config.TILE_W, posRow * Config.TILE_H,
+							obj.getTeam() == Config.MAIN_CHARACTER_TEAM ? Config.ENEMY_TEAM
+									: Config.MAIN_CHARACTER_TEAM)
 					&& distanceFromObject[(int) pos.X][(int) pos.Y] == -1) {
 				distanceFromObject[(int) pos.X][(int) pos.Y] = distance;
 				int[] shiftRowIndex = { (int) pos.X, (int) pos.X - 1, (int) pos.X + 1 };
@@ -65,16 +67,22 @@ public class Utility {
 								&& shiftRowIndex[rowPos] < distanceFromObject.length
 								&& shiftColIndex[colPos] < distanceFromObject[0].length
 								&& GameState.getGameMap().isWalkable(shiftColIndex[colPos] * Config.TILE_W,
-										shiftRowIndex[rowPos] * Config.TILE_H)
+										shiftRowIndex[rowPos] * Config.TILE_H,
+										obj.getTeam() == Config.MAIN_CHARACTER_TEAM ? Config.ENEMY_TEAM
+												: Config.MAIN_CHARACTER_TEAM)
 								&& distanceFromObject[shiftRowIndex[rowPos]][shiftColIndex[colPos]] == -1) {
 							int deltaRow = (int) (shiftRowIndex[rowPos] - pos.X);
 							int deltaCol = (int) (shiftColIndex[colPos] - pos.Y);
 							if (Math.abs(deltaRow) == 1 && Math.abs(deltaCol) == 1) {
 								if (GameState.getGameMap().isWalkable(
 										(shiftColIndex[colPos] - deltaCol) * Config.TILE_W,
-										shiftRowIndex[rowPos] * Config.TILE_H)
+										shiftRowIndex[rowPos] * Config.TILE_H,
+										obj.getTeam() == Config.MAIN_CHARACTER_TEAM ? Config.ENEMY_TEAM
+												: Config.MAIN_CHARACTER_TEAM)
 										&& GameState.getGameMap().isWalkable(shiftColIndex[colPos] * Config.TILE_W,
-												(shiftRowIndex[rowPos] - deltaRow) * Config.TILE_H)) {
+												(shiftRowIndex[rowPos] - deltaRow) * Config.TILE_H,
+												obj.getTeam() == Config.MAIN_CHARACTER_TEAM ? Config.ENEMY_TEAM
+														: Config.MAIN_CHARACTER_TEAM)) {
 									queue.add(new Pair<>(distance + 1,
 											new Position(shiftRowIndex[rowPos], shiftColIndex[colPos])));
 								}
