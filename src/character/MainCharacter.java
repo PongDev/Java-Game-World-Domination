@@ -3,6 +3,7 @@ package character;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -53,6 +54,8 @@ public class MainCharacter extends Character implements Inputable {
 	private ItemResource selectedTower;
 	private int money = 0;
 	private Map<ItemResource, Integer> inventory = new HashMap<ItemResource, Integer>();
+	private ArrayList<Weapon> weaponList = new ArrayList<Weapon>();
+	private int weaponIndex = 0;
 
 	public MainCharacter(ImageResource imageResource, int width, int height, String name, int maxHealth, int defense,
 			int speed, Weapon weapon, int team, int centerPosX, int centerPosY) {
@@ -63,6 +66,7 @@ public class MainCharacter extends Character implements Inputable {
 	public MainCharacter(ImageResource imageResource, int width, int height, String name, int maxHealth, int defense,
 			int speed, Weapon weapon, int team, Position centerPos) {
 		super(imageResource, width, height, name, maxHealth, defense, speed, weapon, team, centerPos);
+		weaponList.add(this.getWeapon());
 		InputManager.addInputableObject(this);
 		UpdateManager.add(this);
 		RenderManager.add(this);
@@ -158,6 +162,18 @@ public class MainCharacter extends Character implements Inputable {
 				} else {
 					pos.X = (((int) ((pos.X + width + getSpeed()) / Config.TILE_W)) * Config.TILE_W) - width;
 				}
+			}
+			// E
+			if (InputManager.isKeyClick(KeyCode.E)) {
+				weaponIndex = (weaponIndex + 1 + weaponList.size()) % weaponList.size();
+				this.setWeapon(weaponList.get(weaponIndex));
+				this.weapon.setLastAttack((new Date()).getTime());
+			}
+			// Q
+			if (InputManager.isKeyClick(KeyCode.Q)) {
+				weaponIndex = (weaponIndex - 1 + weaponList.size()) % weaponList.size();
+				this.setWeapon(weaponList.get(weaponIndex));
+				this.weapon.setLastAttack((new Date()).getTime());
 			}
 			// Space Bar
 			if (InputManager.isKeyClick(KeyCode.SPACE)) {
@@ -300,6 +316,13 @@ public class MainCharacter extends Character implements Inputable {
 		default:
 			return false;
 		}
+	}
+
+	public void addWeapon(Weapon weapon) {
+		weaponList.add(weapon);
+		weaponIndex = weaponList.size() - 1;
+		this.setWeapon(weaponList.get(weaponIndex));
+		this.weapon.setLastAttack((new Date()).getTime());
 	}
 
 }

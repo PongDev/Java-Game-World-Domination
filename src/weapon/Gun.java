@@ -20,7 +20,6 @@ public class Gun extends Weapon {
 	protected String description = "";
 	protected int cost = 0;
 	protected ItemResource itemResource = null;
-	private long lastAttack = 0;
 
 	public Gun(ImageResource imageResource, int attackDamage, double attackSpeed, ImageResource bulletImageResource,
 			int bulletSpeed, int bulletWidth, int bulleteHeight, int team, int holderZIndex, GameObject owner) {

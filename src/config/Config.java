@@ -2,7 +2,7 @@ package config;
 
 import logic.GameState;
 import utility.Position;
-import weapon.AK47;
+import weapon.Pistol;
 import weapon.Weapon;
 
 public class Config {
@@ -35,7 +35,7 @@ public class Config {
 	public static final int MAIN_CHARACTER_INITIAL_DEFENSE = 0;
 	public static final int MAIN_CHARACTER_INITIAL_SPD = 2;
 	public static final int MAIN_CHARACTER_TEAM = 0;
-	public static final Weapon MAIN_CHARACTER_INITIAL_WEAPON = new AK47(Config.MAIN_CHARACTER_TEAM,
+	public static final Weapon MAIN_CHARACTER_INITIAL_WEAPON = new Pistol(Config.MAIN_CHARACTER_TEAM,
 			Config.ZINDEX_MAIN_CHARACTER);
 	public static final int MAIN_CHARACTER_DEPLOY_RANGE = Math.max(TILE_W, TILE_H) * 2;
 	public static final double TOWER_DISPERSION = 40;

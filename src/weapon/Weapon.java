@@ -9,6 +9,7 @@ public abstract class Weapon implements Buyable {
 	private ImageResource imageResourse;
 	protected int attackDamage;
 	protected double attackSpeed;
+	protected long lastAttack = 0;
 
 	public Weapon(ImageResource imageResource, int attackDamage, double attackSpeed) {
 		this.imageResourse = imageResource;
@@ -18,6 +19,14 @@ public abstract class Weapon implements Buyable {
 
 	public ImageResource getImageResourse() {
 		return imageResourse;
+	}
+
+	public long getLastAttack() {
+		return lastAttack;
+	}
+
+	public void setLastAttack(long lastAttack) {
+		this.lastAttack = lastAttack;
 	}
 
 	public abstract boolean attack(Position centerPos, double degree);

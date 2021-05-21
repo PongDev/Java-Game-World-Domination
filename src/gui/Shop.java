@@ -24,7 +24,7 @@ import utility.ResourceManager;
 import utility.ResourceManager.GameObjectResource;
 import utility.ResourceManager.ImageResource;
 import utility.ResourceManager.ItemResource;
-import utility.ResourceManager.SceneResource;
+import weapon.Weapon;
 
 public class Shop extends StackPane {
 
@@ -126,7 +126,7 @@ public class Shop extends StackPane {
 	private void drawNewPage(int currentPage) {
 
 		this.getChildren().clear();
-		
+
 		shopText = new GameText("Shop", Config.SCREEN_H / 10);
 		shopText.setAlignment(Pos.TOP_CENTER);
 		shopText.setTranslateY(-Config.SCREEN_H / 2.70);
@@ -153,15 +153,18 @@ public class Shop extends StackPane {
 		buyButton = new GameButton("Buy", ImageResource.BTN, Config.SCREEN_W / 6, Config.SCREEN_H / 10);
 		buyButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			public void handle(MouseEvent event) {
-				if(selectedItem != null) {
+				if (selectedItem != null) {
 					Buyable item = ResourceManager.getItem(selectedItem);
 					MainCharacter mainCharacter = ((MainCharacter) ResourceManager
 							.getGameObject(GameObjectResource.MAIN_CHARACTER));
-	
+
 					if (item.isAllowBuy()) {
 						if (mainCharacter.getMoney() >= item.getCost()) {
 							mainCharacter.setMoney(mainCharacter.getMoney() - item.getCost());
 							mainCharacter.addItemToInventory(selectedItem);
+							if (ResourceManager.getItem(selectedItem) instanceof Weapon) {
+								mainCharacter.addWeapon((Weapon) ResourceManager.getItem(selectedItem));
+							}
 							Logger.log("Bought " + ResourceManager.getItem(selectedItem).getName());
 						} else {
 							Logger.log("Money Not Enough To Buy " + ResourceManager.getItem(selectedItem).getName());
@@ -185,7 +188,7 @@ public class Shop extends StackPane {
 		itemPane.setPadding(new Insets(5));
 
 		// Auto generate gridPane at current page
-		int itemPerPage = Math.min((itemStackPaneList.size() - (currentPage * 8)),8);
+		int itemPerPage = Math.min((itemStackPaneList.size() - (currentPage * 8)), 8);
 		for (int i = (currentPage * 8); i < (currentPage * 8) + itemPerPage; i++) {
 			itemPane.add(itemStackPaneList.get(i), (i % 8) % 4, (i % 8) / 4, 1, 1);
 		}

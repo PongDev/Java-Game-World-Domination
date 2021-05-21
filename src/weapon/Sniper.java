@@ -8,7 +8,7 @@ public class Sniper extends Gun {
 	public Sniper(int team, int holderZIndex) {
 		super(ImageResource.GUN_SNIPER, 12, 1, ImageResource.BULLET, 10, 10, 10, team, holderZIndex);
 		this.name = "Sniper";
-		this.description = "12 damage, 1.0 second firerate, 30 ammo";
+		this.description = String.format("%d damage, %.1f second firerate, %d ammo", attackDamage, 1 / attackSpeed, 30);
 		this.cost = 75;
 		this.itemResource = ItemResource.GUN_SNIPER;
 	}
