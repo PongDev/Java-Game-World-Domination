@@ -136,7 +136,14 @@ public class Enemy extends Character {
 							(Config.SCREEN_W / 2) - (-GameState.getGameMap().getMapPos().X + pos.X + (width / 2))
 									+ (Math.random() * Config.ENEMY_DISPERSION * (Math.random() <= 0.5 ? 1 : -1))));
 				}
-				weapon.attack(getCenterPos(), degree);
+				if (weapon.attack(getCenterPos(), degree)) {
+					isTurnLeft = (degree > 90 || degree < -90) ? true : false;
+					if (isTurnLeft) {
+						this.weaponTurningDegree = (180 * (degree > 0 ? 1 : -1)) - degree;
+					} else {
+						this.weaponTurningDegree = degree;
+					}
+				}
 				this.move();
 			}
 		}

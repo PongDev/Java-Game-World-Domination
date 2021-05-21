@@ -4,6 +4,7 @@ import config.Config;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.text.TextAlignment;
+import javafx.scene.transform.Rotate;
 import logic.GameState;
 import object.GameObject;
 import update.Updatable;
@@ -21,6 +22,7 @@ public abstract class Character extends GameObject implements Updatable {
 	private int health;
 	private double defense;
 	private int speed;
+	protected double weaponTurningDegree;
 	protected Weapon weapon;
 	protected boolean isTurnLeft = false;
 	protected boolean isDestroyed = false;
@@ -80,9 +82,16 @@ public abstract class Character extends GameObject implements Updatable {
 				-GameState.getGameMap().getMapPos().Y + pos.Y - hpBarHeight, hpBarWidth, hpBarHeight);
 
 		if (weapon != null) {
+			gc.save();
+			Rotate rotate = new Rotate(-this.weaponTurningDegree * (isTurnLeft ? -1 : 1),
+					-GameState.getGameMap().getMapPos().X + pos.X + (width / 2),
+					-GameState.getGameMap().getMapPos().Y + pos.Y + (height / 2));
+			gc.transform(rotate.getMxx(), rotate.getMyx(), rotate.getMxy(), rotate.getMyy(), rotate.getTx(),
+					rotate.getTy());
 			gc.drawImage(ResourceManager.getImage(weapon.getImageResourse()),
 					-GameState.getGameMap().getMapPos().X + pos.X + (isTurnLeft ? width : 0),
 					-GameState.getGameMap().getMapPos().Y + pos.Y, width * (isTurnLeft ? -1 : 1), height);
+			gc.restore();
 		}
 		if (!name.isBlank()) {
 			gc.setTextAlign(TextAlignment.CENTER);

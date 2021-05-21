@@ -139,7 +139,6 @@ public class MainCharacter extends Character implements Inputable {
 			}
 			// A
 			if (InputManager.isKeyPress(KeyCode.A)) {
-				isTurnLeft = true;
 				if (GameState.getGameMap().isWalkableAndNotCollideTower(this, -getSpeed(), 0)) {
 					pos.X -= getSpeed();
 				} else {
@@ -156,7 +155,6 @@ public class MainCharacter extends Character implements Inputable {
 			}
 			// D
 			if (InputManager.isKeyPress(KeyCode.D)) {
-				isTurnLeft = false;
 				if (GameState.getGameMap().isWalkableAndNotCollideTower(this, +getSpeed(), 0)) {
 					pos.X += getSpeed();
 				} else {
@@ -185,7 +183,14 @@ public class MainCharacter extends Character implements Inputable {
 			if (InputManager.isLeftMousePress() && selectedTower == null) {
 				double degree = Math.toDegrees(Math.atan2((Config.SCREEN_H / 2) - InputManager.getMousePos().Y,
 						InputManager.getMousePos().X - (Config.SCREEN_W / 2)));
-				weapon.attack(getCenterPos(), degree);
+				if (weapon.attack(getCenterPos(), degree)) {
+					isTurnLeft = (degree > 90 || degree < -90) ? true : false;
+					if (isTurnLeft) {
+						this.weaponTurningDegree = (180 * (degree > 0 ? 1 : -1)) - degree;
+					} else {
+						this.weaponTurningDegree = degree;
+					}
+				}
 			}
 			// Deploy Tower
 			if (InputManager.isLeftMouseClick() && selectedTower != null) {
