@@ -49,19 +49,6 @@ public class Enemy extends Character {
 
 	/**
 	 * Enemy Alternative Constructor
-	 * 
-	 * @param imageResource
-	 * @param width
-	 * @param height
-	 * @param name
-	 * @param maxHealth
-	 * @param defense
-	 * @param speed
-	 * @param weapon
-	 * @param team
-	 * @param moneyDrop
-	 * @param centerPosX
-	 * @param centerPosY
 	 */
 	public Enemy(ImageResource imageResource, int width, int height, String name, int maxHealth, int defense, int speed,
 			Weapon weapon, int team, int moneyDrop, int centerPosX, int centerPosY) {
@@ -71,18 +58,6 @@ public class Enemy extends Character {
 
 	/**
 	 * Enemy Main Constructor
-	 * 
-	 * @param imageResource
-	 * @param width
-	 * @param height
-	 * @param name
-	 * @param maxHealth
-	 * @param defense
-	 * @param speed
-	 * @param weapon
-	 * @param team
-	 * @param moneyDrop
-	 * @param centerPos
 	 */
 	public Enemy(ImageResource imageResource, int width, int height, String name, int maxHealth, int defense, int speed,
 			Weapon weapon, int team, int moneyDrop, Position centerPos) {
@@ -95,8 +70,6 @@ public class Enemy extends Character {
 
 	/**
 	 * Get Walkable Moving Vector
-	 * 
-	 * @return
 	 */
 	private Position getMovingVector() {
 		ArrayList<Position> movingVectorList = ((MainCharacter) ResourceManager

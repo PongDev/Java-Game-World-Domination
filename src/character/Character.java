@@ -72,18 +72,6 @@ public abstract class Character extends GameObject implements Updatable {
 
 	/**
 	 * Character Alternative Constructor
-	 * 
-	 * @param imageResource
-	 * @param width
-	 * @param height
-	 * @param name
-	 * @param maxHealth
-	 * @param defense
-	 * @param speed
-	 * @param weapon
-	 * @param team
-	 * @param centerPosX
-	 * @param centerPosY
 	 */
 	public Character(ImageResource imageResource, int width, int height, String name, int maxHealth, int defense,
 			int speed, Weapon weapon, int team, int centerPosX, int centerPosY) {
@@ -93,17 +81,6 @@ public abstract class Character extends GameObject implements Updatable {
 
 	/**
 	 * Character Main Constructor
-	 * 
-	 * @param imageResource
-	 * @param width
-	 * @param height
-	 * @param name
-	 * @param maxHealth
-	 * @param defense
-	 * @param speed
-	 * @param weapon
-	 * @param team
-	 * @param centerPos
 	 */
 	public Character(ImageResource imageResource, int width, int height, String name, int maxHealth, int defense,
 			int speed, Weapon weapon, int team, Position centerPos) {
@@ -128,11 +105,11 @@ public abstract class Character extends GameObject implements Updatable {
 	}
 
 	/**
-	 * Return Manhattan Distance Between Character And Tile With Row, Column
+	 * Get Manhattan Distance Between Character And Tile At Row, Column
 	 * 
 	 * @param row Tile Row
 	 * @param col Tile Column
-	 * @return
+	 * @return Manhattan Distance Between Character And Tile
 	 */
 	public int getManhattanDistanceFromCharacter(int row, int col) {
 		if (row >= 0 && col >= 0 && row < GameState.getMapHeight() && col < GameState.getMapWidth()) {
@@ -199,8 +176,6 @@ public abstract class Character extends GameObject implements Updatable {
 
 	/**
 	 * Get Character Name
-	 * 
-	 * @return
 	 */
 	public String getName() {
 		return name;
@@ -208,8 +183,6 @@ public abstract class Character extends GameObject implements Updatable {
 
 	/**
 	 * Set Character Name
-	 * 
-	 * @param name
 	 */
 	public void setName(String name) {
 		this.name = name;
@@ -217,8 +190,6 @@ public abstract class Character extends GameObject implements Updatable {
 
 	/**
 	 * Get Character Health
-	 * 
-	 * @return
 	 */
 	public int getHealth() {
 		return health;
@@ -226,8 +197,6 @@ public abstract class Character extends GameObject implements Updatable {
 
 	/**
 	 * Set Character Health
-	 * 
-	 * @param health
 	 */
 	public void setHealth(int health) {
 		if (health > 0) {
@@ -241,8 +210,6 @@ public abstract class Character extends GameObject implements Updatable {
 
 	/**
 	 * Get Character Max Health
-	 * 
-	 * @return
 	 */
 	public int getMaxHealth() {
 		return maxHealth;
@@ -250,8 +217,6 @@ public abstract class Character extends GameObject implements Updatable {
 
 	/**
 	 * Set Character Max Health
-	 * 
-	 * @param maxHealth
 	 */
 	public void setMaxHealth(int maxHealth) {
 		this.maxHealth = Math.max(0, maxHealth);
@@ -260,8 +225,6 @@ public abstract class Character extends GameObject implements Updatable {
 
 	/**
 	 * Get Character Defense
-	 * 
-	 * @return
 	 */
 	public double getDefense() {
 		return defense;
@@ -269,8 +232,6 @@ public abstract class Character extends GameObject implements Updatable {
 
 	/**
 	 * Set Character Defense
-	 * 
-	 * @param defense
 	 */
 	public void setDefense(double defense) {
 		this.defense = defense;
@@ -278,8 +239,6 @@ public abstract class Character extends GameObject implements Updatable {
 
 	/**
 	 * Get Character Speed
-	 * 
-	 * @return
 	 */
 	public int getSpeed() {
 		return speed;
@@ -287,8 +246,6 @@ public abstract class Character extends GameObject implements Updatable {
 
 	/**
 	 * Set Character Speed
-	 * 
-	 * @param speed
 	 */
 	public void setSpeed(int speed) {
 		this.speed = speed;
@@ -296,8 +253,6 @@ public abstract class Character extends GameObject implements Updatable {
 
 	/**
 	 * Get Character Weapon
-	 * 
-	 * @return
 	 */
 	public Weapon getWeapon() {
 		return weapon;
@@ -305,8 +260,6 @@ public abstract class Character extends GameObject implements Updatable {
 
 	/**
 	 * Set Character Weapon
-	 * 
-	 * @param weapon
 	 */
 	public void setWeapon(Weapon weapon) {
 		this.weapon = weapon;

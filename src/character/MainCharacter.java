@@ -93,18 +93,6 @@ public class MainCharacter extends Character implements Inputable {
 
 	/**
 	 * Main Character Alternative Constructor
-	 * 
-	 * @param imageResource
-	 * @param width
-	 * @param height
-	 * @param name
-	 * @param maxHealth
-	 * @param defense
-	 * @param speed
-	 * @param weapon
-	 * @param team
-	 * @param centerPosX
-	 * @param centerPosY
 	 */
 	public MainCharacter(ImageResource imageResource, int width, int height, String name, int maxHealth, int defense,
 			int speed, Weapon weapon, int team, int centerPosX, int centerPosY) {
@@ -114,17 +102,6 @@ public class MainCharacter extends Character implements Inputable {
 
 	/**
 	 * Main Character Main Constructor
-	 * 
-	 * @param imageResource
-	 * @param width
-	 * @param height
-	 * @param name
-	 * @param maxHealth
-	 * @param defense
-	 * @param speed
-	 * @param weapon
-	 * @param team
-	 * @param centerPos
 	 */
 	public MainCharacter(ImageResource imageResource, int width, int height, String name, int maxHealth, int defense,
 			int speed, Weapon weapon, int team, Position centerPos) {
@@ -140,7 +117,7 @@ public class MainCharacter extends Character implements Inputable {
 	 * Get Moving Vector List Toward Main Character
 	 * 
 	 * @param pos Start Position To Find Moving Vector List Toward Main Character
-	 * @return
+	 * @return Moving Vector List Toward Main Character
 	 */
 	public ArrayList<Position> getTowardMovingVector(Position pos) {
 		Position mainCharacterBlock = new Position((int) (this.getCenterPos().Y / Config.TILE_H),
@@ -395,8 +372,6 @@ public class MainCharacter extends Character implements Inputable {
 
 	/**
 	 * Get Current Main Character Money
-	 * 
-	 * @return
 	 */
 	public int getMoney() {
 		return money;
@@ -404,8 +379,6 @@ public class MainCharacter extends Character implements Inputable {
 
 	/**
 	 * Set Current Main Character Money
-	 * 
-	 * @param money
 	 */
 	public void setMoney(int money) {
 		this.money = money;
@@ -459,7 +432,6 @@ public class MainCharacter extends Character implements Inputable {
 	 * Count Item In Main Character Inventory
 	 * 
 	 * @param item ItemResource Of Item To Count
-	 * @return
 	 */
 	public int countItemInInventory(ItemResource item) {
 		return inventory.containsKey(item) ? inventory.get(item) : 0;
@@ -467,8 +439,6 @@ public class MainCharacter extends Character implements Inputable {
 
 	/**
 	 * Get Current Selected Tower ItemResource
-	 * 
-	 * @return
 	 */
 	public ItemResource getSelectedTower() {
 		return selectedTower;
@@ -480,7 +450,6 @@ public class MainCharacter extends Character implements Inputable {
 	 * @param tower ItemResource Of Tower To Deploy
 	 * @param row   Row To Deploy
 	 * @param col   Column To Deploy
-	 * @return
 	 */
 	public void deployTower(ItemResource tower, int row, int col) throws DeployTowerFailedException {
 		switch (tower) {
@@ -501,7 +470,7 @@ public class MainCharacter extends Character implements Inputable {
 	/**
 	 * Add Weapon To Main Character And Set Current Weapon To Added Weapon
 	 * 
-	 * @param weapon
+	 * @param weapon Weapon To Add
 	 */
 	public void addWeapon(Weapon weapon) {
 		weaponList.add(weapon);
