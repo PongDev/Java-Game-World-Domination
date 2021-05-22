@@ -3,6 +3,7 @@ package weapon;
 import javafx.util.Pair;
 import utility.ResourceManager.ImageResource;
 import utility.ResourceManager.ItemResource;
+import utility.ResourceManager.SoundResource;
 
 public class AK47 extends Gun {
 
@@ -12,6 +13,8 @@ public class AK47 extends Gun {
 		this.description = String.format("%d damage, %.1f second firerate, %d ammo", attackDamage, 1 / attackSpeed,
 				120);
 		this.cost = 60;
+		this.attackSound = SoundResource.GUN_AK47;
+		this.attackSoundVolume = 0.5;
 		this.itemResource = ItemResource.GUN_AK47;
 		this.bulletUse = ItemResource.AMMO_RIFLE;
 		itemOnBuy.add(new Pair<>(this.itemResource, 1));

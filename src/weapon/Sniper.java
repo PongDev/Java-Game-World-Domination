@@ -3,6 +3,7 @@ package weapon;
 import javafx.util.Pair;
 import utility.ResourceManager.ImageResource;
 import utility.ResourceManager.ItemResource;
+import utility.ResourceManager.SoundResource;
 
 public class Sniper extends Gun {
 
@@ -11,6 +12,8 @@ public class Sniper extends Gun {
 		this.name = "Sniper";
 		this.description = String.format("%d damage, %.1f second firerate, %d ammo", attackDamage, 1 / attackSpeed, 30);
 		this.cost = 75;
+		this.attackSound = SoundResource.GUN_SNIPER;
+		this.attackSoundVolume = 0.5;
 		this.itemResource = ItemResource.GUN_SNIPER;
 		this.bulletUse = ItemResource.AMMO_RIFLE;
 		itemOnBuy.add(new Pair<>(this.itemResource, 1));

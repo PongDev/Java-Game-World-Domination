@@ -1,6 +1,7 @@
 package weapon;
 
 import utility.ResourceManager.ImageResource;
+import utility.ResourceManager.SoundResource;
 
 public class Pistol extends Gun {
 
@@ -9,6 +10,8 @@ public class Pistol extends Gun {
 		this.name = "Pistol";
 		this.description = String.format("%d damage, %.1f second firerate, %d ammo", attackDamage, 1 / attackSpeed, 12);
 		this.cost = 0;
+		this.attackSound = SoundResource.GUN_PISTOL;
+		this.attackSoundVolume = 0.5;
 		this.bulletUse = null;
 	}
 

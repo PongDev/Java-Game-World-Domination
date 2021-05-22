@@ -5,10 +5,12 @@ import java.util.Date;
 import javafx.util.Pair;
 import object.ObjectManager;
 import render.RenderManager;
+import sound.SoundManager;
 import update.UpdateManager;
 import utility.Position;
 import utility.ResourceManager.ImageResource;
 import utility.ResourceManager.ItemResource;
+import utility.ResourceManager.SoundResource;
 
 public class Shotgun extends Gun {
 
@@ -23,6 +25,8 @@ public class Shotgun extends Gun {
 		this.description = String.format("%d-%d damage, %.1f second firerate, %d ammo", attackDamage,
 				attackDamage * bulletPerShot, 1 / attackSpeed, 20);
 		this.cost = 50;
+		this.attackSound = SoundResource.GUN_SHOTGUN;
+		this.attackSoundVolume = 0.5;
 		this.itemResource = ItemResource.GUN_SHOTGUN;
 		this.bulletUse = ItemResource.AMMO_SHOTGUN;
 		itemOnBuy.add(new Pair<>(this.itemResource, 1));
@@ -39,6 +43,9 @@ public class Shotgun extends Gun {
 				UpdateManager.add(bullet);
 				RenderManager.add(bullet);
 				ObjectManager.addBullet(bullet);
+			}
+			if (attackSound != null) {
+				SoundManager.playSoundEffect(attackSound, attackSoundVolume);
 			}
 			return true;
 		} else {

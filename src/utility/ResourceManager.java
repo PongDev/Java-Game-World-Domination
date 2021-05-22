@@ -54,7 +54,7 @@ public class ResourceManager {
 	}
 
 	public enum SoundResource {
-		TITLE, PLAYING, CAR_CRASH, ENDING_BAD, ENDING_GOOD, GUN_SHOT
+		TITLE, PLAYING, CAR_CRASH, ENDING_BAD, ENDING_GOOD, GUN_PISTOL, GUN_AK47, GUN_SHOTGUN, GUN_SNIPER
 	}
 
 	public enum SceneResource {
@@ -161,7 +161,6 @@ public class ResourceManager {
 		imageResource.put(ImageResource.GAME_CONTROL, getImage("lore/game_control.png"));
 		imageResource.put(ImageResource.END_CREDIT, getImage("lore/end_credit.png"));
 		imageResource.put(ImageResource.BEGINNING_GAME_CONTROL, getImage("lore/beginning_game_control.png"));
-		soundResource.put(SoundResource.GUN_SHOT, getSound("sound/gun_shot.mp3"));
 		Logger.log("Complete Loading Image");
 	}
 
@@ -175,6 +174,10 @@ public class ResourceManager {
 		soundResource.put(SoundResource.CAR_CRASH, getSound("sound/car_crash.mp3"));
 		soundResource.put(SoundResource.ENDING_BAD, getSound("sound/ending_bad.mp3"));
 		soundResource.put(SoundResource.ENDING_GOOD, getSound("sound/ending_good.mp3"));
+		soundResource.put(SoundResource.GUN_PISTOL, getSound("sound/gun_pistol.mp3"));
+		soundResource.put(SoundResource.GUN_AK47, getSound("sound/gun_ak47.mp3"));
+		soundResource.put(SoundResource.GUN_SHOTGUN, getSound("sound/gun_shotgun.mp3"));
+		soundResource.put(SoundResource.GUN_SNIPER, getSound("sound/gun_sniper.mp3"));
 	}
 
 	private static void loadMap() {

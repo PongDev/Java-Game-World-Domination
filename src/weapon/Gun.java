@@ -3,15 +3,18 @@ package weapon;
 import java.util.Date;
 
 import character.MainCharacter;
+import config.Config;
 import object.GameObject;
 import object.ObjectManager;
 import render.RenderManager;
+import sound.SoundManager;
 import update.UpdateManager;
 import utility.Position;
 import utility.ResourceManager;
 import utility.ResourceManager.GameObjectResource;
 import utility.ResourceManager.ImageResource;
 import utility.ResourceManager.ItemResource;
+import utility.ResourceManager.SoundResource;
 
 public class Gun extends Weapon {
 
@@ -21,6 +24,8 @@ public class Gun extends Weapon {
 	protected int cost = 0;
 	protected ItemResource itemResource = null;
 	protected ItemResource bulletUse = null;
+	protected SoundResource attackSound = null;
+	protected double attackSoundVolume = Config.SOUND_VOLUME;
 
 	public Gun(ImageResource imageResource, int attackDamage, double attackSpeed, ImageResource bulletImageResource,
 			int bulletSpeed, int bulletWidth, int bulleteHeight, int team, int holderZIndex, GameObject owner) {
@@ -50,6 +55,9 @@ public class Gun extends Weapon {
 			UpdateManager.add(bullet);
 			RenderManager.add(bullet);
 			ObjectManager.addBullet(bullet);
+			if (attackSound != null) {
+				SoundManager.playSoundEffect(attackSound, attackSoundVolume);
+			}
 			return true;
 		} else {
 			return false;

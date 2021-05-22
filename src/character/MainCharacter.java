@@ -189,165 +189,167 @@ public class MainCharacter extends Character implements Inputable {
 	 * Process Player Input
 	 */
 	public void processInput() {
-		// ESC
-		if (InputManager.isKeyClick(KeyCode.ESCAPE)) {
-			if (((Shop) ResourceManager.getUI(UIResource.SHOP)).isVisible()) {
-				((Shop) ResourceManager.getUI(UIResource.SHOP)).toggleVisible();
-			} else {
-				GameState.setPause(!GameState.isPause());
-				Logger.log("Game " + (GameState.isPause() ? "Pause" : "Resume"));
-			}
-		}
-		if (!GameState.isPause()) {
-
-			// W
-			if (InputManager.isKeyPress(KeyCode.W)) {
-				if (GameState.getGameMap().isWalkableAndNotCollideTower(this, 0, -getSpeed())) {
-					pos.Y -= getSpeed();
+		if (GameState.getSceneResource() == SceneResource.PLAYING) {
+			// ESC
+			if (InputManager.isKeyClick(KeyCode.ESCAPE)) {
+				if (((Shop) ResourceManager.getUI(UIResource.SHOP)).isVisible()) {
+					((Shop) ResourceManager.getUI(UIResource.SHOP)).toggleVisible();
 				} else {
-					pos.Y = ((int) (pos.Y / Config.TILE_H)) * Config.TILE_H;
+					GameState.setPause(!GameState.isPause());
+					Logger.log("Game " + (GameState.isPause() ? "Pause" : "Resume"));
 				}
 			}
-			// A
-			if (InputManager.isKeyPress(KeyCode.A)) {
-				if (GameState.getGameMap().isWalkableAndNotCollideTower(this, -getSpeed(), 0)) {
-					pos.X -= getSpeed();
+			if (!GameState.isPause()) {
+				// W
+				if (InputManager.isKeyPress(KeyCode.W)) {
+					if (GameState.getGameMap().isWalkableAndNotCollideTower(this, 0, -getSpeed())) {
+						pos.Y -= getSpeed();
+					} else {
+						pos.Y = ((int) (pos.Y / Config.TILE_H)) * Config.TILE_H;
+					}
+				}
+				// A
+				if (InputManager.isKeyPress(KeyCode.A)) {
+					if (GameState.getGameMap().isWalkableAndNotCollideTower(this, -getSpeed(), 0)) {
+						pos.X -= getSpeed();
+					} else {
+						pos.X = ((int) (pos.X / Config.TILE_W)) * Config.TILE_W;
+					}
+				}
+				// S
+				if (InputManager.isKeyPress(KeyCode.S)) {
+					if (GameState.getGameMap().isWalkableAndNotCollideTower(this, 0, +getSpeed())) {
+						pos.Y += getSpeed();
+					} else {
+						pos.Y = (((int) ((pos.Y + height + getSpeed()) / Config.TILE_H)) * Config.TILE_H) - height;
+					}
+				}
+				// D
+				if (InputManager.isKeyPress(KeyCode.D)) {
+					if (GameState.getGameMap().isWalkableAndNotCollideTower(this, +getSpeed(), 0)) {
+						pos.X += getSpeed();
+					} else {
+						pos.X = (((int) ((pos.X + width + getSpeed()) / Config.TILE_W)) * Config.TILE_W) - width;
+					}
+				}
+				// E
+				if (InputManager.isKeyClick(KeyCode.E)) {
+					weaponIndex = (weaponIndex + 1 + weaponList.size()) % weaponList.size();
+					this.setWeapon(weaponList.get(weaponIndex));
+					this.weapon.setLastAttack((new Date()).getTime());
+				}
+				// Q
+				if (InputManager.isKeyClick(KeyCode.Q)) {
+					weaponIndex = (weaponIndex - 1 + weaponList.size()) % weaponList.size();
+					this.setWeapon(weaponList.get(weaponIndex));
+					this.weapon.setLastAttack((new Date()).getTime());
+				}
+				// Space Bar
+				if (InputManager.isKeyClick(KeyCode.SPACE)) {
+					if (WaveManager.isWaveEnd()) {
+						this.money += WaveManager.forceStartNewWave() * Config.DELAY_BETWEEN_WAVE_TO_MONEY;
+					}
+				}
+				// Calculate Degree And Weapon Degree
+				double degree = Math.toDegrees(Math.atan2((Config.SCREEN_H / 2) - InputManager.getMousePos().Y,
+						InputManager.getMousePos().X - (Config.SCREEN_W / 2)));
+				isTurnLeft = (degree > 90 || degree < -90) ? true : false;
+				if (isTurnLeft) {
+					this.weaponTurningDegree = (180 * (degree > 0 ? 1 : -1)) - degree;
 				} else {
-					pos.X = ((int) (pos.X / Config.TILE_W)) * Config.TILE_W;
+					this.weaponTurningDegree = degree;
 				}
-			}
-			// S
-			if (InputManager.isKeyPress(KeyCode.S)) {
-				if (GameState.getGameMap().isWalkableAndNotCollideTower(this, 0, +getSpeed())) {
-					pos.Y += getSpeed();
-				} else {
-					pos.Y = (((int) ((pos.Y + height + getSpeed()) / Config.TILE_H)) * Config.TILE_H) - height;
+				// Mouse Press
+				if (InputManager.isLeftMousePress() && selectedTower == null) {
+					if (weapon instanceof Gun && ((Gun) weapon).getBulletUse() != null) {
+						if (this.countItemInInventory(((Gun) weapon).getBulletUse()) > 0) {
+							if (weapon.attack(getCenterPos(), degree)) {
+								this.removeItemFromInventory(((Gun) weapon).getBulletUse());
+							}
+						}
+					} else {
+						weapon.attack(getCenterPos(), degree);
+					}
 				}
-			}
-			// D
-			if (InputManager.isKeyPress(KeyCode.D)) {
-				if (GameState.getGameMap().isWalkableAndNotCollideTower(this, +getSpeed(), 0)) {
-					pos.X += getSpeed();
-				} else {
-					pos.X = (((int) ((pos.X + width + getSpeed()) / Config.TILE_W)) * Config.TILE_W) - width;
+				// Open Shop
+				if (InputManager.isLeftMouseClick()) {
+					Position mapPos = GameState.getGameMap().getMapPos();
+					Position mousePos = InputManager.getMousePos();
+					Position selectedTile = new Position((int) ((mousePos.Y + mapPos.Y) / Config.TILE_H),
+							(int) ((mousePos.X + mapPos.X) / Config.TILE_W));
+					double distantFromShop = Utility.euclideanDistance(this.getCenterPos(),
+							new Position((GameMap.getShopPos().X * Config.TILE_W) + Config.TILE_W / 2,
+									(GameMap.getShopPos().Y * Config.TILE_H) + Config.TILE_H / 2));
+					if (selectedTile.Y == GameMap.getShopPos().X && selectedTile.X == GameMap.getShopPos().Y
+							&& distantFromShop <= Config.MAIN_CHARACTER_OPEN_SHOP_RANGE) {
+						((Shop) ResourceManager.getUI(UIResource.SHOP)).toggleVisible();
+					}
 				}
-			}
-			// E
-			if (InputManager.isKeyClick(KeyCode.E)) {
-				weaponIndex = (weaponIndex + 1 + weaponList.size()) % weaponList.size();
-				this.setWeapon(weaponList.get(weaponIndex));
-				this.weapon.setLastAttack((new Date()).getTime());
-			}
-			// Q
-			if (InputManager.isKeyClick(KeyCode.Q)) {
-				weaponIndex = (weaponIndex - 1 + weaponList.size()) % weaponList.size();
-				this.setWeapon(weaponList.get(weaponIndex));
-				this.weapon.setLastAttack((new Date()).getTime());
-			}
-			// Space Bar
-			if (InputManager.isKeyClick(KeyCode.SPACE)) {
-				if (WaveManager.isWaveEnd()) {
-					this.money += WaveManager.forceStartNewWave() * Config.DELAY_BETWEEN_WAVE_TO_MONEY;
-				}
-			}
-			// Calculate Degree And Weapon Degree
-			double degree = Math.toDegrees(Math.atan2((Config.SCREEN_H / 2) - InputManager.getMousePos().Y,
-					InputManager.getMousePos().X - (Config.SCREEN_W / 2)));
-			isTurnLeft = (degree > 90 || degree < -90) ? true : false;
-			if (isTurnLeft) {
-				this.weaponTurningDegree = (180 * (degree > 0 ? 1 : -1)) - degree;
-			} else {
-				this.weaponTurningDegree = degree;
-			}
-			// Mouse Press
-			if (InputManager.isLeftMousePress() && selectedTower == null) {
-				if (weapon instanceof Gun && ((Gun) weapon).getBulletUse() != null) {
-					if (this.countItemInInventory(((Gun) weapon).getBulletUse()) > 0) {
-						if (weapon.attack(getCenterPos(), degree)) {
-							this.removeItemFromInventory(((Gun) weapon).getBulletUse());
+				// Deploy Tower
+				if (InputManager.isLeftMouseClick() && selectedTower != null) {
+					if (selectedTile != null
+							&& GameState.getGameMap().isPlacable((int) selectedTile.X, (int) selectedTile.Y)
+							&& this.countItemInInventory(selectedTower) > 0) {
+						try {
+							this.deployTower(selectedTower, (int) selectedTile.X, (int) selectedTile.Y);
+							this.removeItemFromInventory(selectedTower);
+						} catch (DeployTowerFailedException e) {
+							Logger.log("Detected Exception On Deploy Tower");
 						}
 					}
-				} else {
-					weapon.attack(getCenterPos(), degree);
+					selectedTower = null;
 				}
-			}
-			// Open Shop
-			if (InputManager.isLeftMouseClick()) {
-				Position mapPos = GameState.getGameMap().getMapPos();
-				Position mousePos = InputManager.getMousePos();
-				Position selectedTile = new Position((int) ((mousePos.Y + mapPos.Y) / Config.TILE_H),
-						(int) ((mousePos.X + mapPos.X) / Config.TILE_W));
-				double distantFromShop = Utility.euclideanDistance(this.getCenterPos(),
-						new Position((GameMap.getShopPos().X * Config.TILE_W) + Config.TILE_W / 2,
-								(GameMap.getShopPos().Y * Config.TILE_H) + Config.TILE_H / 2));
-				if (selectedTile.Y == GameMap.getShopPos().X && selectedTile.X == GameMap.getShopPos().Y
-						&& distantFromShop <= Config.MAIN_CHARACTER_OPEN_SHOP_RANGE) {
-					((Shop) ResourceManager.getUI(UIResource.SHOP)).toggleVisible();
-				}
-			}
-			// Deploy Tower
-			if (InputManager.isLeftMouseClick() && selectedTower != null) {
-				if (selectedTile != null
-						&& GameState.getGameMap().isPlacable((int) selectedTile.X, (int) selectedTile.Y)
-						&& this.countItemInInventory(selectedTower) > 0) {
-					try {
-						this.deployTower(selectedTower, (int) selectedTile.X, (int) selectedTile.Y);
-						this.removeItemFromInventory(selectedTower);
-					} catch (DeployTowerFailedException e) {
-						Logger.log("Detected Exception On Deploy Tower");
+				// Heal
+				if (InputManager.isKeyClick(KeyCode.H)) {
+					if (this.getHealth() < this.getMaxHealth()
+							&& this.countItemInInventory(ItemResource.HEALTH_POTION) > 0) {
+						this.removeItemFromInventory(ItemResource.HEALTH_POTION);
+						((Potion) ResourceManager.getItem(ItemResource.HEALTH_POTION)).use(this);
 					}
 				}
-				selectedTower = null;
-			}
-			// Heal
-			if (InputManager.isKeyClick(KeyCode.H)) {
-				if (this.getHealth() < this.getMaxHealth()
-						&& this.countItemInInventory(ItemResource.HEALTH_POTION) > 0) {
-					this.removeItemFromInventory(ItemResource.HEALTH_POTION);
-					((Potion) ResourceManager.getItem(ItemResource.HEALTH_POTION)).use(this);
-				}
-			}
-			// Mouse Select Tile
-			if (GameState.getSceneResource() == SceneResource.PLAYING && selectedTower != null) {
-				Position mapPos = GameState.getGameMap().getMapPos();
-				Position mousePos = InputManager.getMousePos();
-				Position selectedTile = new Position((int) ((mousePos.Y + mapPos.Y) / Config.TILE_H),
-						(int) ((mousePos.X + mapPos.X) / Config.TILE_W));
+				// Mouse Select Tile
+				if (GameState.getSceneResource() == SceneResource.PLAYING && selectedTower != null) {
+					Position mapPos = GameState.getGameMap().getMapPos();
+					Position mousePos = InputManager.getMousePos();
+					Position selectedTile = new Position((int) ((mousePos.Y + mapPos.Y) / Config.TILE_H),
+							(int) ((mousePos.X + mapPos.X) / Config.TILE_W));
 
-				if (GameState.getGameMap().isPlacable((int) selectedTile.X, (int) selectedTile.Y)
-						&& !GameState.getGameMap().isCollideTower(selectedTile.Y * Config.TILE_W,
-								selectedTile.X * Config.TILE_H)
-						&& Utility.euclideanDistance(this.getCenterPos(),
-								new Position((selectedTile.Y + 0.5) * Config.TILE_W,
-										(selectedTile.X + 0.5) * Config.TILE_H)) < Config.MAIN_CHARACTER_DEPLOY_RANGE) {
-					GameState.getGameMap().setHighLightTile((int) selectedTile.X, (int) selectedTile.Y);
-					if (!selectedTile.equals(this.selectedTile)) {
-						Logger.log(String.format("Selected Tile Row:%2d Col:%2d", (int) selectedTile.X,
-								(int) selectedTile.Y));
-						this.selectedTile = selectedTile;
+					if (GameState.getGameMap().isPlacable((int) selectedTile.X, (int) selectedTile.Y)
+							&& !GameState.getGameMap().isCollideTower(selectedTile.Y * Config.TILE_W,
+									selectedTile.X * Config.TILE_H)
+							&& Utility.euclideanDistance(this.getCenterPos(), new Position(
+									(selectedTile.Y + 0.5) * Config.TILE_W,
+									(selectedTile.X + 0.5) * Config.TILE_H)) < Config.MAIN_CHARACTER_DEPLOY_RANGE) {
+						GameState.getGameMap().setHighLightTile((int) selectedTile.X, (int) selectedTile.Y);
+						if (!selectedTile.equals(this.selectedTile)) {
+							Logger.log(String.format("Selected Tile Row:%2d Col:%2d", (int) selectedTile.X,
+									(int) selectedTile.Y));
+							this.selectedTile = selectedTile;
+						}
+					} else {
+						this.selectedTile = null;
+					}
+				}
+				if (WaveManager.isWaveEnd()) {
+					// Click 1
+					if (InputManager.isKeyClick(KeyCode.DIGIT1)) {
+						selectedTower = (selectedTower == ItemResource.BARRIER_TOWER ? null
+								: ItemResource.BARRIER_TOWER);
+					}
+					// Click 2
+					if (InputManager.isKeyClick(KeyCode.DIGIT2)) {
+						selectedTower = (selectedTower == ItemResource.MACHINE_GUN_TOWER ? null
+								: ItemResource.MACHINE_GUN_TOWER);
+					}
+					// Click 3
+					if (InputManager.isKeyClick(KeyCode.DIGIT3)) {
+						selectedTower = (selectedTower == ItemResource.SNIPER_TOWER ? null : ItemResource.SNIPER_TOWER);
 					}
 				} else {
-					this.selectedTile = null;
+					selectedTower = null;
 				}
+				isTurnLeft = (InputManager.getMousePos().X < Config.SCREEN_W / 2);
 			}
-			if (WaveManager.isWaveEnd()) {
-				// Click 1
-				if (InputManager.isKeyClick(KeyCode.DIGIT1)) {
-					selectedTower = (selectedTower == ItemResource.BARRIER_TOWER ? null : ItemResource.BARRIER_TOWER);
-				}
-				// Click 2
-				if (InputManager.isKeyClick(KeyCode.DIGIT2)) {
-					selectedTower = (selectedTower == ItemResource.MACHINE_GUN_TOWER ? null
-							: ItemResource.MACHINE_GUN_TOWER);
-				}
-				// Click 3
-				if (InputManager.isKeyClick(KeyCode.DIGIT3)) {
-					selectedTower = (selectedTower == ItemResource.SNIPER_TOWER ? null : ItemResource.SNIPER_TOWER);
-				}
-			} else {
-				selectedTower = null;
-			}
-			isTurnLeft = (InputManager.getMousePos().X < Config.SCREEN_W / 2);
 		}
 	}
 
