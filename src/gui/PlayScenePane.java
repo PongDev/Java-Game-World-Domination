@@ -27,16 +27,118 @@ import weapon.Gun;
 
 public class PlayScenePane extends StackPane implements Updatable {
 
+	/**
+	 * All Game UI
+	 */
 	private AnchorPane gameUI;
+	/**
+	 * VBox Contains BarricadeTower, MachineGunTower, SniperTower
+	 */
 	private VBox towerUI;
+	/**
+	 * HBox Contains StatusBarWaveText, CoinImage, CoinText
+	 */
 	private HBox statusBox;
-	private StackPane statusPane, healhtPotionBox, ammoBox, barricadeTower, machineGunTower, sniperTower;
-	private GameText waveText, pauseText, barricadeTowerAmount, machineGunTowerAmount, sniperTowerAmount;
-	private GameText statusBarWaveText, coinText, healthPotionText, ammoText, deployTowerText;
-	private ImageView coinImage, statusPaneImage, healthPotionpPaneImage, ammoPaneImage, barricadeTowerIcon,
-			machineGunTowerIcon, sniperTowerIcon;
+	/**
+	 * StackPane Contains StatusPaneImage, StatusBox
+	 */
+	private StackPane statusPane;
+	/**
+	 * StackPane Contains HealthPotionpPaneImage, HealthPotionText
+	 */
+	private StackPane healhtPotionBox;
+	/**
+	 * StackPane Contains AmmoPaneImage, AmmoText
+	 */
+	private StackPane ammoBox;
+	/**
+	 * StackPane Contains barricadeTowerIcon, barricadeTowerAmount
+	 */
+	private StackPane barricadeTower;
+	/**
+	 * StackPane Contains MachineGunTowerIcon, MachineGunTowerAmount
+	 */
+	private StackPane machineGunTower;
+	/**
+	 * StackPane Contains SniperTowerIcon, SniperTowerAmount
+	 */
+	private StackPane sniperTower;
+	/**
+	 * Show Current Wave Text When Start Wave
+	 */
+	private GameText waveText;
+	/**
+	 * Game Pause Text
+	 */
+	private GameText pauseText;
+	/**
+	 * Barricade Tower Amount Text
+	 */
+	private GameText barricadeTowerAmount;
+	/**
+	 * MachineGun Tower Amount Text
+	 */
+	private GameText machineGunTowerAmount;
+	/**
+	 * Sniper Tower Amount Text
+	 */
+	private GameText sniperTowerAmount;
+	/**
+	 * Current Wave Text
+	 */
+	private GameText statusBarWaveText;
+	/**
+	 * Coin Amount Text;
+	 */
+	private GameText coinText;
+	/**
+	 * health Potion Amount Text
+	 */
+	private GameText healthPotionText;
+	/**
+	 * Ammo Amount Text
+	 */
+	private GameText ammoText;
+	/**
+	 * Text Show When Select A Tower
+	 */
+	private GameText deployTowerText;
+	/**
+	 * Coin Image
+	 */
+	private ImageView coinImage;
+	/**
+	 * Status Pane Image
+	 */
+	private ImageView statusPaneImage;
+	/**
+	 * Health Potion Pane Image
+	 */
+	private ImageView healthPotionpPaneImage;
+	/**
+	 * Ammo Pane Image
+	 */
+	private ImageView ammoPaneImage;
+	/**
+	 * Barricade Tower Image
+	 */
+	private ImageView barricadeTowerIcon;
+	/**
+	 * MachineGun Tower Image
+	 */
+	private ImageView machineGunTowerIcon;
+	/**
+	 * Sniper Tower Icon
+	 */
+	private ImageView sniperTowerIcon;
+	/**
+	 * Current Wave
+	 */
 	private int wave = 0;
 
+	/**
+	 * PlayScenePane Constructor
+	 */
 	public PlayScenePane() {
 		Image cursorImage = ResourceManager.getImage(ImageResource.CROSS_HAIR);
 		this.setCursor(new ImageCursor(cursorImage, cursorImage.getWidth() / 2, cursorImage.getHeight() / 2));
@@ -123,6 +225,9 @@ public class PlayScenePane extends StackPane implements Updatable {
 				ResourceManager.getUI(UIResource.SHOP));
 	}
 
+	/**
+	 * Toggle/Display Game UI
+	 */
 	public void update() {
 		MainCharacter mainCharacter = (MainCharacter) ResourceManager.getGameObject(GameObjectResource.MAIN_CHARACTER);
 
@@ -181,6 +286,9 @@ public class PlayScenePane extends StackPane implements Updatable {
 		deployTowerText.setVisible(mainCharacter.getSelectedTower() != null);
 	}
 
+	/**
+	 * Is Scene Removed From Update
+	 */
 	public boolean isRemoveFromUpdate() {
 		return GameState.getSceneResource() != SceneResource.PLAYING;
 	}

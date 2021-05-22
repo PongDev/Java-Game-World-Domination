@@ -15,11 +15,30 @@ import utility.ResourceManager.SceneResource;
 import utility.ResourceManager.SoundResource;
 
 public class TitleScenePane extends StackPane implements Updatable {
-
-	private GameText textGameName1, textGameName2;
-	private GameButton btnNewGame, btnLoadGame, btnExitGame;
+	/**
+	 * Game Name First Half Text
+	 */
+	private GameText textGameName1;
+	/**
+	 * Game Name Second Half Text
+	 */
+	private GameText textGameName2;
+	/**
+	 * New Game Button
+	 */
+	private GameButton btnNewGame;
+	/**
+	 * Exit Game Button
+	 */
+	private GameButton btnExitGame;
+	/**
+	 * VBox Contains BtnNewGame, BtnExitGame
+	 */
 	private VBox menuBar;
 
+	/**
+	 * TitleScenePane Constructor
+	 */
 	public TitleScenePane() {
 		textGameName1 = new GameText(Config.TITLE_LABEL1, Config.SCREEN_H / 18);
 		textGameName1.setAlignment(Pos.CENTER);
@@ -37,13 +56,6 @@ public class TitleScenePane extends StackPane implements Updatable {
 		});
 		btnNewGame.setOnHoverBackground(ImageResource.BTN_HOVER);
 
-		btnLoadGame = new GameButton("Load game", ImageResource.BTN, Config.TITLE_BTN_W, Config.TITLE_BTN_H);
-		btnLoadGame.setTextFill(Color.WHITE);
-		btnLoadGame.setOnMouseClicked((e) -> {
-			Logger.log("Button Load Game Click");
-		});
-		btnLoadGame.setOnHoverBackground(ImageResource.BTN_HOVER);
-
 		btnExitGame = new GameButton("Exit", ImageResource.BTN, Config.TITLE_BTN_W, Config.TITLE_BTN_H);
 		btnExitGame.setTextFill(Color.WHITE);
 		btnExitGame.setOnMouseClicked((e) -> {
@@ -54,7 +66,7 @@ public class TitleScenePane extends StackPane implements Updatable {
 
 		menuBar = new VBox();
 		menuBar.setSpacing(Config.TITLE_BTN_SPACING);
-		menuBar.getChildren().addAll(btnNewGame, btnLoadGame, btnExitGame);
+		menuBar.getChildren().addAll(btnNewGame, btnExitGame);
 		menuBar.setAlignment(Pos.CENTER);
 		menuBar.setTranslateY(Config.SCREEN_H / 5);
 
@@ -63,12 +75,18 @@ public class TitleScenePane extends StackPane implements Updatable {
 				textGameName1, textGameName2);
 	}
 
+	/**
+	 * Play BackGround Music
+	 */
 	public void update() {
 		if (SoundManager.getCurrentBGMSoundResource() != SoundResource.TITLE) {
 			SoundManager.setCurrentBGM(SoundResource.TITLE);
 		}
 	}
-
+	
+	/**
+	 * Is Scene Removed From Update
+	 */
 	public boolean isRemoveFromUpdate() {
 		return GameState.getSceneResource() != SceneResource.TITLE;
 	}

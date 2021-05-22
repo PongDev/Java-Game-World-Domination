@@ -24,12 +24,39 @@ import weapon.Bullet;
 
 public class GameMap extends Canvas implements Renderable {
 
+	/**
+	 * Two Dimension Array Of Tile
+	 */
 	private Tile[][] mapData;
+
+	/**
+	 * Two Dimension Array Of Deployed Tower
+	 */
 	private Tower[][] deployedTower;
-	private Position mapPos, mapCenter;
+
+	/**
+	 * Position Of Map
+	 */
+	private Position mapPos;
+
+	/**
+	 * Center Position Of Map
+	 */
+	private Position mapCenter;
+
+	/**
+	 * Position Of Shop
+	 */
 	private static Position shopPos;
+
+	/**
+	 * An ArrayList Contains All Tile That Enemy Can Spawn
+	 */
 	private static ArrayList<Position> enemySpawnableTile = new ArrayList<Position>();
 
+	/**
+	 * GameMap Constructor
+	 */
 	public GameMap() {
 		super(Config.SCREEN_W, Config.SCREEN_H);
 		mapPos = new Position();
@@ -110,11 +137,17 @@ public class GameMap extends Canvas implements Renderable {
 				.setFont(Font.loadFont(ResourceManager.getFontResourceStream(), Config.SCREEN_H / 30));
 	}
 
+	/**
+	 * Calculate Map Position
+	 */
 	private void calculateMapPos() {
 		mapPos.X = mapCenter.X - (Config.SCREEN_W / 2);
 		mapPos.Y = mapCenter.Y - (Config.SCREEN_H / 2);
 	}
 
+	/**
+	 * Render Map
+	 */
 	public void render() {
 		mapCenter = ResourceManager.getGameObject(GameObjectResource.MAIN_CHARACTER).getCenterPos();
 		calculateMapPos();
@@ -141,30 +174,61 @@ public class GameMap extends Canvas implements Renderable {
 		}
 	}
 
+	/**
+	 * Is Map Allow Render
+	 */
 	public boolean isAllowRender() {
 		return GameState.getSceneResource() == SceneResource.PLAYING;
 	}
 
+	/**
+	 * Getter Of Z Value
+	 */
 	public int getZ() {
 		return Config.ZINDEX_MAP;
 	}
 
+	/**
+	 * Is Destroyed, Always Return False For Map
+	 */
 	public boolean isDestroyed() {
 		return false;
 	}
 
+	/**
+	 * Getter Of EnemySpawnableTile
+	 * 
+	 * @return ArrayList Of Enemy Spawnable Tile
+	 */
 	public static ArrayList<Position> getEnemySpawnableTile() {
 		return enemySpawnableTile;
 	}
 
+	/**
+	 * Getter Of Map Position
+	 * 
+	 * @return Map Position
+	 */
 	public Position getMapPos() {
 		return mapPos;
 	}
 
+	/**
+	 * Getter Of Shop Position
+	 * 
+	 * @return Shop Position
+	 */
 	public static Position getShopPos() {
 		return shopPos;
 	}
 
+	/**
+	 * Sub Function To Check If Tower Collide
+	 * 
+	 * @param posX
+	 * @param posY
+	 * @return True If Tower Collide, False If not
+	 */
 	public boolean isCollideTower(double posX, double posY) {
 		int posRow = (int) (posY / Config.TILE_H);
 		int posCol = (int) (posX / Config.TILE_W);
@@ -182,6 +246,14 @@ public class GameMap extends Canvas implements Renderable {
 		return false;
 	}
 
+	/**
+	 * Main Function To Check If GameObject Collide With Tower
+	 * 
+	 * @param gameObject
+	 * @param deltaX
+	 * @param deltaY
+	 * @return True If Object Collide With Tower, False If not
+	 */
 	public boolean isCollideTower(GameObject gameObject, double deltaX, double deltaY) {
 		return isCollideTower(gameObject.getPos().X + deltaX, gameObject.getPos().Y + deltaY)
 				|| isCollideTower(gameObject.getPos().X + gameObject.getWidth() - 1 + deltaX,
@@ -192,6 +264,14 @@ public class GameMap extends Canvas implements Renderable {
 						gameObject.getPos().Y + gameObject.getHeight() - 1 + deltaY);
 	}
 
+	/**
+	 * Sub Function To Check If GameObject Collide With Team Tower
+	 * 
+	 * @param posX
+	 * @param posY
+	 * @param gameObject
+	 * @return True If Object Collide With Team Tower, False If not
+	 */
 	public boolean isCollideTeamTower(double posX, double posY, GameObject gameObject) {
 		int posRow = (int) (posY / Config.TILE_H);
 		int posCol = (int) (posX / Config.TILE_W);
@@ -213,6 +293,14 @@ public class GameMap extends Canvas implements Renderable {
 		return false;
 	}
 
+	/**
+	 * Main Function To Check If GameObject Collide With Team Tower
+	 * 
+	 * @param gameObject
+	 * @param deltaX
+	 * @param deltaY
+	 * @return True If Object Collide With Team Tower, False If not
+	 */
 	public boolean isCollideTeamTower(GameObject gameObject, double deltaX, double deltaY) {
 		return isCollideTeamTower(gameObject.getPos().X + deltaX, gameObject.getPos().Y + deltaY, gameObject)
 				|| isCollideTeamTower(gameObject.getPos().X + gameObject.getWidth() - 1 + deltaX,
@@ -223,6 +311,14 @@ public class GameMap extends Canvas implements Renderable {
 						gameObject.getPos().Y + gameObject.getHeight() - 1 + deltaY, gameObject);
 	}
 
+	/**
+	 * Sub Function Of isWalkable. Receive Parameter Of double, double, int
+	 * 
+	 * @param posX
+	 * @param posY
+	 * @param team
+	 * @return
+	 */
 	public boolean isWalkable(double posX, double posY, int team) {
 		int posRow = (int) (posY / Config.TILE_H);
 		int posCol = (int) (posX / Config.TILE_W);
@@ -239,10 +335,26 @@ public class GameMap extends Canvas implements Renderable {
 		}
 	}
 
+	/**
+	 * Sub Function Of isWalkable. Receive Parameter Of double, double, GameObject
+	 * 
+	 * @param posX
+	 * @param posY
+	 * @param gameObject
+	 * @return
+	 */
 	public boolean isWalkable(double posX, double posY, GameObject gameObject) {
 		return isWalkable(posX, posY, gameObject.getTeam());
 	}
 
+	/**
+	 * Main Function To Check If GameObject Walkable
+	 * 
+	 * @param gameObject
+	 * @param deltaX
+	 * @param deltaY
+	 * @return True If Object Walkable, False If not
+	 */
 	public boolean isWalkable(GameObject gameObject, double deltaX, double deltaY) {
 		return isWalkable(gameObject.getPos().X + deltaX, gameObject.getPos().Y + deltaY, gameObject)
 				&& isWalkable(gameObject.getPos().X + gameObject.getWidth() - 1 + deltaX,
@@ -253,6 +365,14 @@ public class GameMap extends Canvas implements Renderable {
 						gameObject.getPos().Y + gameObject.getHeight() - 1 + deltaY, gameObject);
 	}
 
+	/**
+	 * Is GameObject Walkable And Not Collide Tower
+	 * 
+	 * @param gameObject
+	 * @param deltaX
+	 * @param deltaY
+	 * @return
+	 */
 	public boolean isWalkableAndNotCollideTower(GameObject gameObject, double deltaX, double deltaY) {
 		return isWalkable(gameObject, deltaX, deltaY) && !isCollideTower(gameObject, deltaX, deltaY);
 	}
@@ -278,18 +398,37 @@ public class GameMap extends Canvas implements Renderable {
 						gameObject.getPos().Y + gameObject.getHeight() - 1 + deltaY);
 	}
 
+	/**
+	 * Is Tower Placable
+	 * 
+	 * @param row
+	 * @param col
+	 * @return
+	 */
 	public boolean isPlacable(int row, int col) {
 		return (row >= 0 && col >= 0 && row < GameState.getMapHeight() && col < GameState.getMapWidth())
 				? mapData[row][col].isPlacable()
 				: false;
 	}
 
+	/**
+	 * Set HighLight Tile
+	 * 
+	 * @param row
+	 * @param col
+	 */
 	public void setHighLightTile(int row, int col) {
 		if (row >= 0 && col >= 0 && row < GameState.getMapHeight() && col < GameState.getMapWidth()) {
 			mapData[row][col].setHighlight(true);
 		}
 	}
 
+	/**
+	 * Deploy Tower
+	 * 
+	 * @param tower
+	 * @throws DeployTowerFailedException
+	 */
 	public void deployTower(Tower tower) throws DeployTowerFailedException {
 		int row = tower.getTowerRow();
 		int col = tower.getTowerCol();

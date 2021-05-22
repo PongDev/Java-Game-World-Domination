@@ -20,12 +20,39 @@ import utility.ResourceManager.SoundResource;
 import utility.WaveManager;
 
 public class BeginningLorePane extends StackPane implements Inputable {
+	/**
+	 * An ArrayList Contains Lore Image
+	 */
 	private ArrayList<ImageResource> beginningLoreImage = new ArrayList<ImageResource>();
+
+	/**
+	 * An ArrayList Contains Text For Each Lore Image
+	 */
 	private ArrayList<String> text = new ArrayList<String>();
-	private GameText currentText, skipText;
+
+	/**
+	 * Current Text
+	 */
+	private GameText currentText;
+	
+	/**
+	 * Text Showing Skip Message
+	 */
+	private GameText skipText;
+	
+	/**
+	 * Current Lore Image
+	 */
 	private ImageView imageView;
+	
+	/**
+	 * Current Index Of beginningLoreImage
+	 */
 	private int currentImageIndex;
 
+	/**
+	 * BeginningLorePane Constructor
+	 */
 	public BeginningLorePane() {
 		currentImageIndex = 0;
 
@@ -63,6 +90,9 @@ public class BeginningLorePane extends StackPane implements Inputable {
 		InputManager.addInputableObject(this);
 	}
 
+	/**
+	 * Change scene, Lore Image When Player Press [SPACE]
+	 */
 	public void processInput() {
 		if (GameState.getSceneResource() == SceneResource.BEGINNING_LORE) {
 			if (InputManager.isKeyClick(KeyCode.SPACE)) {

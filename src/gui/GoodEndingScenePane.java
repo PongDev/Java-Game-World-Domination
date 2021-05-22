@@ -14,9 +14,25 @@ import utility.ResourceManager.ImageResource;
 import utility.ResourceManager.SceneResource;
 
 public class GoodEndingScenePane extends StackPane implements Inputable {
-	private GameText currentText, skipText;
+	
+	/**
+	 * Current Text
+	 */
+	private GameText currentText;
+	
+	/**
+	 * Text Showing Skip Message
+	 */
+	private GameText skipText;
+	
+	/**
+	 * Is ScenePane Allow Trigger
+	 */
 	private boolean isAllowTrigger;
 
+	/**
+	 * GoodEndingScenePane Constructor
+	 */
 	public GoodEndingScenePane() {
 		isAllowTrigger = false;
 
@@ -39,6 +55,9 @@ public class GoodEndingScenePane extends StackPane implements Inputable {
 		InputManager.addInputableObject(this);
 	}
 
+	/**
+	 * Change scene When Player Press [SPACE]
+	 */
 	public void processInput() {
 		if (GameState.getSceneResource() == SceneResource.ENDING_GOOD) {
 			if (InputManager.isKeyClick(KeyCode.SPACE) && isAllowTrigger) {

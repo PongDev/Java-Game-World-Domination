@@ -13,12 +13,23 @@ import utility.ResourceManager.ImageResource;
 import utility.ResourceManager.SceneResource;
 
 public class BadEndingScenePane extends StackPane implements Inputable {
+
+	/**
+	 * Text Showing Skip Message
+	 */
 	private GameText skipText;
+
+	/**
+	 * Is ScenePane Allow Trigger
+	 */
 	private boolean isAllowTrigger;
 
+	/**
+	 * BadEndingScenePane Constructor
+	 */
 	public BadEndingScenePane() {
 		isAllowTrigger = false;
-		
+
 		skipText = new GameText(Config.SKIP_TEXT, Config.SCREEN_H / 27, Color.BLACK);
 		skipText.setAlignment(Pos.CENTER);
 		skipText.setTranslateY(Config.SCREEN_H / 2.25);
@@ -28,12 +39,14 @@ public class BadEndingScenePane extends StackPane implements Inputable {
 		InputManager.addInputableObject(this);
 	}
 
+	/**
+	 * Change scene When Player Press [SPACE]
+	 */
 	public void processInput() {
 		if (GameState.getSceneResource() == SceneResource.ENDING_BAD) {
 			if (InputManager.isKeyClick(KeyCode.SPACE) && isAllowTrigger) {
 				GameState.setSceneResource(SceneResource.END_CREDIT);
-			}
-			else if (!InputManager.isKeyPress(KeyCode.SPACE) && !isAllowTrigger) {
+			} else if (!InputManager.isKeyPress(KeyCode.SPACE) && !isAllowTrigger) {
 				isAllowTrigger = true;
 			}
 		}

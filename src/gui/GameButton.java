@@ -13,9 +13,33 @@ import utility.ResourceManager.ImageResource;
 
 public class GameButton extends Button {
 
-	private Background background, onHoverBackground;
-	private int width, height;
+	/**
+	 * Image Of The Button
+	 */
+	private Background background;
 
+	/**
+	 * Image Of The Button When Hover
+	 */
+	private Background onHoverBackground;
+
+	/**
+	 * Width Of The Button
+	 */
+	private int width;
+
+	/**
+	 * Height Of The Button
+	 */
+	private int height;
+
+	/**
+	 * GameButton Main Constructor
+	 * 
+	 * @param imageResource ImageResource Of the button
+	 * @param width         Button Width
+	 * @param height        Button Height
+	 */
 	public GameButton(ImageResource imageResource, int width, int height) {
 		this.width = width;
 		this.height = height;
@@ -28,6 +52,14 @@ public class GameButton extends Button {
 		this.setPrefHeight(height);
 	}
 
+	/**
+	 * GameButton Alternative ConStructor
+	 * 
+	 * @param text          Text To Display On Button
+	 * @param imageResource ImageResource Of The Button
+	 * @param width         Button Width
+	 * @param height        Button Height
+	 */
 	public GameButton(String text, ImageResource imageResource, int width, int height) {
 		this(imageResource, width, height);
 		this.setFont(Font.loadFont(ResourceManager.getFontResourceStream(), height / 2));
@@ -35,6 +67,11 @@ public class GameButton extends Button {
 		this.setText(text);
 	}
 
+	/**
+	 * Set Button Image When Hover
+	 * 
+	 * @param imageResource ImageResource Of Hover Image
+	 */
 	public void setOnHoverBackground(ImageResource imageResource) {
 		onHoverBackground = new Background(new BackgroundImage(ResourceManager.getImage(imageResource),
 				BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,

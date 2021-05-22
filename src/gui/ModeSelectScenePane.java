@@ -17,13 +17,47 @@ import utility.ResourceManager.SoundResource;
 
 public class ModeSelectScenePane extends StackPane implements Updatable {
 
+	/**
+	 * GameMode Name
+	 */
 	private GameText textGameMode;
+
+	/**
+	 * Description Of Current GameMode
+	 */
 	private GameText infoText;
-	private GameButton btnPlay, btnBack, btnNext, btnPrevious;
-	private VBox playBar;
+
+	/**
+	 * Play Button
+	 */
+	private GameButton btnPlay;
+
+	/**
+	 * Back Button
+	 */
+	private GameButton btnBack;
+	/**
+	 * Next GameMode Button
+	 */
+	private GameButton btnNext;
+	/**
+	 * Previous GameMode Button
+	 */
+	private GameButton btnPrevious;
+
+	/**
+	 * Current GameMode Image
+	 */
 	private ImageView infoImage;
+
+	/**
+	 * Is Request GameStage to Update
+	 */
 	private boolean isRequestUpdate = false;
 
+	/**
+	 * ModeSelectScenePane Constructor
+	 */
 	public ModeSelectScenePane() {
 
 		textGameMode = new GameText(GameState.getGameMode().getGameModeName(), Config.SCREEN_H / 15);
@@ -38,12 +72,11 @@ public class ModeSelectScenePane extends StackPane implements Updatable {
 		btnPlay.setTextFill(Color.WHITE);
 		btnPlay.setOnMouseClicked((e) -> {
 			Logger.log("Button Play Game Click");
-
 			GameState.setSceneResource(SceneResource.BEGINNING_LORE);
-			// WaveManager.initialize();
-			// GameState.setSceneResource(SceneResource.PLAYING);
 		});
 		btnPlay.setOnHoverBackground(ImageResource.BTN_HOVER);
+		btnPlay.setAlignment(Pos.CENTER);
+		btnPlay.setTranslateY(Config.SCREEN_H / 3.15);
 
 		btnBack = new GameButton(ImageResource.BTN_BACK, Config.MODE_SELECT_BTN_SIZE, Config.MODE_SELECT_BTN_SIZE);
 		btnBack.setOnMouseClicked((e) -> {
@@ -72,20 +105,17 @@ public class ModeSelectScenePane extends StackPane implements Updatable {
 		btnPrevious.setTranslateX(-Config.SCREEN_W / 3);
 		btnPrevious.setTranslateY(Config.SCREEN_H / 3.15);
 
-		playBar = new VBox();
-		playBar.setSpacing(Config.TITLE_BTN_SPACING);
-		playBar.getChildren().addAll(btnPlay);
-		playBar.setAlignment(Pos.CENTER);
-		playBar.setTranslateY(Config.SCREEN_H / 3.15);
-
 		infoImage = ResourceManager.getImageView(ImageResource.INFO_NORMALMODE, (int) (Config.SCREEN_W / 1.25),
 				(int) (Config.SCREEN_H / 1.25));
 
 		this.getChildren().addAll(
 				ResourceManager.getImageView(ImageResource.BG_TITLE, Config.SCREEN_W, Config.SCREEN_H), infoImage,
-				playBar, btnBack, btnNext, btnPrevious, textGameMode, infoText);
+				btnPlay, btnBack, btnNext, btnPrevious, textGameMode, infoText);
 	}
 
+	/**
+	 * Update GameStage GameMode And Loop BackgroundMusic
+	 */
 	public void update() {
 		if (isRequestUpdate) {
 			textGameMode.setText(GameState.getGameMode().getGameModeName());
@@ -98,6 +128,9 @@ public class ModeSelectScenePane extends StackPane implements Updatable {
 		}
 	}
 
+	/**
+	 * Is Scene Removed From Update
+	 */
 	public boolean isRemoveFromUpdate() {
 		return GameState.getSceneResource() != SceneResource.MODE_SELECTING;
 	}

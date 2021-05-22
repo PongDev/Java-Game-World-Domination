@@ -31,16 +31,70 @@ import weapon.Weapon;
 
 public class Shop extends StackPane {
 
-	private GameText shopText, descriptionText, costText;
+	/**
+	 * Shop Text
+	 */
+	private GameText shopText;
+	/**
+	 * Item Description Text
+	 */
+	private GameText descriptionText;
+	/**
+	 * Item Cost Text
+	 */
+	private GameText costText;
+	/**
+	 * GridPane Contains Items In Current Shop Page
+	 */
 	private GridPane itemPane;
+	/**
+	 * Item Description Background Image
+	 */
 	private ImageView descriptionImage;
+	/**
+	 * ArrayList Contains Items 
+	 */
 	private ArrayList<Buyable> itemList = new ArrayList<Buyable>();
+	/**
+	 * ArrayList Contains Button Of Each Item
+	 */
 	private ArrayList<ShopButton> itemButtonList = new ArrayList<ShopButton>();
+	/**
+	 * ArrayList Contains StackPane Of Each Item
+	 */
 	private ArrayList<StackPane> itemStackPaneList = new ArrayList<StackPane>();
-	private GameButton buyButton, nextPageBTN, previousPageBTN, backBTN, selectedButton;
+	/**
+	 * Buy Button
+	 */
+	private GameButton buyButton;
+	/**
+	 * Next Page Button
+	 */
+	private GameButton nextPageBTN;
+	/**
+	 * Previous Page Button
+	 */
+	private GameButton previousPageBTN;
+	/**
+	 * Close Shop Button
+	 */
+	private GameButton backBTN;
+	/**
+	 * Button Of SelectedItem
+	 */
+	private GameButton selectedButton;
+	/**
+	 * Current Page Displaying In shop
+	 */
 	private int currentPage;
+	/**
+	 * Selected Item
+	 */
 	private ItemResource selectedItem;
 
+	/**
+	 * Shop Constructor
+	 */
 	public Shop() {
 
 		this.currentPage = 0;
@@ -96,6 +150,10 @@ public class Shop extends StackPane {
 		}
 	}
 
+	/**
+	 * Generate Shop Current Page 
+	 * @param currentPage
+	 */
 	private void drawNewPage(int currentPage) {
 
 		this.getChildren().clear();
@@ -208,6 +266,12 @@ public class Shop extends StackPane {
 				nextPageBTN, previousPageBTN, backBTN);
 	}
 
+	/**
+	 * Buy Item
+	 * @param item Item To Buy
+	 * @throws NotAllowBuyException
+	 * @throws NotEnoughMoneyException
+	 */
 	private void buyItem(Buyable item) throws NotAllowBuyException, NotEnoughMoneyException {
 		MainCharacter mainCharacter = ((MainCharacter) ResourceManager
 				.getGameObject(GameObjectResource.MAIN_CHARACTER));
@@ -229,6 +293,9 @@ public class Shop extends StackPane {
 		}
 	}
 
+	/**
+	 * Toggle Shop Visible
+	 */
 	public void toggleVisible() {
 		if (this.isVisible()) {
 			if (selectedButton != null) {
