@@ -37,7 +37,7 @@ public class Shop extends StackPane {
 	private ArrayList<Buyable> itemList = new ArrayList<Buyable>();
 	private ArrayList<ShopButton> itemButtonList = new ArrayList<ShopButton>();
 	private ArrayList<StackPane> itemStackPaneList = new ArrayList<StackPane>();
-	private GameButton buyButton, nextPageBTN, previousPageBTN, backBTN;
+	private GameButton buyButton, nextPageBTN, previousPageBTN, backBTN, selectedButton;
 	private int currentPage;
 	private ItemResource selectedItem;
 
@@ -80,6 +80,13 @@ public class Shop extends StackPane {
 					costText.setText("Cost " + Integer.toString(item.getCost()));
 					costText.setVisible(true);
 					selectedItem = itemResource;
+					itemButton.setBackground(new Background(
+							new BackgroundFill(Color.rgb(0, 0, 0, 0.3), CornerRadii.EMPTY, new Insets(5))));
+					if (selectedButton != null) {
+						selectedButton.setBackground(Background.EMPTY);
+					}
+					selectedButton = itemButton;
+
 				}
 			});
 			StackPane itemStackPane = new StackPane();
@@ -87,51 +94,6 @@ public class Shop extends StackPane {
 			itemStackPaneList.add(itemStackPane);
 			itemList.add(item);
 		}
-
-		// init first page
-		drawNewPage(currentPage);
-
-		nextPageBTN = new GameButton(ImageResource.BTN_NEXT, Config.MODE_SELECT_BTN_SIZE, Config.MODE_SELECT_BTN_SIZE);
-		nextPageBTN.setOnMouseClicked((e) -> {
-			if (currentPage + 1 > ((int) Math.ceil((double) itemList.size() / 8)) - 1) {
-				currentPage = 0;
-			} else {
-				currentPage += 1;
-			}
-			selectedItem = null;
-			Logger.log("Next Button Click, go to page" + Integer.toString(currentPage+1));
-			drawNewPage(currentPage);
-			this.getChildren().addAll(nextPageBTN, previousPageBTN);
-		});
-		nextPageBTN.setTranslateX(Config.SCREEN_W / 2.75);
-		nextPageBTN.setTranslateY(-Config.SCREEN_H / 2.75);
-
-		previousPageBTN = new GameButton(ImageResource.BTN_PREVIOUS, Config.MODE_SELECT_BTN_SIZE,
-				Config.MODE_SELECT_BTN_SIZE);
-		previousPageBTN.setOnMouseClicked((e) -> {
-			if (currentPage - 1 < 0) {
-				currentPage = ((int) Math.ceil((double) itemList.size() / 8)) - 1;
-			} else {
-				currentPage -= 1;
-			}
-			selectedItem = null;
-			Logger.log("previous Button Click, go to page" + Integer.toString(currentPage+1));
-			drawNewPage(currentPage);
-			this.getChildren().addAll(nextPageBTN, previousPageBTN);
-		});
-		previousPageBTN.setTranslateX(-Config.SCREEN_W / 2.75);
-		previousPageBTN.setTranslateY(-Config.SCREEN_H / 2.75);
-		
-		backBTN = new GameButton(ImageResource.BTN_BACK, Config.MODE_SELECT_BTN_SIZE, Config.MODE_SELECT_BTN_SIZE);
-		backBTN.setOnMouseClicked((e) -> {
-			Logger.log("Back Button Click");
-			this.toggleVisible();
-		});
-		backBTN.setTranslateX(-Config.SCREEN_W / 2.25);
-		backBTN.setTranslateY(-Config.SCREEN_H / 2.75);
-
-		this.getChildren().addAll(nextPageBTN, previousPageBTN, backBTN);
-
 	}
 
 	private void drawNewPage(int currentPage) {
@@ -189,12 +151,61 @@ public class Shop extends StackPane {
 		itemPane.setPadding(new Insets(5));
 
 		// Auto generate gridPane at current page
-		int itemPerPage = Math.min((itemStackPaneList.size() - (currentPage * 8)), 8);
-		for (int i = (currentPage * 8); i < (currentPage * 8) + itemPerPage; i++) {
-			itemPane.add(itemStackPaneList.get(i), (i % 8) % 4, (i % 8) / 4, 1, 1);
+		int itemPerPage = Math.min((itemStackPaneList.size() - (this.currentPage * Config.SHOP_ITEM_PER_PAGE)),
+				Config.SHOP_ITEM_PER_PAGE);
+		for (int i = (this.currentPage * Config.SHOP_ITEM_PER_PAGE); i < (this.currentPage * Config.SHOP_ITEM_PER_PAGE)
+				+ itemPerPage; i++) {
+			itemPane.add(itemStackPaneList.get(i), (i % Config.SHOP_ITEM_PER_PAGE) % 4,
+					(i % Config.SHOP_ITEM_PER_PAGE) / 4, 1, 1);
 		}
 
-		this.getChildren().addAll(itemPane, shopText, descriptionImage, descriptionText, buyButton, costText);
+		nextPageBTN = new GameButton(ImageResource.BTN_NEXT, Config.MODE_SELECT_BTN_SIZE, Config.MODE_SELECT_BTN_SIZE);
+		nextPageBTN.setOnMouseClicked((e) -> {
+			if (this.currentPage + 1 > ((int) Math.ceil((double) itemList.size() / 8)) - 1) {
+				this.currentPage = 0;
+			} else {
+				this.currentPage += 1;
+			}
+			selectedItem = null;
+			if (selectedButton != null) {
+				selectedButton.setBackground(Background.EMPTY);
+				selectedButton = null;
+			}
+			Logger.log("Next Button Click, go to page" + Integer.toString(this.currentPage + 1));
+			drawNewPage(currentPage);
+		});
+		nextPageBTN.setTranslateX(Config.SCREEN_W / 2.75);
+		nextPageBTN.setTranslateY(-Config.SCREEN_H / 2.75);
+
+		previousPageBTN = new GameButton(ImageResource.BTN_PREVIOUS, Config.MODE_SELECT_BTN_SIZE,
+				Config.MODE_SELECT_BTN_SIZE);
+		previousPageBTN.setOnMouseClicked((e) -> {
+			if (this.currentPage - 1 < 0) {
+				this.currentPage = ((int) Math.ceil((double) itemList.size() / 8)) - 1;
+			} else {
+				this.currentPage -= 1;
+			}
+			selectedItem = null;
+			if (selectedButton != null) {
+				selectedButton.setBackground(Background.EMPTY);
+				selectedButton = null;
+			}
+			Logger.log("previous Button Click, go to page" + Integer.toString(currentPage + 1));
+			drawNewPage(currentPage);
+		});
+		previousPageBTN.setTranslateX(-Config.SCREEN_W / 2.75);
+		previousPageBTN.setTranslateY(-Config.SCREEN_H / 2.75);
+
+		backBTN = new GameButton(ImageResource.BTN_BACK, Config.MODE_SELECT_BTN_SIZE, Config.MODE_SELECT_BTN_SIZE);
+		backBTN.setOnMouseClicked((e) -> {
+			Logger.log("Back Button Click");
+			this.toggleVisible();
+		});
+		backBTN.setTranslateX(-Config.SCREEN_W / 2.25);
+		backBTN.setTranslateY(-Config.SCREEN_H / 2.75);
+
+		this.getChildren().addAll(itemPane, shopText, descriptionImage, descriptionText, buyButton, costText,
+				nextPageBTN, previousPageBTN, backBTN);
 	}
 
 	private void buyItem(Buyable item) throws NotAllowBuyException, NotEnoughMoneyException {
@@ -219,6 +230,15 @@ public class Shop extends StackPane {
 	}
 
 	public void toggleVisible() {
+		if (this.isVisible()) {
+			if (selectedButton != null) {
+				selectedButton.setBackground(Background.EMPTY);
+			}
+			selectedButton = null;
+			selectedItem = null;
+		} else {
+			drawNewPage(currentPage);
+		}
 		this.setVisible(!this.isVisible());
 		GameState.setPause(this.isVisible());
 	}

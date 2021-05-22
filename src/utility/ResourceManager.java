@@ -10,6 +10,7 @@ import character.MainCharacter;
 import config.Config;
 import gui.BadEndingScenePane;
 import gui.BeginningLorePane;
+import gui.EndCreditScenePane;
 import gui.GameMap;
 import gui.GoodEndingScenePane;
 import gui.ModeSelectScenePane;
@@ -58,7 +59,7 @@ public class ResourceManager {
 	}
 
 	public enum SceneResource {
-		TITLE, SETTING, MODE_SELECTING, PLAYING, BEGINNING_LORE, ENDING_BAD, ENDING_GOOD
+		TITLE, SETTING, MODE_SELECTING, PLAYING, BEGINNING_LORE, ENDING_BAD, ENDING_GOOD, END_CREDIT
 	}
 
 	public enum ItemResource {
@@ -251,12 +252,17 @@ public class ResourceManager {
 		// Good Ending Scene
 		sceneResource.put(SceneResource.ENDING_GOOD,
 				new Scene(new GoodEndingScenePane(), Config.SCREEN_W, Config.SCREEN_H));
+		
+		// End Credit
+		sceneResource.put(SceneResource.END_CREDIT,
+				new Scene(new EndCreditScenePane(), Config.SCREEN_W, Config.SCREEN_H));
 
 		UpdateManager.add((Updatable) getScene(SceneResource.TITLE).getRoot());
 		InputManager.addEventListener(sceneResource.get(SceneResource.PLAYING));
 		InputManager.addEventListener(sceneResource.get(SceneResource.BEGINNING_LORE));
 		InputManager.addEventListener(sceneResource.get(SceneResource.ENDING_BAD));
 		InputManager.addEventListener(sceneResource.get(SceneResource.ENDING_GOOD));
+		InputManager.addEventListener(sceneResource.get(SceneResource.END_CREDIT));
 
 		Logger.log("Complete Loading Scene");
 	}

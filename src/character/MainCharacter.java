@@ -377,7 +377,6 @@ public class MainCharacter extends Character implements Inputable {
 	 * Action On Main Character Destroyed
 	 */
 	public void onDestroyed() {
-		// TODO clear everything i guess
 		ResourceManager.getSound(SoundResource.PLAYING).stop();
 		SoundManager.playSoundEffect(SoundResource.ENDING_BAD, 0.5);
 		GameState.setSceneResource(SceneResource.ENDING_BAD);

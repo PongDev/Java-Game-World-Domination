@@ -48,7 +48,7 @@ public class BeginningLorePane extends StackPane implements Inputable {
 				"Suddenly you woke up and found out that you have been travel back to the great war. You must fight to survive!");
 		text.add("");
 
-		skipText = new GameText(Config.SKIP_TEXT, Config.SCREEN_H / 25, Color.GREY);
+		skipText = new GameText(Config.SKIP_TEXT, Config.SCREEN_H / 27, Color.GREY);
 		skipText.setAlignment(Pos.CENTER);
 		skipText.setTranslateY(Config.SCREEN_H / 2.25);
 

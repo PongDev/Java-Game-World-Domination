@@ -65,6 +65,8 @@ public class Config {
 
 	public static final Position SPAWN_CENTER = new Position((int) (Config.TILE_W * 2.5),
 			(GameState.getMapHeight() * Config.TILE_H) / 2);
+	
+	public static final int SHOP_ITEM_PER_PAGE = 8;
 
 	public static final double SOUND_VOLUME = 0.05;
 }
