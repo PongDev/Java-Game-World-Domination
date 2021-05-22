@@ -31,7 +31,7 @@ public class Config {
 	public static final int CHARACTER_W = 48;
 	public static final int CHARACTER_H = 48;
 
-	public static final int MAIN_CHARACTER_INITIAL_MAX_HEALTH = 5;
+	public static final int MAIN_CHARACTER_INITIAL_MAX_HEALTH = 100;
 	public static final int MAIN_CHARACTER_INITIAL_DEFENSE = 0;
 	public static final int MAIN_CHARACTER_INITIAL_SPD = 2;
 	public static final int MAIN_CHARACTER_TEAM = 0;
@@ -50,6 +50,8 @@ public class Config {
 
 	public static final int DELAY_BETWEEN_WAVE = 10000;
 	public static final int DELAY_BETWEEN_WAVE_TO_MONEY = 1;
+	public static final int MINIMUM_WAVE_ENEMY_SPAWN_TIME_DELAY = 250;
+	public static final int MAXIMUM_WAVE_ENEMY_SPAWN_TIME_DELAY = 750;
 
 	public static final int SCREEN_TILE_W = 16;
 	public static final int SCREEN_TILE_H = 10;

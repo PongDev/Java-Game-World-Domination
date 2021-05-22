@@ -18,13 +18,13 @@ public class Shotgun extends Gun {
 	private double bulletDispersion;
 
 	public Shotgun(int team, int holderZIndex) {
-		super(ImageResource.GUN_SHOTGUN, 1, 1, ImageResource.BULLET, 10, 10, 10, team, holderZIndex);
+		super(ImageResource.GUN_SHOTGUN, 20, 1, ImageResource.BULLET, 10, 10, 10, team, holderZIndex);
 		this.bulletPerShot = 3;
 		this.bulletDispersion = 30;
 		this.name = "Shotgun";
 		this.description = String.format("%d-%d damage, %.1f second firerate", attackDamage,
 				attackDamage * bulletPerShot, 1 / attackSpeed);
-		this.cost = 50;
+		this.cost = 60;
 		this.attackSound = SoundResource.GUN_SHOTGUN;
 		this.attackSoundVolume = 0.5;
 		this.itemResource = ItemResource.GUN_SHOTGUN;
