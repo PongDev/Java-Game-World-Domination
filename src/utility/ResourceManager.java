@@ -8,6 +8,8 @@ import java.util.*;
 
 import character.MainCharacter;
 import config.Config;
+import gui.BadEndingScenePane;
+import gui.BeginningLorePane;
 import gui.GameMap;
 import gui.ModeSelectScenePane;
 import gui.PlayScenePane;
@@ -41,19 +43,20 @@ public class ResourceManager {
 	public enum ImageResource {
 		BG_TITLE, INFO_NORMALMODE, INFO_ENDLESSMODE, BTN, BTN_HOVER, BTN_NEWGAME, BTN_LOADGAME, BTN_EXITGAME, BTN_PLAY,
 		BTN_BACK, BTN_NEXT, BTN_PREVIOUS, TILE_FLOOR, TILE_FLOOR_1, TILE_FLOOR_2, TILE_WALL, TILE_UNWALKABLE_FLOOR,
-		TILE_UNPLACABLE_FLOOR, TILE_GATE_CLOSE, TILE_SHOP, CHARACTER_MAIN, BULLET, ENEMY_BULLET, GUN_PISTOL, GUN_AK47, GUN_SHOTGUN,
-		GUN_SNIPER, SPRITE_KNIGHT, SPRITE_ELITE_KNIGHT, CROSS_HAIR, AMMO_PANE, HEALTH_POTION_PANE, STATUS_PANE,
-		HEALTH_POTION, ITEM_BUTTON, ITEM_BUTTON_TRANSPARENT, ITEM_DESCRIPTION, BARRIER_TOWER, MACHINE_GUN_TOWER,
-		MACHINE_GUN_TOWER_BASE, MACHINE_GUN_TOWER_HEAD, SNIPER_TOWER, SNIPER_TOWER_BASE, SNIPER_TOWER_HEAD, AMMO_PISTOL,
-		AMMO_RIFLE, AMMO_SHOTGUN, COIN, BEGINNING_LORE
+		TILE_UNPLACABLE_FLOOR, TILE_GATE_CLOSE, TILE_SHOP, CHARACTER_MAIN, BULLET, ENEMY_BULLET, GUN_PISTOL, GUN_AK47,
+		GUN_SHOTGUN, GUN_SNIPER, SPRITE_KNIGHT, SPRITE_ELITE_KNIGHT, CROSS_HAIR, AMMO_PANE, HEALTH_POTION_PANE,
+		STATUS_PANE, HEALTH_POTION, ITEM_BUTTON, ITEM_BUTTON_TRANSPARENT, ITEM_DESCRIPTION, BARRIER_TOWER,
+		MACHINE_GUN_TOWER, MACHINE_GUN_TOWER_BASE, MACHINE_GUN_TOWER_HEAD, SNIPER_TOWER, SNIPER_TOWER_BASE,
+		SNIPER_TOWER_HEAD, AMMO_PISTOL, AMMO_RIFLE, AMMO_SHOTGUN, COIN, BEGINNING_LORE_1, BEGINNING_LORE_2,
+		BEGINNING_LORE_3, BEGINNING_LORE_4, BEGINNING_LORE_5, ENDING_BAD, ENDING_GOOD_1, ENDING_GOOD_2
 	}
 
 	public enum SoundResource {
-		TITLE, PLAYING
+		TITLE, PLAYING, CAR_CRASH, ENDING_BAD, GUN_SHOT
 	}
 
 	public enum SceneResource {
-		TITLE, SETTING, MODE_SELECTING, PLAYING
+		TITLE, SETTING, MODE_SELECTING, PLAYING, BEGINNING_LORE, ENDING_BAD
 	}
 
 	public enum ItemResource {
@@ -146,7 +149,14 @@ public class ResourceManager {
 		imageResource.put(ImageResource.BARRIER_TOWER, getImage("sprite/tower_barrier.png"));
 		imageResource.put(ImageResource.HEALTH_POTION, getImage("sprite/healing_potion.png"));
 		imageResource.put(ImageResource.COIN, getImage("sprite/coin.png"));
-		imageResource.put(ImageResource.BEGINNING_LORE, getImage("info/begining_lore_spare.png"));
+		imageResource.put(ImageResource.BEGINNING_LORE_1, getImage("lore/beginning_lore_1.png"));
+		imageResource.put(ImageResource.BEGINNING_LORE_2, getImage("lore/beginning_lore_2.png"));
+		imageResource.put(ImageResource.BEGINNING_LORE_3, getImage("lore/beginning_lore_3.png"));
+		imageResource.put(ImageResource.BEGINNING_LORE_4, getImage("lore/beginning_lore_4.png"));
+		imageResource.put(ImageResource.BEGINNING_LORE_5, getImage("lore/beginning_lore_5.png"));
+		imageResource.put(ImageResource.ENDING_BAD, getImage("lore/ending_bad.jpg"));
+		imageResource.put(ImageResource.ENDING_GOOD_1, getImage("lore/ending_good_1.png"));
+		soundResource.put(SoundResource.GUN_SHOT, getSound("sound/gun_shot.mp3"));
 		Logger.log("Complete Loading Image");
 	}
 
@@ -157,6 +167,8 @@ public class ResourceManager {
 	private static void loadSound() {
 		soundResource.put(SoundResource.TITLE, getSound("sound/TheFatRat - Nemesis.mp3"));
 		soundResource.put(SoundResource.PLAYING, getSound("sound/Glorious_morning.mp3"));
+		soundResource.put(SoundResource.CAR_CRASH, getSound("sound/car_crash.mp3"));
+		soundResource.put(SoundResource.ENDING_BAD, getSound("sound/ending_bad.mp3"));
 	}
 
 	private static void loadMap() {
@@ -218,9 +230,17 @@ public class ResourceManager {
 
 		// Playing Scene
 		sceneResource.put(SceneResource.PLAYING, new Scene(new PlayScenePane(), Config.SCREEN_W, Config.SCREEN_H));
+		
+		// Beginning Lore Scene
+		sceneResource.put(SceneResource.BEGINNING_LORE, new Scene(new BeginningLorePane(), Config.SCREEN_W, Config.SCREEN_H));
+		
+		// Bad Ending Scene
+		sceneResource.put(SceneResource.ENDING_BAD, new Scene(new BadEndingScenePane(), Config.SCREEN_W, Config.SCREEN_H));
 
 		UpdateManager.add((Updatable) getScene(SceneResource.TITLE).getRoot());
 		InputManager.addEventListener(sceneResource.get(SceneResource.PLAYING));
+		InputManager.addEventListener(sceneResource.get(SceneResource.BEGINNING_LORE));
+		InputManager.addEventListener(sceneResource.get(SceneResource.ENDING_BAD));
 
 		Logger.log("Complete Loading Scene");
 	}

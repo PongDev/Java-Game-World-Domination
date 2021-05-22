@@ -64,8 +64,8 @@ public class TitleScenePane extends StackPane implements Updatable {
 	}
 
 	public void update() {
-		if (SoundManager.getCurrentSoundResource() != SoundResource.TITLE) {
-			SoundManager.setCurrentSound(SoundResource.TITLE);
+		if (SoundManager.getCurrentBGMSoundResource() != SoundResource.TITLE) {
+			SoundManager.setCurrentBGM(SoundResource.TITLE);
 		}
 	}
 

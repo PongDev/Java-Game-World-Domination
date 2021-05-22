@@ -18,6 +18,7 @@ import javafx.util.Pair;
 import logic.GameState;
 import object.ObjectManager;
 import render.RenderManager;
+import sound.SoundManager;
 import tower.BarricadeTower;
 import tower.MachineGunTower;
 import tower.SniperTower;
@@ -28,6 +29,7 @@ import utility.ResourceManager;
 import utility.ResourceManager.ImageResource;
 import utility.ResourceManager.ItemResource;
 import utility.ResourceManager.SceneResource;
+import utility.ResourceManager.SoundResource;
 import utility.ResourceManager.UIResource;
 import utility.Utility;
 import utility.WaveManager;
@@ -361,8 +363,8 @@ public class MainCharacter extends Character implements Inputable {
 	 * Is Main Character Destroyed
 	 */
 	public boolean isDestroyed() {
-		return false;
-		// return isDestroyed;
+		//return false;
+		return isDestroyed;
 	}
 
 	/**
@@ -370,7 +372,9 @@ public class MainCharacter extends Character implements Inputable {
 	 */
 	public void onDestroyed() {
 		// TODO clear everything i guess
-		// GameState.setSceneResource(SceneResource.TITLE);
+		ResourceManager.getSound(SoundResource.PLAYING).stop();
+		SoundManager.playSoundEffect(SoundResource.ENDING_BAD, 0.5);
+		GameState.setSceneResource(SceneResource.ENDING_BAD);
 	}
 
 	/**

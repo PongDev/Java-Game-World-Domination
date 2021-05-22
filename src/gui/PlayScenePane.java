@@ -174,8 +174,8 @@ public class PlayScenePane extends StackPane implements Updatable {
 			ammoText.setText("-");
 		}
 
-		if (SoundManager.getCurrentSoundResource() != SoundResource.PLAYING) {
-			SoundManager.setCurrentSound(SoundResource.PLAYING);
+		if (SoundManager.getCurrentBGMSoundResource() != SoundResource.PLAYING) {
+			SoundManager.setCurrentBGM(SoundResource.PLAYING);
 		}
 		pauseText.setVisible(GameState.isPause());
 		deployTowerText.setVisible(mainCharacter.getSelectedTower() != null);

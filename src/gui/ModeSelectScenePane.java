@@ -39,8 +39,10 @@ public class ModeSelectScenePane extends StackPane implements Updatable {
 		btnPlay.setTextFill(Color.WHITE);
 		btnPlay.setOnMouseClicked((e) -> {
 			Logger.log("Button Play Game Click");
-			WaveManager.initialize();
-			GameState.setSceneResource(SceneResource.PLAYING);
+			
+			GameState.setSceneResource(SceneResource.BEGINNING_LORE);
+			//WaveManager.initialize();
+			//GameState.setSceneResource(SceneResource.PLAYING);
 		});
 		btnPlay.setOnHoverBackground(ImageResource.BTN_HOVER);
 
@@ -92,8 +94,8 @@ public class ModeSelectScenePane extends StackPane implements Updatable {
 			infoText.setText(GameState.getGameMode().getGameModeInfoText());
 			isRequestUpdate = false;
 		}
-		if (SoundManager.getCurrentSoundResource() != SoundResource.TITLE) {
-			SoundManager.setCurrentSound(SoundResource.TITLE);
+		if (SoundManager.getCurrentBGMSoundResource() != SoundResource.TITLE) {
+			SoundManager.setCurrentBGM(SoundResource.TITLE);
 		}
 	}
 
