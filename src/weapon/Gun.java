@@ -72,7 +72,7 @@ public class Gun extends Weapon {
 		return description;
 	}
 
-	public ImageResource getImage() {
+	public ImageResource getIconImageResource() {
 		return getImageResourse();
 	}
 

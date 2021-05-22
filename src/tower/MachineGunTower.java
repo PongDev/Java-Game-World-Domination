@@ -21,7 +21,7 @@ public class MachineGunTower extends Tower {
 		return "fast attack speed, medium damage";
 	}
 
-	public ImageResource getImage() {
+	public ImageResource getIconImageResource() {
 		return ImageResource.MACHINE_GUN_TOWER;
 	}
 

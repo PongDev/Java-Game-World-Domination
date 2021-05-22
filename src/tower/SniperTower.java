@@ -21,7 +21,7 @@ public class SniperTower extends Tower {
 		return "low attack speed, very high damage";
 	}
 
-	public ImageResource getImage() {
+	public ImageResource getIconImageResource() {
 		return ImageResource.SNIPER_TOWER;
 	}
 

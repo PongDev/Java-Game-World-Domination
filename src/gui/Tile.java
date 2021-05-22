@@ -3,14 +3,13 @@ package gui;
 import java.util.HashMap;
 import java.util.Map;
 
-import javafx.scene.image.Image;
 import utility.ResourceManager.ImageResource;
 
 public class Tile {
 
 	private ImageResource imageResource;
 	private String tileCode;
-	private boolean isWalkable, isPlacable, isPenetrable, isHighlight; 
+	private boolean isWalkable, isPlacable, isPenetrable, isHighlight;
 	private Map<Integer, Boolean> isWhitelist = new HashMap<Integer, Boolean>();
 
 	public Tile(ImageResource imageResource, String tileCode, boolean isWalkable, boolean isPlacable,
@@ -54,6 +53,10 @@ public class Tile {
 
 	public void setHighlight(boolean isHighlight) {
 		this.isHighlight = isHighlight;
+	}
+
+	public String getTileCode() {
+		return tileCode;
 	}
 
 }

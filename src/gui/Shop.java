@@ -62,7 +62,7 @@ public class Shop extends StackPane {
 			itemName.setTextAlignment(TextAlignment.CENTER);
 			itemName.setPrefWidth(Config.SCREEN_W / 7);
 			itemName.setWrapText(true);
-			ImageView itemImage = ResourceManager.getImageView(item.getImage(), (int) (Config.SCREEN_W / 11),
+			ImageView itemImage = ResourceManager.getImageView(item.getIconImageResource(), (int) (Config.SCREEN_W / 11),
 					(int) (Config.SCREEN_H / 7));
 			itemVBox.getChildren().addAll(itemImage, itemName);
 

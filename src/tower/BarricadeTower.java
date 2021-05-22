@@ -15,7 +15,7 @@ public class BarricadeTower extends Tower {
 		return "can block enemies bullet";
 	}
 
-	public ImageResource getImage() {
+	public ImageResource getIconImageResource() {
 		return ImageResource.BARRIER_TOWER;
 	}
 

@@ -34,7 +34,6 @@ import utility.ResourceManager.SoundResource;
 import utility.ResourceManager.UIResource;
 import utility.Utility;
 import utility.WaveManager;
-import weapon.Bullet;
 import weapon.Gun;
 import weapon.Weapon;
 
@@ -246,7 +245,7 @@ public class MainCharacter extends Character implements Inputable {
 							}
 						} else {
 							if ((new Date()).getTime() - ((Gun) weapon).getLastAttack() >= 1000) {
-								SoundManager.playSoundEffect(SoundResource.GUN_OUT_OF_AMMO,0.2);
+								SoundManager.playSoundEffect(SoundResource.GUN_OUT_OF_AMMO, 0.2);
 								((Gun) weapon).setLastAttack((new Date()).getTime());
 							}
 						}
