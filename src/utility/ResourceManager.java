@@ -37,6 +37,8 @@ import tower.SniperTower;
 import update.Updatable;
 import update.UpdateManager;
 import weapon.AK47;
+import weapon.DesertEagle;
+import weapon.DoubleBarrel;
 import weapon.MachineGun;
 import weapon.Shotgun;
 import weapon.Sniper;
@@ -46,18 +48,18 @@ public class ResourceManager {
 	public enum ImageResource {
 		BG_TITLE, INFO_NORMALMODE, INFO_ENDLESSMODE, BTN, BTN_HOVER, BTN_NEWGAME, BTN_LOADGAME, BTN_EXITGAME, BTN_PLAY,
 		BTN_BACK, BTN_NEXT, BTN_PREVIOUS, TILE_FLOOR, TILE_FLOOR_1, TILE_FLOOR_2, TILE_WALL, TILE_UNWALKABLE_FLOOR,
-		TILE_UNPLACABLE_FLOOR, TILE_GATE_CLOSE, TILE_SHOP, CHARACTER_MAIN, BULLET, ENEMY_BULLET, GUN_PISTOL, GUN_AK47,
-		GUN_SHOTGUN, GUN_SNIPER, GUN_MACHINEGUN, SPRITE_KNIGHT, SPRITE_ELITE_KNIGHT, CROSS_HAIR, AMMO_PANE,
-		HEALTH_POTION_PANE, STATUS_PANE, HEALTH_POTION, ITEM_BUTTON, ITEM_BUTTON_TRANSPARENT, ITEM_DESCRIPTION,
-		BARRIER_TOWER, MACHINE_GUN_TOWER, MACHINE_GUN_TOWER_BASE, MACHINE_GUN_TOWER_HEAD, SNIPER_TOWER,
-		SNIPER_TOWER_BASE, SNIPER_TOWER_HEAD, AMMO_PISTOL, AMMO_RIFLE, AMMO_SHOTGUN, COIN, BEGINNING_LORE_1,
-		BEGINNING_LORE_2, BEGINNING_LORE_3, BEGINNING_LORE_4, BEGINNING_LORE_5, ENDING_BAD, ENDING_GOOD_1, GAME_CONTROL,
-		BEGINNING_GAME_CONTROL, END_CREDIT
+		TILE_UNPLACABLE_FLOOR, TILE_GATE_CLOSE, TILE_SHOP, CHARACTER_MAIN, BULLET, ENEMY_BULLET, GUN_PISTOL,
+		GUN_DESERTEAGLE, GUN_AK47, GUN_DOUBLEBARREL, GUN_SHOTGUN, GUN_SNIPER, GUN_MACHINEGUN, SPRITE_KNIGHT,
+		SPRITE_ELITE_KNIGHT, CROSS_HAIR, AMMO_PANE, HEALTH_POTION_PANE, STATUS_PANE, HEALTH_POTION, ITEM_BUTTON,
+		ITEM_BUTTON_TRANSPARENT, ITEM_DESCRIPTION, BARRIER_TOWER, MACHINE_GUN_TOWER, MACHINE_GUN_TOWER_BASE,
+		MACHINE_GUN_TOWER_HEAD, SNIPER_TOWER, SNIPER_TOWER_BASE, SNIPER_TOWER_HEAD, AMMO_PISTOL, AMMO_RIFLE,
+		AMMO_SHOTGUN, COIN, BEGINNING_LORE_1, BEGINNING_LORE_2, BEGINNING_LORE_3, BEGINNING_LORE_4, BEGINNING_LORE_5,
+		ENDING_BAD, ENDING_GOOD_1, GAME_CONTROL, BEGINNING_GAME_CONTROL, END_CREDIT
 	}
 
 	public enum SoundResource {
-		TITLE, PLAYING, CAR_CRASH, ENDING_BAD, ENDING_GOOD, GUN_PISTOL, GUN_AK47, GUN_SHOTGUN, GUN_SNIPER,
-		GUN_MACHINEGUN, HEALTH_POTON, DEPLOY_TOWER
+		TITLE, PLAYING, CAR_CRASH, ENDING_BAD, ENDING_GOOD, GUN_PISTOL, GUN_DESERTEAGLE, GUN_AK47, GUN_DOUBLEBARREL,
+		GUN_SHOTGUN, GUN_SNIPER, GUN_MACHINEGUN, HEALTH_POTON, DEPLOY_TOWER
 	}
 
 	public enum SceneResource {
@@ -65,8 +67,8 @@ public class ResourceManager {
 	}
 
 	public enum ItemResource {
-		BARRIER_TOWER, MACHINE_GUN_TOWER, SNIPER_TOWER, HEALTH_POTION, GUN_AK47, GUN_SHOTGUN, GUN_SNIPER,
-		GUN_MACHINEGUN, AMMO_PISTOL, AMMO_RIFLE, AMMO_SHOTGUN
+		BARRIER_TOWER, MACHINE_GUN_TOWER, SNIPER_TOWER, HEALTH_POTION, GUN_DESERTEAGLE, GUN_AK47, GUN_DOUBLEBARREL,
+		GUN_SHOTGUN, GUN_SNIPER, GUN_MACHINEGUN, AMMO_PISTOL, AMMO_RIFLE, AMMO_SHOTGUN
 	}
 
 	public enum UIResource {
@@ -136,7 +138,9 @@ public class ResourceManager {
 		imageResource.put(ImageResource.BULLET, getImage("sprite/bullet.png"));
 		imageResource.put(ImageResource.ENEMY_BULLET, getImage("sprite/enemy_bullet.png"));
 		imageResource.put(ImageResource.GUN_PISTOL, getImage("weapon/gun_pistol.png"));
+		imageResource.put(ImageResource.GUN_DESERTEAGLE, getImage("weapon/gun_deserteagle.png"));
 		imageResource.put(ImageResource.GUN_AK47, getImage("weapon/gun_ak47.png"));
+		imageResource.put(ImageResource.GUN_DOUBLEBARREL, getImage("weapon/gun_doublebarrel.png"));
 		imageResource.put(ImageResource.GUN_SHOTGUN, getImage("weapon/gun_shotgun.png"));
 		imageResource.put(ImageResource.GUN_SNIPER, getImage("weapon/gun_sniper.png"));
 		imageResource.put(ImageResource.GUN_MACHINEGUN, getImage("weapon/gun_machinegun.png"));
@@ -179,7 +183,9 @@ public class ResourceManager {
 		soundResource.put(SoundResource.ENDING_BAD, getSound("sound/ending_bad.mp3"));
 		soundResource.put(SoundResource.ENDING_GOOD, getSound("sound/ending_good.mp3"));
 		soundResource.put(SoundResource.GUN_PISTOL, getSound("sound/gun_pistol.mp3"));
+		soundResource.put(SoundResource.GUN_DESERTEAGLE, getSound("sound/gun_deserteagle.mp3"));
 		soundResource.put(SoundResource.GUN_AK47, getSound("sound/gun_ak47.mp3"));
+		soundResource.put(SoundResource.GUN_DOUBLEBARREL, getSound("sound/gun_doublebarrel.mp3"));
 		soundResource.put(SoundResource.GUN_SHOTGUN, getSound("sound/gun_shotgun.mp3"));
 		soundResource.put(SoundResource.GUN_SNIPER, getSound("sound/gun_sniper.mp3"));
 		soundResource.put(SoundResource.GUN_MACHINEGUN, getSound("sound/gun_machinegun.mp3"));
@@ -217,7 +223,11 @@ public class ResourceManager {
 		itemResource.put(ItemResource.SNIPER_TOWER, new SniperTower(0, 0, 0));
 		itemResource.put(ItemResource.BARRIER_TOWER, new BarricadeTower(0, 0, 0));
 		itemResource.put(ItemResource.HEALTH_POTION, new HealthPotion());
+		itemResource.put(ItemResource.GUN_DESERTEAGLE,
+				new DesertEagle(Config.MAIN_CHARACTER_TEAM, Config.ZINDEX_MAIN_CHARACTER));
 		itemResource.put(ItemResource.GUN_AK47, new AK47(Config.MAIN_CHARACTER_TEAM, Config.ZINDEX_MAIN_CHARACTER));
+		itemResource.put(ItemResource.GUN_DOUBLEBARREL,
+				new DoubleBarrel(Config.MAIN_CHARACTER_TEAM, Config.ZINDEX_MAIN_CHARACTER));
 		itemResource.put(ItemResource.GUN_SHOTGUN,
 				new Shotgun(Config.MAIN_CHARACTER_TEAM, Config.ZINDEX_MAIN_CHARACTER));
 		itemResource.put(ItemResource.GUN_SNIPER, new Sniper(Config.MAIN_CHARACTER_TEAM, Config.ZINDEX_MAIN_CHARACTER));
