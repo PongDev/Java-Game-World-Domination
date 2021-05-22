@@ -123,7 +123,7 @@ public abstract class Tower extends GameObject implements Updatable, Buyable {
 				ObjectManager.collideWithBullet(this);
 
 				if (weapon != null) {
-					GameObject targetObject = ObjectManager.findNearestOpponentCharacter(this, team);
+					GameObject targetObject = ObjectManager.findNearestOpponentCharacter(this);
 					if (targetObject != null && !targetObject.isDestroyed()) {
 						double degree = Math.toDegrees(Math.atan2(
 								(this.getCenterPos().Y) - (targetObject.getCenterPos().Y)

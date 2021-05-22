@@ -9,18 +9,45 @@ import tower.Tower;
 import utility.Utility;
 import weapon.Bullet;
 
+/**
+ * Object Manager: Management Game Object System
+ */
 public class ObjectManager {
 
+	/**
+	 * Array List Contain Current In-Game Bullet
+	 */
 	private static ArrayList<Bullet> bulletList = new ArrayList<Bullet>();
+
+	/**
+	 * Array List Contain Current In-Game Tower
+	 */
 	private static ArrayList<Tower> towerList = new ArrayList<Tower>();
+
+	/**
+	 * Array List Contain Current In-Game Character
+	 */
 	private static ArrayList<Character> characterList = new ArrayList<Character>();
 
+	/**
+	 * Is Object Collide With Position X, Y
+	 * 
+	 * @param gameObject Object To Check
+	 * @param posX       Position X
+	 * @param posY       Position Y
+	 */
 	public static boolean isObjectCollide(GameObject gameObject, double posX, double posY) {
 		return posX >= gameObject.getPos().X && posY >= gameObject.getPos().Y
 				&& posX <= (gameObject.getPos().X + gameObject.getWidth() - 1)
 				&& posY <= (gameObject.getPos().Y + gameObject.getHeight() - 1);
 	}
 
+	/**
+	 * Is Object Collide With Each Other
+	 * 
+	 * @param obj1 First Object
+	 * @param obj2 Second Object
+	 */
 	public static boolean isObjectCollide(GameObject obj1, GameObject obj2) {
 		return isObjectCollide(obj1, obj2.getPos().X, obj2.getPos().Y)
 				|| isObjectCollide(obj1, obj2.getPos().X + obj2.getWidth() - 1, obj2.getPos().Y)
@@ -28,6 +55,11 @@ public class ObjectManager {
 				|| isObjectCollide(obj1, obj2.getPos().X + obj2.getWidth() - 1, obj2.getPos().Y + obj2.getHeight() - 1);
 	}
 
+	/**
+	 * Is Tower Deployable Without Collide Other Object And In Placable Tile
+	 * 
+	 * @param tower Tower To Check
+	 */
 	public static boolean isTowerDeployable(Tower tower) {
 		if (GameState.getGameMap().isPlacable(tower.getTowerRow(), tower.getTowerCol())) {
 			for (Tower e : towerList) {
@@ -45,10 +77,19 @@ public class ObjectManager {
 		return false;
 	}
 
+	/**
+	 * Add Bullet To bulletList
+	 */
 	public static void addBullet(Bullet bullet) {
 		bulletList.add(bullet);
 	}
 
+	/**
+	 * Process Game Object Is Collide With Opponent Bullet If It Is, Deal Damage
+	 * Also Remove Destroyed Bullet From bulletList Between Process
+	 * 
+	 * @param obj Game Object To Process
+	 */
 	public static void collideWithBullet(GameObject obj) {
 		for (int i = bulletList.size() - 1; i >= 0; i--) {
 			if (bulletList.get(i).isDestroyed()) {
@@ -62,12 +103,23 @@ public class ObjectManager {
 		}
 	}
 
+	/**
+	 * Add Tower To towerList
+	 */
 	public static void addTower(Tower tower) {
 		towerList.add(tower);
 	}
 
-	public static Tower findNearestOpponentTower(GameObject obj, int team) {
+	/**
+	 * Find Nearest Opponent Tower Priority By Manhattan Distance Follow By
+	 * Euclidean Distance
+	 * 
+	 * @param obj Object To Find Nearest Opponent Tower
+	 * @return Nearest Opponent Tower, Null If Not Found
+	 */
+	public static Tower findNearestOpponentTower(GameObject obj) {
 		Tower targetTower = null;
+		int team = obj.getTeam();
 		int row = (int) (obj.getCenterPos().Y / Config.TILE_H);
 		int col = (int) (obj.getCenterPos().X / Config.TILE_W);
 
@@ -101,12 +153,23 @@ public class ObjectManager {
 		return targetTower;
 	}
 
+	/**
+	 * Add Character To characterList
+	 */
 	public static void addCharacter(Character character) {
 		characterList.add(character);
 	}
 
-	public static Character findNearestOpponentCharacter(GameObject obj, int team) {
+	/**
+	 * Find Nearest Opponent Character Priority By Manhattan Distance Follow By
+	 * Euclidean Distance
+	 * 
+	 * @param obj Object To Find Nearest Opponent Character
+	 * @return Nearest Opponent Character, Null If Not Found
+	 */
+	public static Character findNearestOpponentCharacter(GameObject obj) {
 		Character targetCharacter = null;
+		int team = obj.getTeam();
 		int row = (int) (obj.getCenterPos().Y / Config.TILE_H);
 		int col = (int) (obj.getCenterPos().X / Config.TILE_W);
 

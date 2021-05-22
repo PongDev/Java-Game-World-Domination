@@ -167,7 +167,7 @@ public class Enemy extends Character {
 
 				double degree;
 				double noDispersionDegree;
-				Tower targetTower = ObjectManager.findNearestOpponentTower(this, team);
+				Tower targetTower = ObjectManager.findNearestOpponentTower(this);
 				int row = (int) (this.getCenterPos().Y / Config.TILE_H);
 				int col = (int) (this.getCenterPos().X / Config.TILE_W);
 
