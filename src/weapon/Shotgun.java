@@ -22,8 +22,8 @@ public class Shotgun extends Gun {
 		this.bulletPerShot = 3;
 		this.bulletDispersion = 30;
 		this.name = "Shotgun";
-		this.description = String.format("%d-%d damage, %.1f second firerate, %d ammo", attackDamage,
-				attackDamage * bulletPerShot, 1 / attackSpeed, 20);
+		this.description = String.format("%d-%d damage, %.1f second firerate", attackDamage,
+				attackDamage * bulletPerShot, 1 / attackSpeed);
 		this.cost = 50;
 		this.attackSound = SoundResource.GUN_SHOTGUN;
 		this.attackSoundVolume = 0.5;
