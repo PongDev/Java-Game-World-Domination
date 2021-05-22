@@ -5,9 +5,13 @@ import java.util.ArrayList;
 import config.Config;
 import input.InputManager;
 import input.Inputable;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.TextAlignment;
@@ -34,13 +38,15 @@ public class BeginningLorePane extends StackPane implements Inputable {
 		beginningLoreImage.add(ImageResource.BEGINNING_LORE_3);
 		beginningLoreImage.add(ImageResource.BEGINNING_LORE_4);
 		beginningLoreImage.add(ImageResource.BEGINNING_LORE_5);
+		beginningLoreImage.add(ImageResource.BEGINNING_GAME_CONTROL);
 
 		text.add("You are a normal girl. But one day, an unfortunate event happen to you.");
 		text.add("You got hit by a truck kun.");
 		text.add("...");
-		text.add("Am I... Am I dead? \n Where am I?");
+		text.add("Am I... Am I dead yet? \n Where am I?");
 		text.add(
 				"Suddenly you woke up and found out that you have been travel back to the great war. You must fight to survive!");
+		text.add("");
 
 		skipText = new GameText(Config.SKIP_TEXT, Config.SCREEN_H / 25, Color.GREY);
 		skipText.setAlignment(Pos.CENTER);
@@ -57,7 +63,7 @@ public class BeginningLorePane extends StackPane implements Inputable {
 		imageView.setImage(ResourceManager.getImage(beginningLoreImage.get(0)));
 		imageView.setFitWidth(Config.SCREEN_W);
 		imageView.setFitHeight(Config.SCREEN_H);
-		this.getChildren().addAll(imageView, currentText,skipText);
+		this.getChildren().addAll(imageView, currentText, skipText);
 		InputManager.addInputableObject(this);
 	}
 

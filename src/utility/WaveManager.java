@@ -7,15 +7,17 @@ import character.Enemy;
 import config.Config;
 import gui.GameMap;
 import logic.GameState;
+import sound.SoundManager;
 import utility.ResourceManager.ImageResource;
 import utility.ResourceManager.SceneResource;
+import utility.ResourceManager.SoundResource;
 import weapon.Gun;
 
 public class WaveManager {
 
 	private static ArrayList<Enemy> enemyList = new ArrayList<Enemy>();
 	private static int[] enemyPerWaveList = { 3, 3, 4, 4, 5, 5, 5, 6, 6, 8, 9, 9, 10, 10, 11, 11, 12, 12, 13, 16, 17,
-			17, 18, 18, 19, 19, 20, 20, 21, 25 };
+			17, 18, 18, 19, 19, 20, 20, 21, 25, 0};
 	private static int wave = 0;
 	private static String displayWaveText = "";
 	private static long displayWaveTextTimestamp = 0;
@@ -37,6 +39,13 @@ public class WaveManager {
 	private static void startNewWave() {
 		isWaveEnd = false;
 		wave += 1;
+		
+		//End game
+		if(GameState.getGameMode().getGameModeName() == "Normal" && wave == 31) {
+			SoundManager.playSoundEffect(SoundResource.ENDING_GOOD,0.5);
+			GameState.setSceneResource(SceneResource.ENDING_GOOD);
+		}
+		
 		displayWaveText = "Wave " + Integer.toString(WaveManager.getWave());
 		displayWaveTextTimestamp = (new Date()).getTime();
 

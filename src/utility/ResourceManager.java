@@ -11,6 +11,7 @@ import config.Config;
 import gui.BadEndingScenePane;
 import gui.BeginningLorePane;
 import gui.GameMap;
+import gui.GoodEndingScenePane;
 import gui.ModeSelectScenePane;
 import gui.PlayScenePane;
 import gui.Shop;
@@ -48,15 +49,16 @@ public class ResourceManager {
 		STATUS_PANE, HEALTH_POTION, ITEM_BUTTON, ITEM_BUTTON_TRANSPARENT, ITEM_DESCRIPTION, BARRIER_TOWER,
 		MACHINE_GUN_TOWER, MACHINE_GUN_TOWER_BASE, MACHINE_GUN_TOWER_HEAD, SNIPER_TOWER, SNIPER_TOWER_BASE,
 		SNIPER_TOWER_HEAD, AMMO_PISTOL, AMMO_RIFLE, AMMO_SHOTGUN, COIN, BEGINNING_LORE_1, BEGINNING_LORE_2,
-		BEGINNING_LORE_3, BEGINNING_LORE_4, BEGINNING_LORE_5, ENDING_BAD, ENDING_GOOD_1, ENDING_GOOD_2
+		BEGINNING_LORE_3, BEGINNING_LORE_4, BEGINNING_LORE_5, ENDING_BAD, ENDING_GOOD_1, GAME_CONTROL,
+		BEGINNING_GAME_CONTROL, END_CREDIT
 	}
 
 	public enum SoundResource {
-		TITLE, PLAYING, CAR_CRASH, ENDING_BAD, GUN_SHOT
+		TITLE, PLAYING, CAR_CRASH, ENDING_BAD, ENDING_GOOD, GUN_SHOT
 	}
 
 	public enum SceneResource {
-		TITLE, SETTING, MODE_SELECTING, PLAYING, BEGINNING_LORE, ENDING_BAD
+		TITLE, SETTING, MODE_SELECTING, PLAYING, BEGINNING_LORE, ENDING_BAD, ENDING_GOOD
 	}
 
 	public enum ItemResource {
@@ -156,6 +158,9 @@ public class ResourceManager {
 		imageResource.put(ImageResource.BEGINNING_LORE_5, getImage("lore/beginning_lore_5.png"));
 		imageResource.put(ImageResource.ENDING_BAD, getImage("lore/ending_bad.jpg"));
 		imageResource.put(ImageResource.ENDING_GOOD_1, getImage("lore/ending_good_1.png"));
+		imageResource.put(ImageResource.GAME_CONTROL, getImage("lore/game_control.png"));
+		imageResource.put(ImageResource.END_CREDIT, getImage("lore/end_credit.png"));
+		imageResource.put(ImageResource.BEGINNING_GAME_CONTROL, getImage("lore/beginning_game_control.png"));
 		soundResource.put(SoundResource.GUN_SHOT, getSound("sound/gun_shot.mp3"));
 		Logger.log("Complete Loading Image");
 	}
@@ -169,6 +174,7 @@ public class ResourceManager {
 		soundResource.put(SoundResource.PLAYING, getSound("sound/Glorious_morning.mp3"));
 		soundResource.put(SoundResource.CAR_CRASH, getSound("sound/car_crash.mp3"));
 		soundResource.put(SoundResource.ENDING_BAD, getSound("sound/ending_bad.mp3"));
+		soundResource.put(SoundResource.ENDING_GOOD, getSound("sound/ending_good.mp3"));
 	}
 
 	private static void loadMap() {
@@ -230,17 +236,24 @@ public class ResourceManager {
 
 		// Playing Scene
 		sceneResource.put(SceneResource.PLAYING, new Scene(new PlayScenePane(), Config.SCREEN_W, Config.SCREEN_H));
-		
+
 		// Beginning Lore Scene
-		sceneResource.put(SceneResource.BEGINNING_LORE, new Scene(new BeginningLorePane(), Config.SCREEN_W, Config.SCREEN_H));
-		
+		sceneResource.put(SceneResource.BEGINNING_LORE,
+				new Scene(new BeginningLorePane(), Config.SCREEN_W, Config.SCREEN_H));
+
 		// Bad Ending Scene
-		sceneResource.put(SceneResource.ENDING_BAD, new Scene(new BadEndingScenePane(), Config.SCREEN_W, Config.SCREEN_H));
+		sceneResource.put(SceneResource.ENDING_BAD,
+				new Scene(new BadEndingScenePane(), Config.SCREEN_W, Config.SCREEN_H));
+
+		// Good Ending Scene
+		sceneResource.put(SceneResource.ENDING_GOOD,
+				new Scene(new GoodEndingScenePane(), Config.SCREEN_W, Config.SCREEN_H));
 
 		UpdateManager.add((Updatable) getScene(SceneResource.TITLE).getRoot());
 		InputManager.addEventListener(sceneResource.get(SceneResource.PLAYING));
 		InputManager.addEventListener(sceneResource.get(SceneResource.BEGINNING_LORE));
 		InputManager.addEventListener(sceneResource.get(SceneResource.ENDING_BAD));
+		InputManager.addEventListener(sceneResource.get(SceneResource.ENDING_GOOD));
 
 		Logger.log("Complete Loading Scene");
 	}

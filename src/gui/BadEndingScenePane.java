@@ -13,25 +13,22 @@ import utility.ResourceManager;
 import utility.ResourceManager.ImageResource;
 import utility.ResourceManager.SceneResource;
 
-public class BadEndingScenePane extends StackPane implements Inputable{
-	private ImageView currentImage;
+public class BadEndingScenePane extends StackPane implements Inputable {
 	private GameText skipText;
-	
-	public BadEndingScenePane(){
-		currentImage = ResourceManager.getImageView(ImageResource.ENDING_BAD, Config.SCREEN_W, Config.SCREEN_H);
-		
+
+	public BadEndingScenePane() {
 		skipText = new GameText(Config.SKIP_TEXT, Config.SCREEN_H / 25, Color.BLACK);
 		skipText.setAlignment(Pos.CENTER);
 		skipText.setTranslateY(Config.SCREEN_H / 2.25);
-		
-		this.getChildren().addAll(currentImage,skipText);
+
+		this.getChildren().addAll(ResourceManager.getImageView(ImageResource.ENDING_BAD, Config.SCREEN_W, Config.SCREEN_H), skipText);
 		InputManager.addInputableObject(this);
 	}
-	
+
 	public void processInput() {
 		if (GameState.getSceneResource() == SceneResource.ENDING_BAD) {
 			if (InputManager.isKeyClick(KeyCode.SPACE)) {
-				GameState.setSceneResource(SceneResource.TITLE);
+				GameState.closeGameStage();
 			}
 		}
 	}

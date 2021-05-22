@@ -35,7 +35,7 @@ public class Shop extends StackPane {
 	private ArrayList<Buyable> itemList = new ArrayList<Buyable>();
 	private ArrayList<ShopButton> itemButtonList = new ArrayList<ShopButton>();
 	private ArrayList<StackPane> itemStackPaneList = new ArrayList<StackPane>();
-	private GameButton buyButton, nextPageBTN, previousPageBTN;
+	private GameButton buyButton, nextPageBTN, previousPageBTN, backBTN;
 	private int currentPage;
 	private ItemResource selectedItem;
 
@@ -97,14 +97,14 @@ public class Shop extends StackPane {
 				currentPage += 1;
 			}
 			selectedItem = null;
-			Logger.log("Next Button Click, go to" + Integer.toString(currentPage));
+			Logger.log("Next Button Click, go to page" + Integer.toString(currentPage+1));
 			drawNewPage(currentPage);
 			this.getChildren().addAll(nextPageBTN, previousPageBTN);
 		});
 		nextPageBTN.setTranslateX(Config.SCREEN_W / 2.75);
 		nextPageBTN.setTranslateY(-Config.SCREEN_H / 2.75);
 
-		previousPageBTN = new GameButton(ImageResource.BTN_BACK, Config.MODE_SELECT_BTN_SIZE,
+		previousPageBTN = new GameButton(ImageResource.BTN_PREVIOUS, Config.MODE_SELECT_BTN_SIZE,
 				Config.MODE_SELECT_BTN_SIZE);
 		previousPageBTN.setOnMouseClicked((e) -> {
 			if (currentPage - 1 < 0) {
@@ -113,14 +113,22 @@ public class Shop extends StackPane {
 				currentPage -= 1;
 			}
 			selectedItem = null;
-			Logger.log("previous Button Click, go to" + Integer.toString(currentPage));
+			Logger.log("previous Button Click, go to page" + Integer.toString(currentPage+1));
 			drawNewPage(currentPage);
 			this.getChildren().addAll(nextPageBTN, previousPageBTN);
 		});
 		previousPageBTN.setTranslateX(-Config.SCREEN_W / 2.75);
 		previousPageBTN.setTranslateY(-Config.SCREEN_H / 2.75);
+		
+		backBTN = new GameButton(ImageResource.BTN_BACK, Config.MODE_SELECT_BTN_SIZE, Config.MODE_SELECT_BTN_SIZE);
+		backBTN.setOnMouseClicked((e) -> {
+			Logger.log("Back Button Click");
+			this.toggleVisible();
+		});
+		backBTN.setTranslateX(-Config.SCREEN_W / 2.25);
+		backBTN.setTranslateY(-Config.SCREEN_H / 2.75);
 
-		this.getChildren().addAll(nextPageBTN, previousPageBTN);
+		this.getChildren().addAll(nextPageBTN, previousPageBTN, backBTN);
 
 	}
 
