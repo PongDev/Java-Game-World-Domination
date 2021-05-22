@@ -181,7 +181,6 @@ public class WaveManager {
 					lastEnemySpawnTime = (new Date()).getTime();
 					enemySpawnTimeDelay = (long) (Config.MINIMUM_WAVE_ENEMY_SPAWN_TIME_DELAY + (Math.random()
 							* (Config.MAXIMUM_WAVE_ENEMY_SPAWN_TIME_DELAY - Config.MINIMUM_WAVE_ENEMY_SPAWN_TIME_DELAY)));
-					System.out.println(enemySpawnTimeDelay);
 					if (enemySpawnedInCurrentWave == enemyPerWave) {
 						isSpawningEnemy = false;
 					}

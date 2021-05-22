@@ -34,6 +34,7 @@ import utility.ResourceManager.SoundResource;
 import utility.ResourceManager.UIResource;
 import utility.Utility;
 import utility.WaveManager;
+import weapon.Bullet;
 import weapon.Gun;
 import weapon.Weapon;
 
@@ -243,6 +244,11 @@ public class MainCharacter extends Character implements Inputable {
 							if (weapon.attack(getCenterPos(), degree)) {
 								this.removeItemFromInventory(((Gun) weapon).getBulletUse());
 							}
+						} else {
+							if ((new Date()).getTime() - ((Gun) weapon).getLastAttack() >= 1000) {
+								SoundManager.playSoundEffect(SoundResource.GUN_OUT_OF_AMMO,0.2);
+								((Gun) weapon).setLastAttack((new Date()).getTime());
+							}
 						}
 					} else {
 						weapon.attack(getCenterPos(), degree);
@@ -282,7 +288,7 @@ public class MainCharacter extends Character implements Inputable {
 				if (InputManager.isKeyClick(KeyCode.H)) {
 					if (this.getHealth() < this.getMaxHealth()
 							&& this.countItemInInventory(ItemResource.HEALTH_POTION) > 0) {
-						SoundManager.playSoundEffect(SoundResource.HEALTH_POTON, 0.5);
+						SoundManager.playSoundEffect(SoundResource.HEALTH_POTON, 0.8);
 						this.removeItemFromInventory(ItemResource.HEALTH_POTION);
 						((Potion) ResourceManager.getItem(ItemResource.HEALTH_POTION)).use(this);
 					}
@@ -349,7 +355,6 @@ public class MainCharacter extends Character implements Inputable {
 	 * Is Main Character Destroyed
 	 */
 	public boolean isDestroyed() {
-		// return false;
 		return isDestroyed;
 	}
 
@@ -366,8 +371,7 @@ public class MainCharacter extends Character implements Inputable {
 	 * Is Main Character Should Remove From Update
 	 */
 	public boolean isRemoveFromUpdate() {
-		return false;
-		// return isDestroyed;
+		return isDestroyed;
 	}
 
 	/**

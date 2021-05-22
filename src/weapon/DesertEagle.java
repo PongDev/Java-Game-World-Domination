@@ -8,7 +8,7 @@ import utility.ResourceManager.SoundResource;
 public class DesertEagle extends Gun {
 
 	public DesertEagle(int team, int holderZIndex) {
-		super(ImageResource.GUN_DESERTEAGLE, 1, 1, ImageResource.BULLET, 10, 10, 10, team, holderZIndex);
+		super(ImageResource.GUN_DESERTEAGLE, 25, 1, ImageResource.BULLET, 10, 10, 10, team, holderZIndex);
 		this.name = "Desert Eagle";
 		this.description = String.format("%d damage, %.1f second firerate", attackDamage, 1 / attackSpeed);
 		this.cost = 30;
@@ -17,7 +17,7 @@ public class DesertEagle extends Gun {
 		this.itemResource = ItemResource.GUN_DESERTEAGLE;
 		this.bulletUse = ItemResource.AMMO_PISTOL;
 		itemOnBuy.add(new Pair<>(this.itemResource, 1));
-		itemOnBuy.add(new Pair<>(this.bulletUse, 30));
+		itemOnBuy.add(new Pair<>(this.bulletUse, 35));
 	}
 
 }

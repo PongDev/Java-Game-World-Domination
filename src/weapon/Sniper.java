@@ -11,7 +11,7 @@ public class Sniper extends Gun {
 		super(ImageResource.GUN_SNIPER, 120, 0.5, ImageResource.BULLET, 15, 10, 10, team, holderZIndex);
 		this.name = "Sniper";
 		this.description = String.format("%d damage, %.1f second firerate", attackDamage, 1 / attackSpeed);
-		this.cost = 150;
+		this.cost = 180;
 		this.attackSound = SoundResource.GUN_SNIPER;
 		this.attackSoundVolume = 0.5;
 		this.itemResource = ItemResource.GUN_SNIPER;

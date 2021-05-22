@@ -8,7 +8,7 @@ import utility.ResourceManager.SoundResource;
 public class AK47 extends Gun {
 
 	public AK47(int team, int holderZIndex) {
-		super(ImageResource.GUN_AK47, 35, 2, ImageResource.BULLET, 10, 10, 10, team, holderZIndex);
+		super(ImageResource.GUN_AK47, 30, 2, ImageResource.BULLET, 10, 10, 10, team, holderZIndex);
 		this.name = "AK47";
 		this.description = String.format("%d damage, %.1f second firerate", attackDamage, 1 / attackSpeed);
 		this.cost = 70;
