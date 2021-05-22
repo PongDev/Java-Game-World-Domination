@@ -29,4 +29,8 @@ public class Logger {
 		log("Error", errorData);
 	}
 
+	public static void exception(String exceptionData) {
+		log("Exception", exceptionData);
+	}
+
 }

@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import config.Config;
+import exception.DeployTowerFailedException;
 import gui.GameMap;
 import gui.Shop;
 import input.InputManager;
@@ -280,7 +281,7 @@ public class MainCharacter extends Character implements Inputable {
 						new Position((GameMap.getShopPos().X * Config.TILE_W) + Config.TILE_W / 2,
 								(GameMap.getShopPos().Y * Config.TILE_H) + Config.TILE_H / 2));
 				if (selectedTile.Y == GameMap.getShopPos().X && selectedTile.X == GameMap.getShopPos().Y
-						&& distantFromShop < (Config.TILE_W * 3)) {
+						&& distantFromShop <= Config.MAIN_CHARACTER_OPEN_SHOP_RANGE) {
 					((Shop) ResourceManager.getUI(UIResource.SHOP)).toggleVisible();
 				}
 			}
@@ -289,8 +290,11 @@ public class MainCharacter extends Character implements Inputable {
 				if (selectedTile != null
 						&& GameState.getGameMap().isPlacable((int) selectedTile.X, (int) selectedTile.Y)
 						&& this.countItemInInventory(selectedTower) > 0) {
-					if (this.deployTower(selectedTower, (int) selectedTile.X, (int) selectedTile.Y)) {
+					try {
+						this.deployTower(selectedTower, (int) selectedTile.X, (int) selectedTile.Y);
 						this.removeItemFromInventory(selectedTower);
+					} catch (DeployTowerFailedException e) {
+						Logger.log("Detected Exception On Deploy Tower");
 					}
 				}
 				selectedTower = null;
@@ -363,7 +367,7 @@ public class MainCharacter extends Character implements Inputable {
 	 * Is Main Character Destroyed
 	 */
 	public boolean isDestroyed() {
-		//return false;
+		// return false;
 		return isDestroyed;
 	}
 
@@ -474,16 +478,19 @@ public class MainCharacter extends Character implements Inputable {
 	 * @param col   Column To Deploy
 	 * @return
 	 */
-	public boolean deployTower(ItemResource tower, int row, int col) {
+	public void deployTower(ItemResource tower, int row, int col) throws DeployTowerFailedException {
 		switch (tower) {
 		case BARRIER_TOWER:
-			return GameState.getGameMap().deployTower(new BarricadeTower(row, col, team));
+			GameState.getGameMap().deployTower(new BarricadeTower(row, col, team));
+			break;
 		case MACHINE_GUN_TOWER:
-			return GameState.getGameMap().deployTower(new MachineGunTower(row, col, team));
+			GameState.getGameMap().deployTower(new MachineGunTower(row, col, team));
+			break;
 		case SNIPER_TOWER:
-			return GameState.getGameMap().deployTower(new SniperTower(row, col, team));
+			GameState.getGameMap().deployTower(new SniperTower(row, col, team));
+			break;
 		default:
-			return false;
+			break;
 		}
 	}
 

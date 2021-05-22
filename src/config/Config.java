@@ -38,6 +38,7 @@ public class Config {
 	public static final Weapon MAIN_CHARACTER_INITIAL_WEAPON = new Pistol(Config.MAIN_CHARACTER_TEAM,
 			Config.ZINDEX_MAIN_CHARACTER);
 	public static final int MAIN_CHARACTER_DEPLOY_RANGE = Math.max(TILE_W, TILE_H) * 3;
+	public static final int MAIN_CHARACTER_OPEN_SHOP_RANGE = Math.max(TILE_W, TILE_H) * 3;
 	public static final double TOWER_DISPERSION = 40;
 
 	public static final int ENEMY_TEAM = 1;
@@ -59,8 +60,8 @@ public class Config {
 	public static final int ZINDEX_TOWER = 9;
 	public static final int ZINDEX_MAIN_CHARACTER = 10;
 	public static final int ZINDEX_ENEMY = 9;
-	
-	public static final String SKIP_TEXT = "Press [SPACE] to continue"; 
+
+	public static final String SKIP_TEXT = "Press [SPACE] to continue";
 
 	public static final Position SPAWN_CENTER = new Position((int) (Config.TILE_W * 2.5),
 			(GameState.getMapHeight() * Config.TILE_H) / 2);

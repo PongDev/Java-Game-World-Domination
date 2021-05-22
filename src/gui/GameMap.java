@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import config.Config;
+import exception.DeployTowerFailedException;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
@@ -159,7 +160,7 @@ public class GameMap extends Canvas implements Renderable {
 	public Position getMapPos() {
 		return mapPos;
 	}
-	
+
 	public static Position getShopPos() {
 		return shopPos;
 	}
@@ -289,7 +290,7 @@ public class GameMap extends Canvas implements Renderable {
 		}
 	}
 
-	public boolean deployTower(Tower tower) {
+	public void deployTower(Tower tower) throws DeployTowerFailedException {
 		int row = tower.getTowerRow();
 		int col = tower.getTowerCol();
 
@@ -297,9 +298,9 @@ public class GameMap extends Canvas implements Renderable {
 				&& ObjectManager.isTowerDeployable(tower)) {
 			deployedTower[row][col] = tower;
 			deployedTower[row][col].deploy();
-			return true;
+		} else {
+			throw new DeployTowerFailedException(tower);
 		}
-		return false;
 	}
 
 }

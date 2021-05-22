@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import character.MainCharacter;
 import config.Config;
+import exception.NotAllowBuyException;
+import exception.NotEnoughMoneyException;
 import item.Buyable;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -163,25 +165,13 @@ public class Shop extends StackPane {
 		buyButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			public void handle(MouseEvent event) {
 				if (selectedItem != null) {
-					Buyable item = ResourceManager.getItem(selectedItem);
-					MainCharacter mainCharacter = ((MainCharacter) ResourceManager
-							.getGameObject(GameObjectResource.MAIN_CHARACTER));
-
-					if (item.isAllowBuy()) {
-						if (mainCharacter.getMoney() >= item.getCost()) {
-							mainCharacter.setMoney(mainCharacter.getMoney() - item.getCost());
-							for (Pair<ItemResource, Integer> e : ResourceManager.getItem(selectedItem).itemOnBuy()) {
-								mainCharacter.addItemToInventory(e.getKey(), e.getValue());
-							}
-							if (ResourceManager.getItem(selectedItem) instanceof Weapon) {
-								mainCharacter.addWeapon((Weapon) ResourceManager.getItem(selectedItem));
-							}
-							Logger.log("Bought " + ResourceManager.getItem(selectedItem).getName());
-						} else {
-							Logger.log("Money Not Enough To Buy " + ResourceManager.getItem(selectedItem).getName());
-						}
-					} else {
+					try {
+						buyItem(ResourceManager.getItem(selectedItem));
+						Logger.log("Bought " + ResourceManager.getItem(selectedItem).getName());
+					} catch (NotAllowBuyException e) {
 						Logger.log(ResourceManager.getItem(selectedItem).getName() + " Is Not Allow To Buy");
+					} catch (NotEnoughMoneyException e) {
+						Logger.log("Money Not Enough To Buy " + ResourceManager.getItem(selectedItem).getName());
 					}
 				}
 			}
@@ -205,6 +195,27 @@ public class Shop extends StackPane {
 		}
 
 		this.getChildren().addAll(itemPane, shopText, descriptionImage, descriptionText, buyButton, costText);
+	}
+
+	private void buyItem(Buyable item) throws NotAllowBuyException, NotEnoughMoneyException {
+		MainCharacter mainCharacter = ((MainCharacter) ResourceManager
+				.getGameObject(GameObjectResource.MAIN_CHARACTER));
+
+		if (item.isAllowBuy()) {
+			if (mainCharacter.getMoney() >= item.getCost()) {
+				mainCharacter.setMoney(mainCharacter.getMoney() - item.getCost());
+				for (Pair<ItemResource, Integer> e : ResourceManager.getItem(selectedItem).itemOnBuy()) {
+					mainCharacter.addItemToInventory(e.getKey(), e.getValue());
+				}
+				if (ResourceManager.getItem(selectedItem) instanceof Weapon) {
+					mainCharacter.addWeapon((Weapon) ResourceManager.getItem(selectedItem));
+				}
+			} else {
+				throw new NotEnoughMoneyException(mainCharacter.getMoney(), item.getCost());
+			}
+		} else {
+			throw new NotAllowBuyException(item);
+		}
 	}
 
 	public void toggleVisible() {
