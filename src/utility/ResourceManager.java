@@ -57,7 +57,7 @@ public class ResourceManager {
 
 	public enum SoundResource {
 		TITLE, PLAYING, CAR_CRASH, ENDING_BAD, ENDING_GOOD, GUN_PISTOL, GUN_AK47, GUN_SHOTGUN, GUN_SNIPER,
-		GUN_MACHINEGUN
+		GUN_MACHINEGUN, HEALTH_POTON, DEPLOY_TOWER
 	}
 
 	public enum SceneResource {
@@ -183,6 +183,8 @@ public class ResourceManager {
 		soundResource.put(SoundResource.GUN_SHOTGUN, getSound("sound/gun_shotgun.mp3"));
 		soundResource.put(SoundResource.GUN_SNIPER, getSound("sound/gun_sniper.mp3"));
 		soundResource.put(SoundResource.GUN_MACHINEGUN, getSound("sound/gun_machinegun.mp3"));
+		soundResource.put(SoundResource.HEALTH_POTON, getSound("sound/health_potion.mp3"));
+		soundResource.put(SoundResource.DEPLOY_TOWER, getSound("sound/deploy_tower.mp3"));
 	}
 
 	private static void loadMap() {
@@ -258,7 +260,7 @@ public class ResourceManager {
 		// Good Ending Scene
 		sceneResource.put(SceneResource.ENDING_GOOD,
 				new Scene(new GoodEndingScenePane(), Config.SCREEN_W, Config.SCREEN_H));
-		
+
 		// End Credit
 		sceneResource.put(SceneResource.END_CREDIT,
 				new Scene(new EndCreditScenePane(), Config.SCREEN_W, Config.SCREEN_H));

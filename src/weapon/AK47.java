@@ -13,7 +13,7 @@ public class AK47 extends Gun {
 		this.description = String.format("%d damage, %.1f second firerate", attackDamage, 1 / attackSpeed);
 		this.cost = 60;
 		this.attackSound = SoundResource.GUN_AK47;
-		this.attackSoundVolume = 0.5;
+		this.attackSoundVolume = 0.2;
 		this.itemResource = ItemResource.GUN_AK47;
 		this.bulletUse = ItemResource.AMMO_RIFLE;
 		itemOnBuy.add(new Pair<>(this.itemResource, 1));

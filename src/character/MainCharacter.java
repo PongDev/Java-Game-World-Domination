@@ -293,6 +293,8 @@ public class MainCharacter extends Character implements Inputable {
 						try {
 							this.deployTower(selectedTower, (int) selectedTile.X, (int) selectedTile.Y);
 							this.removeItemFromInventory(selectedTower);
+							SoundManager.playSoundEffect(SoundResource.DEPLOY_TOWER, 0.5);
+
 						} catch (DeployTowerFailedException e) {
 							Logger.log("Detected Exception On Deploy Tower");
 						}
@@ -303,6 +305,7 @@ public class MainCharacter extends Character implements Inputable {
 				if (InputManager.isKeyClick(KeyCode.H)) {
 					if (this.getHealth() < this.getMaxHealth()
 							&& this.countItemInInventory(ItemResource.HEALTH_POTION) > 0) {
+						SoundManager.playSoundEffect(SoundResource.HEALTH_POTON, 0.5);
 						this.removeItemFromInventory(ItemResource.HEALTH_POTION);
 						((Potion) ResourceManager.getItem(ItemResource.HEALTH_POTION)).use(this);
 					}
