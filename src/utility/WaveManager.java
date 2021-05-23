@@ -7,6 +7,7 @@ import character.Enemy;
 import config.Config;
 import gui.GameMap;
 import logic.GameState;
+import logic.GameState.GameMode;
 import sound.SoundManager;
 import utility.ResourceManager.ImageResource;
 import utility.ResourceManager.SceneResource;
@@ -94,7 +95,7 @@ public class WaveManager {
 		wave += 1;
 		hasEliteSpawn = false;
 		// End game
-		if (GameState.getGameMode().getGameModeName() == "Normal" && wave == Config.LAST_NORMAL_MODE_WAVE + 1) {
+		if (GameState.getGameMode() == GameMode.NORMAL && wave == Config.LAST_NORMAL_MODE_WAVE + 1) {
 			SoundManager.playSoundEffect(SoundResource.ENDING_GOOD, 0.5);
 			GameState.setSceneResource(SceneResource.ENDING_GOOD);
 		}
@@ -102,9 +103,9 @@ public class WaveManager {
 		displayWaveText = "Wave " + Integer.toString(WaveManager.getWave());
 		displayWaveTextTimestamp = (new Date()).getTime();
 
-		if (GameState.getGameMode().getGameModeName() == "Normal") {
+		if (GameState.getGameMode() == GameMode.NORMAL) {
 			enemyPerWave = enemyPerWaveList[wave - 1];
-		} else if (GameState.getGameMode().getGameModeName() == "Endless") {
+		} else if (GameState.getGameMode() == GameMode.ENDLESS) {
 			enemyPerWave = (wave % 10 == 0) ? wave + 3 : wave;
 		}
 		enemySpawnedInCurrentWave = 0;
@@ -283,7 +284,7 @@ public class WaveManager {
 					waveEndTimestamp = (new Date()).getTime();
 				}
 				if (isWaveEnd) {
-					if (wave == Config.LAST_NORMAL_MODE_WAVE) {
+					if (GameState.getGameMode() == GameMode.NORMAL && wave == Config.LAST_NORMAL_MODE_WAVE) {
 						displayWaveText = String.format("Game End In %d Second(s)",
 								(Config.DELAY_BETWEEN_WAVE - ((new Date()).getTime() - waveEndTimestamp)) / 1000);
 					} else {
