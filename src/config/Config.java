@@ -5,6 +5,9 @@ import utility.Position;
 import weapon.Pistol;
 import weapon.Weapon;
 
+/**
+ * Contains Game Config
+ */
 public class Config {
 	/**
 	 * Screen Width 

@@ -5,8 +5,16 @@ import utility.ResourceManager.ImageResource;
 import utility.ResourceManager.ItemResource;
 import utility.ResourceManager.SoundResource;
 
+/**
+ * Subclass Of Gun: AK47 Class
+ */
 public class AK47 extends Gun {
 
+	/**
+	 * Ak47 Constructor
+	 * @param team Bullet Team
+	 * @param holderZIndex Owner Z Index
+	 */
 	public AK47(int team, int holderZIndex) {
 		super(ImageResource.GUN_AK47, 30, 2, ImageResource.BULLET, 10, 10, 10, team, holderZIndex);
 		this.name = "AK47";

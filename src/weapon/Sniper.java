@@ -5,8 +5,16 @@ import utility.ResourceManager.ImageResource;
 import utility.ResourceManager.ItemResource;
 import utility.ResourceManager.SoundResource;
 
+/**
+ * Subclass Of Gun: Sniper Class
+ */
 public class Sniper extends Gun {
 
+	/**
+	 * Sniper Constructor
+	 * @param team Bullet Team
+	 * @param holderZIndex Owner Z Index
+	 */
 	public Sniper(int team, int holderZIndex) {
 		super(ImageResource.GUN_SNIPER, 120, 0.5, ImageResource.BULLET, 15, 10, 10, team, holderZIndex);
 		this.name = "Sniper";

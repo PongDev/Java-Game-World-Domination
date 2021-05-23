@@ -25,6 +25,9 @@ import utility.ResourceManager;
 import utility.WaveManager;
 import weapon.Gun;
 
+/**
+ * Play Scene Pane: Display PLayer Stat While Playing
+ */
 public class PlayScenePane extends StackPane implements Updatable {
 
 	/**

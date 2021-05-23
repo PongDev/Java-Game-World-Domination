@@ -12,11 +12,25 @@ import utility.ResourceManager.ImageResource;
 import utility.ResourceManager.ItemResource;
 import utility.ResourceManager.SoundResource;
 
+/**
+ * Subclass Of Gun: Shotgun Class
+ */
 public class Shotgun extends Gun {
 
+	/**
+	 * Bullet Per Shot
+	 */
 	private int bulletPerShot;
+	/**
+	 * Bullet Dispersion
+	 */
 	private double bulletDispersion;
-
+	
+	/**
+	 * Shotgun Constructor
+	 * @param team Bullet Team
+	 * @param holderZIndex Owner Z Index
+	 */
 	public Shotgun(int team, int holderZIndex) {
 		super(ImageResource.GUN_SHOTGUN, 20, 1, ImageResource.BULLET, 10, 10, 10, team, holderZIndex);
 		this.bulletPerShot = 3;

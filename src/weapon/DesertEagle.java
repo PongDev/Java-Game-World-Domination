@@ -5,8 +5,16 @@ import utility.ResourceManager.ImageResource;
 import utility.ResourceManager.ItemResource;
 import utility.ResourceManager.SoundResource;
 
+/**
+ * Subclass Of Gun: DesertEagle Class
+ */
 public class DesertEagle extends Gun {
-
+	
+	/**
+	 * DesertEagle Constructor
+	 * @param team Bullet Team
+	 * @param holderZIndex Owner Z Index
+	 */
 	public DesertEagle(int team, int holderZIndex) {
 		super(ImageResource.GUN_DESERTEAGLE, 25, 1, ImageResource.BULLET, 10, 10, 10, team, holderZIndex);
 		this.name = "Desert Eagle";

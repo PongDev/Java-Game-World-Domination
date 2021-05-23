@@ -13,6 +13,9 @@ import utility.ResourceManager;
 import utility.ResourceManager.ImageResource;
 import utility.ResourceManager.SceneResource;
 
+/**
+ * Good Ending Scene: Display When Player Finish Wave 30 In Normal Mode
+ */
 public class GoodEndingScenePane extends StackPane implements Inputable {
 	
 	/**

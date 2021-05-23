@@ -12,6 +12,9 @@ import utility.ResourceManager;
 import utility.ResourceManager.ImageResource;
 import utility.ResourceManager.SceneResource;
 
+/**
+ * Bad Ending Scene: Display When Player Died
+ */
 public class BadEndingScenePane extends StackPane implements Inputable {
 
 	/**

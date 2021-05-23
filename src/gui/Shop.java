@@ -29,6 +29,9 @@ import utility.ResourceManager.ImageResource;
 import utility.ResourceManager.ItemResource;
 import weapon.Weapon;
 
+/**
+ * Generate And Display Shop, Also Handle Buy System
+ */
 public class Shop extends StackPane {
 
 	/**

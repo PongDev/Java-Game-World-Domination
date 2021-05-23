@@ -14,6 +14,9 @@ import utility.ResourceManager.ImageResource;
 import utility.ResourceManager.SceneResource;
 import utility.ResourceManager.SoundResource;
 
+/**
+ * Title Scene: Player Can Choose To PLay Game Or Exit Game
+ */
 public class TitleScenePane extends StackPane implements Updatable {
 	/**
 	 * Game Name First Half Text

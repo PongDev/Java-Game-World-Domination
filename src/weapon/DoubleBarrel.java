@@ -12,11 +12,25 @@ import utility.ResourceManager.ImageResource;
 import utility.ResourceManager.ItemResource;
 import utility.ResourceManager.SoundResource;
 
+/**
+ * Subclass Of Gun: DoubleBarrel Class
+ */
 public class DoubleBarrel extends Gun {
 
+	/**
+	 * Bullet Per Shot
+	 */
 	private int bulletPerShot;
+	/**
+	 * Bullet Dispersion
+	 */
 	private double bulletDispersion;
-
+	
+	/**
+	 * DoubleBarrel Constructor
+	 * @param team Bullet Team
+	 * @param holderZIndex Owner Z Index
+	 */
 	public DoubleBarrel(int team, int holderZIndex) {
 		super(ImageResource.GUN_DOUBLEBARREL, 1, 1, ImageResource.BULLET, 10, 10, 10, team, holderZIndex);
 		this.bulletPerShot = 2;

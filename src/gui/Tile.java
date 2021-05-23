@@ -5,6 +5,9 @@ import java.util.Map;
 
 import utility.ResourceManager.ImageResource;
 
+/**
+ * Contains Tile Properties
+ */
 public class Tile {
 	/**
 	 * ImageResource Of Tile

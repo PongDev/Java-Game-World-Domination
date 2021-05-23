@@ -15,6 +15,9 @@ import utility.ResourceManager.ImageResource;
 import utility.ResourceManager.SceneResource;
 import utility.ResourceManager.SoundResource;
 
+/**
+ * Mode Select Scene: Player Can SWitch Between GameModes
+ */
 public class ModeSelectScenePane extends StackPane implements Updatable {
 
 	/**

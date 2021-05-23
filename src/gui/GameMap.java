@@ -22,6 +22,9 @@ import utility.ResourceManager.ImageResource;
 import utility.ResourceManager.SceneResource;
 import weapon.Bullet;
 
+/**
+ * Render Map, Draw Tile On Map And Calculate Map Algorithm
+ */
 public class GameMap extends Canvas implements Renderable {
 
 	/**

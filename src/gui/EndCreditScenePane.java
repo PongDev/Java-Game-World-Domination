@@ -12,6 +12,9 @@ import utility.ResourceManager;
 import utility.ResourceManager.ImageResource;
 import utility.ResourceManager.SceneResource;
 
+/**
+ * End Credit Scene: Display After Bad Ending Scene And Good Ending Scene
+ */
 public class EndCreditScenePane extends StackPane implements Inputable {
 	/**
 	 * Text Showing Skip Message

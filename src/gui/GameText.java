@@ -5,6 +5,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import utility.ResourceManager;
 
+/**
+ * Game Text Class
+ */
 public class GameText extends Label {
 
 	/**

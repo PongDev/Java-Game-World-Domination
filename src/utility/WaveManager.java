@@ -13,6 +13,9 @@ import utility.ResourceManager.SceneResource;
 import utility.ResourceManager.SoundResource;
 import weapon.Gun;
 
+/**
+ * Manage Wave System
+ */
 public class WaveManager {
 
 	/**

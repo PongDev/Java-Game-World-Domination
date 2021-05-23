@@ -19,6 +19,9 @@ import utility.ResourceManager.SceneResource;
 import utility.ResourceManager.SoundResource;
 import utility.WaveManager;
 
+/**
+ * Beginning Lore Scene: Display When Player Click Play Button
+ */
 public class BeginningLorePane extends StackPane implements Inputable {
 	/**
 	 * An ArrayList Contains Lore Image

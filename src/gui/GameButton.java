@@ -11,6 +11,9 @@ import javafx.scene.text.Font;
 import utility.ResourceManager;
 import utility.ResourceManager.ImageResource;
 
+/**
+ * Game Button Class
+ */
 public class GameButton extends Button {
 
 	/**
