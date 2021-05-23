@@ -12,14 +12,15 @@ public class AK47 extends Gun {
 
 	/**
 	 * Ak47 Constructor
-	 * @param team Bullet Team
+	 * 
+	 * @param team         Bullet Team
 	 * @param holderZIndex Owner Z Index
 	 */
 	public AK47(int team, int holderZIndex) {
-		super(ImageResource.GUN_AK47, 30, 2, ImageResource.BULLET, 10, 10, 10, team, holderZIndex);
+		super(ImageResource.GUN_AK47, 30, 2.25, ImageResource.BULLET, 10, 10, 10, team, holderZIndex);
 		this.name = "AK47";
 		this.description = String.format("%d damage, %.1f second firerate", attackDamage, 1 / attackSpeed);
-		this.cost = 70;
+		this.cost = 250;
 		this.attackSound = SoundResource.GUN_AK47;
 		this.attackSoundVolume = 0.2;
 		this.itemResource = ItemResource.GUN_AK47;

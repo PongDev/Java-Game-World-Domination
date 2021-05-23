@@ -10,7 +10,8 @@ public class Pistol extends Gun {
 
 	/**
 	 * Pistol Constructor
-	 * @param team Bullet Team
+	 * 
+	 * @param team         Bullet Team
 	 * @param holderZIndex Owner Z Index
 	 */
 	public Pistol(int team, int holderZIndex) {

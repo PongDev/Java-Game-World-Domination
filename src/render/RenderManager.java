@@ -18,7 +18,11 @@ public class RenderManager {
 	 * Comparator For Sort ZIndex
 	 */
 	private static Comparator<Renderable> renderableComparator = (Renderable obj1, Renderable obj2) -> {
-		return (obj1.getZ() > obj2.getZ()) ? 1 : -1;
+		if (obj1.getZ() == obj2.getZ()) {
+			return 0;
+		} else {
+			return (obj1.getZ() > obj2.getZ()) ? 1 : -1;
+		}
 	};
 
 	/**

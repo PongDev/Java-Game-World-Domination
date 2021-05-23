@@ -40,12 +40,14 @@ public class BulletProperties {
 	 * Bullet ZIndex
 	 */
 	private GameObject owner;
+
 	/**
 	 * GameObject That Shoot Bullet
 	 */
 
 	/**
 	 * BulletProperties Constructor
+	 * 
 	 * @param imageResource
 	 * @param width
 	 * @param height
@@ -69,6 +71,7 @@ public class BulletProperties {
 
 	/**
 	 * Getter Of ImageResource
+	 * 
 	 * @return ImageResource
 	 */
 	public ImageResource getImageResource() {
@@ -77,55 +80,70 @@ public class BulletProperties {
 
 	/**
 	 * Getter Of Width
+	 * 
 	 * @return Width
 	 */
 	public int getWidth() {
 		return width;
 	}
+
 	/**
 	 * Getter Of Height
+	 * 
 	 * @return Height
 	 */
 	public int getHeight() {
 		return height;
 	}
+
 	/**
 	 * Getter Of Damage
+	 * 
 	 * @return Damage
 	 */
 	public int getDamage() {
 		return damage;
 	}
+
 	/**
 	 * Getter Of Speed
+	 * 
 	 * @return Speed
 	 */
 	public double getSpeed() {
 		return speed;
 	}
+
 	/**
 	 * Getter Of Team
+	 * 
 	 * @return Team
 	 */
 	public int getTeam() {
 		return team;
 	}
+
 	/**
 	 * Getter Of zIndex
+	 * 
 	 * @return zIndex
 	 */
 	public int getzIndex() {
 		return zIndex;
 	}
+
 	/**
 	 * Getter Of Owner
+	 * 
 	 * @return Owner
 	 */
 	public GameObject getOwner() {
 		return owner;
 	}
+
 	/**
 	 * Setter Of Owner
+	 * 
 	 * @param owner
 	 */
 	public void setOwner(GameObject owner) {

@@ -132,7 +132,7 @@ public class Config {
 	/**
 	 * Time Delay Between Wave
 	 */
-	public static final int DELAY_BETWEEN_WAVE = 10000;
+	public static final int DELAY_BETWEEN_WAVE = 20000;
 	/**
 	 * Ratio To Convert Time Left Into Money When Player Force Start New Wave
 	 */

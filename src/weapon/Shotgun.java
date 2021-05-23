@@ -25,10 +25,11 @@ public class Shotgun extends Gun {
 	 * Bullet Dispersion
 	 */
 	private double bulletDispersion;
-	
+
 	/**
 	 * Shotgun Constructor
-	 * @param team Bullet Team
+	 * 
+	 * @param team         Bullet Team
 	 * @param holderZIndex Owner Z Index
 	 */
 	public Shotgun(int team, int holderZIndex) {
@@ -38,7 +39,7 @@ public class Shotgun extends Gun {
 		this.name = "Shotgun";
 		this.description = String.format("%d-%d damage, %.1f second firerate", attackDamage,
 				attackDamage * bulletPerShot, 1 / attackSpeed);
-		this.cost = 60;
+		this.cost = 300;
 		this.attackSound = SoundResource.GUN_SHOTGUN;
 		this.attackSoundVolume = 0.5;
 		this.itemResource = ItemResource.GUN_SHOTGUN;

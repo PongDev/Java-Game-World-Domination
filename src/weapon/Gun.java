@@ -56,25 +56,7 @@ public class Gun extends Weapon {
 
 	/**
 	 * Gun Main Constructor
-	 * @param imageResource
-	 * @param attackDamage 
-	 * @param attackSpeed
-	 * @param bulletImageResource
-	 * @param bulletSpeed
-	 * @param bulletWidth
-	 * @param bulleteHeight
-	 * @param team Bullet Team
-	 * @param holderZIndex Owner Z Index
-	 * @param owner Owner Of the Weapon
-	 */
-	public Gun(ImageResource imageResource, int attackDamage, double attackSpeed, ImageResource bulletImageResource,
-			int bulletSpeed, int bulletWidth, int bulleteHeight, int team, int holderZIndex, GameObject owner) {
-		super(imageResource, attackDamage, attackSpeed);
-		setBulletProperties(new BulletProperties(bulletImageResource, bulletWidth, bulleteHeight, attackDamage,
-				bulletSpeed, team, holderZIndex + 1, owner));
-	}
-	/**
-	 * Gun Alternative Constructor
+	 * 
 	 * @param imageResource
 	 * @param attackDamage
 	 * @param attackSpeed
@@ -82,8 +64,29 @@ public class Gun extends Weapon {
 	 * @param bulletSpeed
 	 * @param bulletWidth
 	 * @param bulleteHeight
-	 * @param team Bullet Team
-	 * @param holderZIndex Owner Z Index
+	 * @param team                Bullet Team
+	 * @param holderZIndex        Owner Z Index
+	 * @param owner               Owner Of the Weapon
+	 */
+	public Gun(ImageResource imageResource, int attackDamage, double attackSpeed, ImageResource bulletImageResource,
+			int bulletSpeed, int bulletWidth, int bulleteHeight, int team, int holderZIndex, GameObject owner) {
+		super(imageResource, attackDamage, attackSpeed);
+		setBulletProperties(new BulletProperties(bulletImageResource, bulletWidth, bulleteHeight, attackDamage,
+				bulletSpeed, team, holderZIndex + 1, owner));
+	}
+
+	/**
+	 * Gun Alternative Constructor
+	 * 
+	 * @param imageResource
+	 * @param attackDamage
+	 * @param attackSpeed
+	 * @param bulletImageResource
+	 * @param bulletSpeed
+	 * @param bulletWidth
+	 * @param bulleteHeight
+	 * @param team                Bullet Team
+	 * @param holderZIndex        Owner Z Index
 	 */
 	public Gun(ImageResource imageResource, int attackDamage, double attackSpeed, ImageResource bulletImageResource,
 			int bulletSpeed, int bulletWidth, int bulleteHeight, int team, int holderZIndex) {
@@ -93,6 +96,7 @@ public class Gun extends Weapon {
 
 	/**
 	 * Getter Of BulletProperties
+	 * 
 	 * @return BulletProperties
 	 */
 	public BulletProperties getBulletProperties() {
@@ -101,6 +105,7 @@ public class Gun extends Weapon {
 
 	/**
 	 * Setter Of BulletProperties
+	 * 
 	 * @param bulletProperties
 	 */
 	public void setBulletProperties(BulletProperties bulletProperties) {
@@ -125,12 +130,14 @@ public class Gun extends Weapon {
 			return false;
 		}
 	}
+
 	/**
 	 * Getter Of Gun Name
 	 */
 	public String getName() {
 		return name;
 	}
+
 	/**
 	 * Getter Of Gun Description
 	 */
@@ -162,6 +169,7 @@ public class Gun extends Weapon {
 
 	/**
 	 * Getter Of BulletUse
+	 * 
 	 * @return BulletUse
 	 */
 	public ItemResource getBulletUse() {

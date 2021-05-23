@@ -57,7 +57,11 @@ public class MainCharacter extends Character implements Inputable {
 		} else if (manhattanDistance1 > manhattanDistance2) {
 			return 1;
 		} else {
-			return euclideanDistance1 < euclideanDistance2 ? -1 : 1;
+			if (euclideanDistance1 == euclideanDistance2) {
+				return 0;
+			} else {
+				return euclideanDistance1 < euclideanDistance2 ? -1 : 1;
+			}
 		}
 	};
 

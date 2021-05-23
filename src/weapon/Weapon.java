@@ -34,9 +34,9 @@ public abstract class Weapon implements Buyable {
 	 */
 	protected ArrayList<Pair<ItemResource, Integer>> itemOnBuy = new ArrayList<Pair<ItemResource, Integer>>();
 
-	
 	/**
 	 * Weapon Constructor
+	 * 
 	 * @param imageResource
 	 * @param attackDamage
 	 * @param attackSpeed
@@ -49,13 +49,16 @@ public abstract class Weapon implements Buyable {
 
 	/**
 	 * Getter Of ImageResourse
+	 * 
 	 * @return ImageResourse
 	 */
 	public ImageResource getImageResourse() {
 		return imageResourse;
 	}
+
 	/**
 	 * Getter Of LastAttack
+	 * 
 	 * @return LastAttack
 	 */
 	public long getLastAttack() {
@@ -64,6 +67,7 @@ public abstract class Weapon implements Buyable {
 
 	/**
 	 * Setter Of LastAttack
+	 * 
 	 * @param lastAttack
 	 */
 	public void setLastAttack(long lastAttack) {
@@ -79,6 +83,7 @@ public abstract class Weapon implements Buyable {
 
 	/**
 	 * Abstract Method For Weapon Attack
+	 * 
 	 * @param centerPos
 	 * @param degree
 	 * @return True If Weapon Attack Successfully, False If Not

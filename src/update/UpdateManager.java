@@ -18,9 +18,9 @@ public class UpdateManager {
 	private static ArrayList<Updatable> updatableObjectQueue = new ArrayList<Updatable>();
 
 	/**
-	 * Update updatableObject Array List - Remove Item Should Remove From Update
+	 * Update updatableObject Array List - Remove Object Should Remove From Update
 	 */
-	private static void updateUpdatableObject() {
+	private static void updateUpdatableObjectArrayList() {
 		for (int i = updatableObject.size() - 1; i >= 0; i--) {
 			if (updatableObject.get(i).isRemoveFromUpdate()) {
 				updatableObject.remove(i);
@@ -37,7 +37,7 @@ public class UpdateManager {
 			updatableObject.add(obj);
 		}
 		updatableObjectQueue.clear();
-		updateUpdatableObject();
+		updateUpdatableObjectArrayList();
 		for (Updatable obj : updatableObject) {
 			obj.update();
 		}

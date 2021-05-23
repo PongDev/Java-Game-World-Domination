@@ -15,10 +15,10 @@ public class SniperTower extends Tower {
 	 * Machine Gun Tower Main Constructor
 	 */
 	public SniperTower(int row, int col, int team) {
-		super(ImageResource.SNIPER_TOWER_BASE, ImageResource.SNIPER_TOWER_HEAD, "Sniper Tower", 30, 1, null, team, row,
+		super(ImageResource.SNIPER_TOWER_BASE, ImageResource.SNIPER_TOWER_HEAD, "Sniper Tower", 300, 1, null, team, row,
 				col);
-		this.setWeapon(new Gun(null, 100, 0.25,
-				team == Config.MAIN_CHARACTER_TEAM ? ImageResource.BULLET : ImageResource.ENEMY_BULLET, 10, 10, 10,
+		this.setWeapon(new Gun(null, 100, 0.5,
+				team == Config.MAIN_CHARACTER_TEAM ? ImageResource.BULLET : ImageResource.ENEMY_BULLET, 25, 10, 10,
 				team, team == Config.MAIN_CHARACTER_TEAM ? Config.ZINDEX_MAIN_CHARACTER : Config.ZINDEX_ENEMY, this));
 		itemOnBuy.add(new Pair<>(ItemResource.SNIPER_TOWER, 1));
 	}
@@ -27,7 +27,7 @@ public class SniperTower extends Tower {
 	 * Get Machine Gun Tower Description
 	 */
 	public String getDescription() {
-		return "low attack speed, very high damage";
+		return String.format("low attack speed, very high damage, max hp: %d", getMaxHealth());
 	}
 
 	/**
@@ -41,7 +41,7 @@ public class SniperTower extends Tower {
 	 * Get Machine Gun Tower Cost
 	 */
 	public int getCost() {
-		return 40;
+		return 200;
 	}
 
 	/**

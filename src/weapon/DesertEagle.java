@@ -9,17 +9,18 @@ import utility.ResourceManager.SoundResource;
  * Subclass Of Gun: DesertEagle Class
  */
 public class DesertEagle extends Gun {
-	
+
 	/**
 	 * DesertEagle Constructor
-	 * @param team Bullet Team
+	 * 
+	 * @param team         Bullet Team
 	 * @param holderZIndex Owner Z Index
 	 */
 	public DesertEagle(int team, int holderZIndex) {
-		super(ImageResource.GUN_DESERTEAGLE, 25, 1, ImageResource.BULLET, 10, 10, 10, team, holderZIndex);
+		super(ImageResource.GUN_DESERTEAGLE, 30, 1, ImageResource.BULLET, 10, 10, 10, team, holderZIndex);
 		this.name = "Desert Eagle";
 		this.description = String.format("%d damage, %.1f second firerate", attackDamage, 1 / attackSpeed);
-		this.cost = 30;
+		this.cost = 100;
 		this.attackSound = SoundResource.GUN_DESERTEAGLE;
 		this.attackSoundVolume = 0.5;
 		this.itemResource = ItemResource.GUN_DESERTEAGLE;

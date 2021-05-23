@@ -13,7 +13,7 @@ public class RifleAmmo extends Item {
 	 * Main Constructor Of Rifle Ammo
 	 */
 	public RifleAmmo() {
-		super("Rifle Ammo", ImageResource.AMMO_RIFLE, 15);
+		super("Rifle Ammo", ImageResource.AMMO_RIFLE, 75);
 		this.description = "Ammo For Rifle";
 		this.itemOnBuy.add(new Pair<>(ItemResource.AMMO_RIFLE, 50));
 	}

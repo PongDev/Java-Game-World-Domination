@@ -25,10 +25,11 @@ public class DoubleBarrel extends Gun {
 	 * Bullet Dispersion
 	 */
 	private double bulletDispersion;
-	
+
 	/**
 	 * DoubleBarrel Constructor
-	 * @param team Bullet Team
+	 * 
+	 * @param team         Bullet Team
 	 * @param holderZIndex Owner Z Index
 	 */
 	public DoubleBarrel(int team, int holderZIndex) {
@@ -38,7 +39,7 @@ public class DoubleBarrel extends Gun {
 		this.name = "Double Barrel";
 		this.description = String.format("%d-%d damage, %.1f second firerate", attackDamage,
 				attackDamage * bulletPerShot, 1 / attackSpeed);
-		this.cost = 50;
+		this.cost = 250;
 		this.attackSound = SoundResource.GUN_DOUBLEBARREL;
 		this.attackSoundVolume = 0.5;
 		this.itemResource = ItemResource.GUN_DOUBLEBARREL;

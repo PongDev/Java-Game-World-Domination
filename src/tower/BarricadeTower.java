@@ -13,7 +13,7 @@ public class BarricadeTower extends Tower {
 	 * Barricade Tower Main Constructor
 	 */
 	public BarricadeTower(int row, int col, int team) {
-		super(ImageResource.BARRIER_TOWER, null, "Barricade Tower", 30, 1, null, team, row, col);
+		super(ImageResource.BARRIER_TOWER, null, "Barricade Tower", 500, 1, null, team, row, col);
 		itemOnBuy.add(new Pair<>(ItemResource.BARRIER_TOWER, 1));
 	}
 
@@ -21,7 +21,7 @@ public class BarricadeTower extends Tower {
 	 * Get Barricade Tower Description
 	 */
 	public String getDescription() {
-		return "can block enemies bullet";
+		return String.format("can block enemies bullet, max hp: %d", getMaxHealth());
 	}
 
 	/**
@@ -35,7 +35,7 @@ public class BarricadeTower extends Tower {
 	 * Get Barricade Tower Cost
 	 */
 	public int getCost() {
-		return 40;
+		return 100;
 	}
 
 	/**

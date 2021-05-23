@@ -29,18 +29,21 @@ public class Bullet extends GameObject implements Updatable {
 
 	/**
 	 * Bullet Alternative Constructor
+	 * 
 	 * @param bulletProperties
-	 * @param centerPosX Bullet Center X Position
-	 * @param centerPosY Bullet Center Y Position
+	 * @param centerPosX       Bullet Center X Position
+	 * @param centerPosY       Bullet Center Y Position
 	 * @param degree
 	 */
 	public Bullet(BulletProperties bulletProperties, int centerPosX, int centerPosY, double degree) {
 		this(bulletProperties, new Position(centerPosX, centerPosY), degree);
 	}
+
 	/**
 	 * Bullet Main Constructor
-	 * @param bulletProperties 
-	 * @param centerPos Bullet Center Position
+	 * 
+	 * @param bulletProperties
+	 * @param centerPos        Bullet Center Position
 	 * @param degree
 	 */
 	public Bullet(BulletProperties bulletProperties, Position centerPos, double degree) {
@@ -68,6 +71,7 @@ public class Bullet extends GameObject implements Updatable {
 		gc.drawImage(ResourceManager.getImage(imageResource), -GameState.getGameMap().getMapPos().X + pos.X,
 				-GameState.getGameMap().getMapPos().Y + pos.Y, width, height);
 	}
+
 	/**
 	 * Is Bullet Allow Render
 	 */
@@ -81,12 +85,14 @@ public class Bullet extends GameObject implements Updatable {
 	public int getZ() {
 		return bulletProperties.getzIndex();
 	}
+
 	/**
 	 * Getter Of IsDestroyed
 	 */
 	public boolean isDestroyed() {
 		return isDestroyed;
 	}
+
 	/**
 	 * Bullet Moving Function
 	 */

@@ -25,8 +25,8 @@ public class WaveManager {
 	/**
 	 * ArrayList Contains Number Of Enemy Per Wave For Normal Mode
 	 */
-	private static int[] enemyPerWaveList = { 1, 2, 2, 3, 3, 4, 4, 5, 5, 5, 6, 6, 6, 7, 7, 7, 8, 8, 9, 9, 10,
-			11, 11, 12, 12, 13, 13, 14, 14, 15, 0 };
+	private static int[] enemyPerWaveList = { 1, 2, 2, 3, 3, 4, 4, 5, 5, 5, 7, 7, 8, 8, 9, 9, 10, 10, 11, 11, 13, 13,
+			14, 14, 15, 15, 16, 16, 17, 17, 0 };
 	/**
 	 * Wave Amount
 	 */
@@ -117,7 +117,7 @@ public class WaveManager {
 	}
 
 	/**
-	 * Spawn An Enemy According To Value From randomEnemyType 
+	 * Spawn An Enemy According To Value From randomEnemyType
 	 */
 	private static void spawnEnemy() {
 		int randomSpawnTile = (int) (Math.random() * GameMap.getEnemySpawnableTile().size());
@@ -143,7 +143,7 @@ public class WaveManager {
 			attackDamage = calculateStat(10);
 			attackSpeed = 0.75;
 			bulletSpeed = 3;
-			moneyDrop = 3;
+			moneyDrop = 15;
 			break;
 		case 1:
 			enemyImageResource = ImageResource.SPRITE_KNIGHT;
@@ -155,7 +155,7 @@ public class WaveManager {
 			attackDamage = calculateStat(10);
 			attackSpeed = 0.5;
 			bulletSpeed = 3;
-			moneyDrop = 2;
+			moneyDrop = 10;
 			break;
 		case 2:
 			enemyImageResource = ImageResource.SPRITE_ELITE_KNIGHT;
@@ -167,7 +167,7 @@ public class WaveManager {
 			attackDamage = calculateStat(14);
 			attackSpeed = 1;
 			bulletSpeed = 5;
-			moneyDrop = calculateStat(6);
+			moneyDrop = calculateStat(30);
 			break;
 		case 3:
 			enemyImageResource = ImageResource.SPRITE_ELITE_KNIGHT;
@@ -179,7 +179,7 @@ public class WaveManager {
 			attackDamage = calculateStat(14);
 			attackSpeed = 1.5;
 			bulletSpeed = 5;
-			moneyDrop = calculateStat(30);
+			moneyDrop = calculateStat(100);
 			break;
 		default:
 			enemyImageResource = ImageResource.SPRITE_KNIGHT;
@@ -191,7 +191,7 @@ public class WaveManager {
 			attackDamage = calculateStat(10);
 			attackSpeed = 1;
 			bulletSpeed = 3;
-			moneyDrop = 3;
+			moneyDrop = 15;
 			break;
 		}
 		enemyList
@@ -203,6 +203,7 @@ public class WaveManager {
 
 	/**
 	 * Calculate Enemy Stat By Wave Number
+	 * 
 	 * @param normalStat Enemy Stat In First Wave
 	 * @return Enemy Stat Of Current Wave
 	 */
@@ -212,6 +213,7 @@ public class WaveManager {
 
 	/**
 	 * Random Enemy Type Algorithm
+	 * 
 	 * @return Integer That Represent Enemy Type
 	 */
 	public static int randomEnemyType() {
@@ -232,6 +234,7 @@ public class WaveManager {
 
 	/**
 	 * Getter Of Wave
+	 * 
 	 * @return Wave
 	 */
 	public static int getWave() {
@@ -240,6 +243,7 @@ public class WaveManager {
 
 	/**
 	 * Getter Of DisplayWaveText
+	 * 
 	 * @return DisplayWaveText
 	 */
 	public static String getDisplayWaveText() {
@@ -256,8 +260,9 @@ public class WaveManager {
 					spawnEnemy();
 					enemySpawnedInCurrentWave += 1;
 					lastEnemySpawnTime = (new Date()).getTime();
-					enemySpawnTimeDelay = (long) (Config.MINIMUM_WAVE_ENEMY_SPAWN_TIME_DELAY + (Math.random()
-							* (Config.MAXIMUM_WAVE_ENEMY_SPAWN_TIME_DELAY - Config.MINIMUM_WAVE_ENEMY_SPAWN_TIME_DELAY)));
+					enemySpawnTimeDelay = (long) (Config.MINIMUM_WAVE_ENEMY_SPAWN_TIME_DELAY
+							+ (Math.random() * (Config.MAXIMUM_WAVE_ENEMY_SPAWN_TIME_DELAY
+									- Config.MINIMUM_WAVE_ENEMY_SPAWN_TIME_DELAY)));
 					if (enemySpawnedInCurrentWave == enemyPerWave) {
 						isSpawningEnemy = false;
 					}
@@ -296,6 +301,7 @@ public class WaveManager {
 
 	/**
 	 * Getter Of IsWaveEnd
+	 * 
 	 * @return IsWaveEnd
 	 */
 	public static boolean isWaveEnd() {
@@ -304,6 +310,7 @@ public class WaveManager {
 
 	/**
 	 * Force Start NewWave
+	 * 
 	 * @return Time Left Before New Wave Start Normally
 	 */
 	public static int forceStartNewWave() {
