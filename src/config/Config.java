@@ -10,11 +10,11 @@ import weapon.Weapon;
  */
 public class Config {
 	/**
-	 * Screen Width 
+	 * Screen Width
 	 */
 	public static final int SCREEN_W = 800;
 	/**
-	 * Screen Height 
+	 * Screen Height
 	 */
 	public static final int SCREEN_H = 500;
 	/**
@@ -30,11 +30,11 @@ public class Config {
 	 */
 	public static final int TITLE_BTN_W = 200;
 	/**
-	 * Title Scene Pane Button Height 
+	 * Title Scene Pane Button Height
 	 */
 	public static final int TITLE_BTN_H = 50;
 	/**
-	 * Title Scene Pane Button Spacing 
+	 * Title Scene Pane Button Spacing
 	 */
 	public static final int TITLE_BTN_SPACING = 15;
 	/**
@@ -54,7 +54,7 @@ public class Config {
 	 */
 	public static final boolean ENABLE_LOGGER = true;
 	/**
-	 * Path Of Game Font 
+	 * Path Of Game Font
 	 */
 	public static final String FONT_PATH = "font/Berlin_Sans_FB_Regular.ttf";
 	/**
@@ -65,8 +65,7 @@ public class Config {
 	 * Tile Height
 	 */
 	public static final int TILE_H = 48;
-	
-	
+
 	/**
 	 * Character Width
 	 */
@@ -108,8 +107,7 @@ public class Config {
 	 * Tower Shooting Dispersion
 	 */
 	public static final double TOWER_DISPERSION = 40;
-	
-	
+
 	/**
 	 * Enemy Team
 	 */
@@ -126,8 +124,7 @@ public class Config {
 	 * Enemy Suspend Moving Vector Update Time
 	 */
 	public static final int ENEMY_SUSPEND_MOVING_VECTOR_UPDATE_TIME = 10000;
-	
-	
+
 	/**
 	 * Display Wave Text Time Duration
 	 */
@@ -150,11 +147,11 @@ public class Config {
 	public static final int MAXIMUM_WAVE_ENEMY_SPAWN_TIME_DELAY = 1000;
 
 	/**
-	 * MaxiMum Row Of Tile Player Can See On Screen 
+	 * MaxiMum Row Of Tile Player Can See On Screen
 	 */
 	public static final int SCREEN_TILE_W = 16;
 	/**
-	 * MaxiMum Colunm Of Tile Player Can See On Screen 
+	 * MaxiMum Column Of Tile Player Can See On Screen
 	 */
 	public static final int SCREEN_TILE_H = 10;
 	/**
@@ -162,7 +159,6 @@ public class Config {
 	 */
 	public static final String MAP_PATH = "map/map_test_3.csv";
 
-	
 	/**
 	 * Map Z Index
 	 */
@@ -179,18 +175,18 @@ public class Config {
 	 * Enemy Z Index
 	 */
 	public static final int ZINDEX_ENEMY = 9;
-	
+
 	/**
 	 * Text Inform Player To Press [SPACE] To Change Cutscene
 	 */
 	public static final String SKIP_TEXT = "Press [SPACE] to continue";
 
 	/**
-	 * Main Character Spwan Point
+	 * Main Character Spawn Point
 	 */
 	public static final Position SPAWN_CENTER = new Position((int) (Config.TILE_W * 2.5),
 			(GameState.getMapHeight() * Config.TILE_H) / 2);
-	
+
 	/**
 	 * Item DIsplay Per Page in Shop
 	 */

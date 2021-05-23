@@ -6,8 +6,14 @@ import utility.ResourceManager.ImageResource;
 import utility.ResourceManager.ItemResource;
 import weapon.Gun;
 
+/**
+ * Subclass Of Tower: Machine Gun Tower
+ */
 public class MachineGunTower extends Tower {
 
+	/**
+	 * Machine Gun Tower Main Constructor
+	 */
 	public MachineGunTower(int row, int col, int team) {
 		super(ImageResource.MACHINE_GUN_TOWER_BASE, ImageResource.MACHINE_GUN_TOWER_HEAD, "Machine Gun Tower", 30, 1,
 				null, team, row, col);
@@ -17,18 +23,30 @@ public class MachineGunTower extends Tower {
 		itemOnBuy.add(new Pair<>(ItemResource.MACHINE_GUN_TOWER, 1));
 	}
 
+	/**
+	 * Get Machine Gun Tower Description
+	 */
 	public String getDescription() {
 		return "fast attack speed, medium damage";
 	}
 
+	/**
+	 * Get Machine Gun Tower Icon ImageResource
+	 */
 	public ImageResource getIconImageResource() {
 		return ImageResource.MACHINE_GUN_TOWER;
 	}
 
+	/**
+	 * Get Machine Gun Tower Cost
+	 */
 	public int getCost() {
 		return 40;
 	}
 
+	/**
+	 * Is Machine Gun Tower Allow Buy
+	 */
 	public boolean isAllowBuy() {
 		return true;
 	}
