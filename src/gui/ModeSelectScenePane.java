@@ -4,7 +4,6 @@ import config.Config;
 import javafx.geometry.Pos;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import logic.GameState;
 import sound.SoundManager;

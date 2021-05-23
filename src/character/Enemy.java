@@ -7,6 +7,7 @@ import config.Config;
 import logic.GameState;
 import object.ObjectManager;
 import render.RenderManager;
+import sound.SoundManager;
 import tower.Tower;
 import update.UpdateManager;
 import utility.Position;
@@ -15,6 +16,7 @@ import utility.Utility;
 import utility.ResourceManager.GameObjectResource;
 import utility.ResourceManager.ImageResource;
 import utility.ResourceManager.SceneResource;
+import utility.ResourceManager.SoundResource;
 import weapon.Weapon;
 
 /**
@@ -145,8 +147,9 @@ public class Enemy extends Character {
 	 */
 	public void onDestroyed() {
 		MainCharacter mainCharacter = (MainCharacter) ResourceManager.getGameObject(GameObjectResource.MAIN_CHARACTER);
-
+		
 		mainCharacter.setMoney(mainCharacter.getMoney() + this.moneyDrop);
+		SoundManager.playSoundEffect(SoundResource.ENEMY_DEATH,0.2);
 	}
 
 	/**

@@ -13,6 +13,7 @@ import logic.GameState;
 import object.GameObject;
 import object.ObjectManager;
 import render.RenderManager;
+import sound.SoundManager;
 import update.Updatable;
 import update.UpdateManager;
 import utility.ResourceManager;
@@ -21,6 +22,7 @@ import weapon.Weapon;
 import utility.ResourceManager.ImageResource;
 import utility.ResourceManager.ItemResource;
 import utility.ResourceManager.SceneResource;
+import utility.ResourceManager.SoundResource;
 
 /**
  * Subclass Of GameObject: Game Tower Base Class
@@ -178,10 +180,10 @@ public abstract class Tower extends GameObject implements Updatable, Buyable {
 	}
 
 	/**
-	 * Action On Tower Destroyed
+	 * Play Tower Destroyed Sound
 	 */
 	public void onDestroyed() {
-		return;
+		SoundManager.playSoundEffect(SoundResource.TOWER_DESTROYED,0.4);
 	}
 
 	/**
@@ -253,6 +255,7 @@ public abstract class Tower extends GameObject implements Updatable, Buyable {
 			this.health = Math.min(maxHealth, health);
 		} else {
 			this.health = 0;
+			this.onDestroyed();
 			this.isDestroyed = true;
 		}
 	}
