@@ -10,12 +10,17 @@ import utility.ResourceManager.ItemResource;
 public class ShotgunAmmo extends Item {
 
 	/**
+	 * Ammo Receive Amount When Buy
+	 */
+	private static final int receiveAmmoOnBuy = 20;
+
+	/**
 	 * Main Constructor Of Shotgun Ammo
 	 */
 	public ShotgunAmmo() {
 		super("Shotgun Ammo", ImageResource.AMMO_SHOTGUN, 50);
-		this.description = "Ammo For Shotgun";
-		this.itemOnBuy.add(new Pair<>(ItemResource.AMMO_SHOTGUN, 20));
+		this.description = receiveAmmoOnBuy + " Ammo For Shotgun";
+		this.itemOnBuy.add(new Pair<>(ItemResource.AMMO_SHOTGUN, receiveAmmoOnBuy));
 	}
 
 }

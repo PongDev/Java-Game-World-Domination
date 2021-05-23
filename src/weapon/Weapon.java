@@ -90,4 +90,18 @@ public abstract class Weapon implements Buyable {
 	 */
 	public abstract boolean attack(Position centerPos, double degree);
 
+	/**
+	 * Get Weapon Attack Damage
+	 */
+	public int getAttackDamage() {
+		return attackDamage;
+	}
+
+	/**
+	 * Get Weapon Attack Speed
+	 */
+	public double getAttackSpeed() {
+		return attackSpeed;
+	}
+
 }

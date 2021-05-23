@@ -21,7 +21,7 @@ public class BarricadeTower extends Tower {
 	 * Get Barricade Tower Description
 	 */
 	public String getDescription() {
-		return String.format("can block enemies bullet, max hp: %d", getMaxHealth());
+		return String.format("can block enemies bullet, hp %d", getMaxHealth());
 	}
 
 	/**

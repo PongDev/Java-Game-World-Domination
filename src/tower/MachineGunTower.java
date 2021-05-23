@@ -27,7 +27,8 @@ public class MachineGunTower extends Tower {
 	 * Get Machine Gun Tower Description
 	 */
 	public String getDescription() {
-		return String.format("fast attack speed, medium damage, max hp: %d", getMaxHealth());
+		return String.format("%d damage, %.1f second firerate, hp %d", this.getWeapon().getAttackDamage(),
+				1 / this.getWeapon().getAttackSpeed(), getMaxHealth());
 	}
 
 	/**

@@ -138,6 +138,10 @@ public class Config {
 	 */
 	public static final int DELAY_BETWEEN_WAVE_TO_MONEY = 1;
 	/**
+	 * Last Wave In Normal Mode
+	 */
+	public static final int LAST_NORMAL_MODE_WAVE = 30;
+	/**
 	 * Minimum Enemy Spawn Time Delay
 	 */
 	public static final int MINIMUM_WAVE_ENEMY_SPAWN_TIME_DELAY = 400;

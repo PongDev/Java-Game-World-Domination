@@ -94,7 +94,7 @@ public class WaveManager {
 		wave += 1;
 		hasEliteSpawn = false;
 		// End game
-		if (GameState.getGameMode().getGameModeName() == "Normal" && wave == 31) {
+		if (GameState.getGameMode().getGameModeName() == "Normal" && wave == Config.LAST_NORMAL_MODE_WAVE + 1) {
 			SoundManager.playSoundEffect(SoundResource.ENDING_GOOD, 0.5);
 			GameState.setSceneResource(SceneResource.ENDING_GOOD);
 		}
@@ -283,8 +283,13 @@ public class WaveManager {
 					waveEndTimestamp = (new Date()).getTime();
 				}
 				if (isWaveEnd) {
-					displayWaveText = String.format("Wave %d Begin In %d Second(s)", wave + 1,
-							(Config.DELAY_BETWEEN_WAVE - ((new Date()).getTime() - waveEndTimestamp)) / 1000);
+					if (wave == Config.LAST_NORMAL_MODE_WAVE) {
+						displayWaveText = String.format("Game End In %d Second(s)",
+								(Config.DELAY_BETWEEN_WAVE - ((new Date()).getTime() - waveEndTimestamp)) / 1000);
+					} else {
+						displayWaveText = String.format("Wave %d Begin In %d Second(s)", wave + 1,
+								(Config.DELAY_BETWEEN_WAVE - ((new Date()).getTime() - waveEndTimestamp)) / 1000);
+					}
 					if ((new Date()).getTime() - waveEndTimestamp >= Config.DELAY_BETWEEN_WAVE) {
 						startNewWave();
 					}
