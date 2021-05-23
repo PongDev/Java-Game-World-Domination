@@ -8,33 +8,62 @@ import javafx.util.Pair;
 import logic.GameState;
 import object.GameObject;
 
+/**
+ * Utility
+ */
 public class Utility {
+
+	/**
+	 * Is Game Object Collide With Position X, Y
+	 * 
+	 * @param gameObject Game Object To Check
+	 * @param posX       Position X
+	 * @param posY       Position Y
+	 */
 	public static boolean isObjectCollide(GameObject gameObject, double posX, double posY) {
 		return posX >= gameObject.getPos().X && posY >= gameObject.getPos().Y
 				&& posX <= (gameObject.getPos().X + gameObject.getWidth() - 1)
 				&& posY <= (gameObject.getPos().Y + gameObject.getHeight() - 1);
 	}
 
-	public static boolean isObjectCollide(GameObject target, GameObject bullet) {
-		return isObjectCollide(bullet, target.getPos().X, target.getPos().Y)
-				|| isObjectCollide(bullet, target.getPos().X + target.getWidth(), target.getPos().Y)
-				|| isObjectCollide(bullet, target.getPos().X, target.getPos().Y + target.getHeight())
-				|| isObjectCollide(bullet, target.getPos().X + target.getWidth(),
-						target.getPos().Y + target.getHeight());
+	/**
+	 * Is Game Object Collide With Each Other
+	 */
+	public static boolean isObjectCollide(GameObject obj1, GameObject obj2) {
+		return isObjectCollide(obj2, obj1.getPos().X, obj1.getPos().Y)
+				|| isObjectCollide(obj2, obj1.getPos().X + obj1.getWidth(), obj1.getPos().Y)
+				|| isObjectCollide(obj2, obj1.getPos().X, obj1.getPos().Y + obj1.getHeight())
+				|| isObjectCollide(obj2, obj1.getPos().X + obj1.getWidth(), obj1.getPos().Y + obj1.getHeight());
 	}
 
+	/**
+	 * Get Euclidean Distance Between 2 Position In Pixel Unit
+	 */
 	public static double euclideanDistance(Position pos1, Position pos2) {
 		return Math.sqrt(Math.pow(pos1.X - pos2.X, 2) + Math.pow(pos1.Y - pos2.Y, 2));
 	}
 
+	/**
+	 * Get Euclidean Distance Between 2 Game Object In Pixel Unit
+	 */
 	public static double euclideanDistance(GameObject obj1, GameObject obj2) {
 		return euclideanDistance(obj1.getCenterPos(), obj2.getCenterPos());
 	}
 
+	/**
+	 * Is Sum Of 2 Vector Is Zero
+	 */
 	public static boolean isZeroSumVector(Position vector1, Position vector2) {
 		return (vector1.X + vector2.X == 0 && vector1.Y + vector2.Y == 0);
 	}
 
+	/**
+	 * Calculate Distance From Game Object Using Special 8 Direction Breadth First
+	 * Search Algorithm And Dynamic Programming
+	 * 
+	 * @param obj                Game Object To Calculate Distance
+	 * @param distanceFromObject 2 Dimension Integer Array To Store Distance
+	 */
 	public static void calculateDistanceFromGameObject(GameObject obj, int distanceFromObject[][]) {
 		int posRow = (int) (obj.getCenterPos().Y / Config.TILE_H);
 		int posCol = (int) (obj.getCenterPos().X / Config.TILE_W);

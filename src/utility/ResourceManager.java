@@ -43,8 +43,14 @@ import weapon.MachineGun;
 import weapon.Shotgun;
 import weapon.Sniper;
 
+/**
+ * Resource Manager: Management All Game Resource
+ */
 public class ResourceManager {
 
+	/**
+	 * In-Game Image Resource Enumerator
+	 */
 	public enum ImageResource {
 		BG_TITLE, INFO_NORMALMODE, INFO_ENDLESSMODE, BTN, BTN_HOVER, BTN_NEWGAME, BTN_LOADGAME, BTN_EXITGAME, BTN_PLAY,
 		BTN_BACK, BTN_NEXT, BTN_PREVIOUS, TILE_FLOOR, TILE_FLOOR_1, TILE_FLOOR_2, TILE_WALL, TILE_UNWALKABLE_FLOOR,
@@ -57,36 +63,81 @@ public class ResourceManager {
 		ENDING_BAD, ENDING_GOOD_1, GAME_CONTROL, BEGINNING_GAME_CONTROL, END_CREDIT
 	}
 
+	/**
+	 * In-Game Sound Resource Enumerator
+	 */
 	public enum SoundResource {
 		TITLE, PLAYING, CAR_CRASH, ENDING_BAD, ENDING_GOOD, GUN_PISTOL, GUN_DESERTEAGLE, GUN_AK47, GUN_DOUBLEBARREL,
 		GUN_SHOTGUN, GUN_SNIPER, GUN_MACHINEGUN, HEALTH_POTON, DEPLOY_TOWER, GUN_OUT_OF_AMMO
 	}
 
+	/**
+	 * In-Game Scene Resource Enumerator
+	 */
 	public enum SceneResource {
 		TITLE, SETTING, MODE_SELECTING, PLAYING, BEGINNING_LORE, ENDING_BAD, ENDING_GOOD, END_CREDIT
 	}
 
+	/**
+	 * In-Game Item Resource Enumerator
+	 */
 	public enum ItemResource {
 		BARRIER_TOWER, MACHINE_GUN_TOWER, SNIPER_TOWER, HEALTH_POTION, GUN_DESERTEAGLE, GUN_AK47, GUN_DOUBLEBARREL,
 		GUN_SHOTGUN, GUN_SNIPER, GUN_MACHINEGUN, AMMO_PISTOL, AMMO_RIFLE, AMMO_SHOTGUN
 	}
 
+	/**
+	 * In-Game UI Resource Enumerator
+	 */
 	public enum UIResource {
 		SHOP
 	}
 
+	/**
+	 * In-Game Game Object Resource Enumerator
+	 */
 	public enum GameObjectResource {
 		MAIN_CHARACTER
 	}
 
+	/**
+	 * Hash Map Mapping From ImageResource To Image
+	 */
 	private static Map<ImageResource, Image> imageResource = new HashMap<ImageResource, Image>();
+
+	/**
+	 * Hash Map Mapping From SoundResource To AudioClip
+	 */
 	private static Map<SoundResource, AudioClip> soundResource = new HashMap<SoundResource, AudioClip>();
+
+	/**
+	 * Map Resource String
+	 */
 	private static String[][] mapResource;
+
+	/**
+	 * Hash Map Mapping From SceneResource To Scene
+	 */
 	private static Map<SceneResource, Scene> sceneResource = new HashMap<SceneResource, Scene>();
+
+	/**
+	 * Hash Map Mapping From ItemResource To Buyable Object
+	 */
 	private static Map<ItemResource, Buyable> itemResource = new HashMap<ItemResource, Buyable>();
+
+	/**
+	 * Hash Map Mapping From UIResource To Pane
+	 */
 	private static Map<UIResource, Pane> uiResource = new HashMap<UIResource, Pane>();
+
+	/**
+	 * Hash Map Mapping From GameObjectResource To GameObject
+	 */
 	private static Map<GameObjectResource, GameObject> gameObjectResource = new HashMap<GameObjectResource, GameObject>();
 
+	/**
+	 * Initialize Resource
+	 */
 	static {
 		Logger.log("Initializing ResourceManager");
 		loadImage();
@@ -99,14 +150,29 @@ public class ResourceManager {
 		Logger.log("ResourceManager Initialized");
 	}
 
+	/**
+	 * Get Resource String From File Path
+	 * 
+	 * @param filePath Resource File Path
+	 * @return Resource String From File Path
+	 */
 	private static String getResourceString(String filePath) {
 		return ClassLoader.getSystemResource(filePath).toString();
 	}
 
+	/**
+	 * Get Image From File Path
+	 * 
+	 * @param filePath Image File Path
+	 * @return Image From File Path
+	 */
 	private static Image getImage(String filePath) {
 		return new Image(getResourceString(filePath));
 	}
 
+	/**
+	 * Load Image Resource
+	 */
 	private static void loadImage() {
 		Logger.log("Start Loading Image");
 		imageResource.put(ImageResource.BG_TITLE, getImage("bg/title.png"));
@@ -172,10 +238,19 @@ public class ResourceManager {
 		Logger.log("Complete Loading Image");
 	}
 
+	/**
+	 * Get Sound From File Path
+	 * 
+	 * @param filePath Sound File Path
+	 * @return AudioClip Generate From Sound File Path
+	 */
 	private static AudioClip getSound(String filePath) {
 		return new AudioClip(getResourceString(filePath));
 	}
 
+	/**
+	 * Load Sound Resource
+	 */
 	private static void loadSound() {
 		soundResource.put(SoundResource.TITLE, getSound("sound/TheFatRat - Nemesis.mp3"));
 		soundResource.put(SoundResource.PLAYING, getSound("sound/Glorious_morning.mp3"));
@@ -194,6 +269,9 @@ public class ResourceManager {
 		soundResource.put(SoundResource.GUN_OUT_OF_AMMO, getSound("sound/gun_out_of_ammo.mp3"));
 	}
 
+	/**
+	 * Load Map Resource
+	 */
 	private static void loadMap() {
 		try {
 			Logger.log("Start Loading Map");
@@ -219,6 +297,9 @@ public class ResourceManager {
 		Logger.log("Complete Loading Map");
 	}
 
+	/**
+	 * Load Item Resource
+	 */
 	private static void loadItem() {
 		itemResource.put(ItemResource.MACHINE_GUN_TOWER, new MachineGunTower(0, 0, 0));
 		itemResource.put(ItemResource.SNIPER_TOWER, new SniperTower(0, 0, 0));
@@ -239,6 +320,9 @@ public class ResourceManager {
 		itemResource.put(ItemResource.AMMO_SHOTGUN, new ShotgunAmmo());
 	}
 
+	/**
+	 * Load UI Resource
+	 */
 	private static void loadUI() {
 		Logger.log("Start Loading UI");
 
@@ -247,6 +331,9 @@ public class ResourceManager {
 		Logger.log("Complete Loading UI");
 	}
 
+	/**
+	 * Load Scene Resource
+	 */
 	private static void loadScene() {
 		Logger.log("Start Loading Scene");
 
@@ -286,6 +373,9 @@ public class ResourceManager {
 		Logger.log("Complete Loading Scene");
 	}
 
+	/**
+	 * Load Game Object Resource
+	 */
 	private static void loadGameObject() {
 		gameObjectResource.put(GameObjectResource.MAIN_CHARACTER,
 				new MainCharacter(ImageResource.CHARACTER_MAIN, Config.CHARACTER_W, Config.CHARACTER_H, "",
@@ -294,10 +384,21 @@ public class ResourceManager {
 						Config.MAIN_CHARACTER_TEAM, new Position(Config.SPAWN_CENTER)));
 	}
 
+	/**
+	 * Get Image From ImageResource
+	 */
 	public static Image getImage(ImageResource image) {
 		return imageResource.get(image);
 	}
 
+	/**
+	 * Get ImageView From ImageResource
+	 * 
+	 * @param image  ImageResource
+	 * @param width  ImageView Width
+	 * @param height ImageView Height
+	 * @return ImageView
+	 */
 	public static ImageView getImageView(ImageResource image, int width, int height) {
 		ImageView imageView = new ImageView(getImage(image));
 
@@ -306,30 +407,64 @@ public class ResourceManager {
 		return imageView;
 	}
 
+	/**
+	 * Get Sound From SoundResource
+	 * 
+	 * @param sound SoundResource
+	 * @return AudioClip From SoundResource
+	 */
 	public static AudioClip getSound(SoundResource sound) {
 		return soundResource.get(sound);
 	}
 
+	/**
+	 * Get Item From ItemResource
+	 * 
+	 * @param item ItemResource
+	 * @return Buyable Item
+	 */
 	public static Buyable getItem(ItemResource item) {
 		return itemResource.get(item);
 	}
 
+	/**
+	 * Get UI From UIResource
+	 * 
+	 * @param ui UIResource
+	 * @return UI Pane
+	 */
 	public static Pane getUI(UIResource ui) {
 		return uiResource.get(ui);
 	}
 
+	/**
+	 * Get Scene From SceneResource
+	 */
 	public static Scene getScene(SceneResource scene) {
 		return sceneResource.get(scene);
 	}
 
+	/**
+	 * Get Font Resource Stream From Configure Font Path
+	 * 
+	 * @return Font InputStream
+	 */
 	public static InputStream getFontResourceStream() {
 		return ClassLoader.getSystemResourceAsStream(Config.FONT_PATH);
 	}
 
+	/**
+	 * Get Map Resource
+	 * 
+	 * @return Map Resource String
+	 */
 	public static String[][] getMapResource() {
 		return mapResource;
 	}
 
+	/**
+	 * Get Game Object From GameObjectResource
+	 */
 	public static GameObject getGameObject(GameObjectResource gameObject) {
 		return gameObjectResource.get(gameObject);
 	}
