@@ -6,7 +6,7 @@ import weapon.Pistol;
 import weapon.Weapon;
 
 /**
- * Contains Game Config
+ * Contains Game Configuration
  */
 public class Config {
 	/**
@@ -28,7 +28,7 @@ public class Config {
 	/**
 	 * Title Scene Pane Button Width
 	 */
-	public static final int TITLE_BTN_W = 200;
+	public static final int TITLE_BTN_W = 250;
 	/**
 	 * Title Scene Pane Button Height
 	 */

@@ -51,7 +51,7 @@ public class TitleScenePane extends StackPane implements Updatable {
 		textGameName2.setAlignment(Pos.CENTER);
 		textGameName2.setTranslateY(-Config.SCREEN_H / 5);
 
-		btnNewGame = new GameButton("New game", ImageResource.BTN, Config.TITLE_BTN_W, Config.TITLE_BTN_H);
+		btnNewGame = new GameButton("Start game", ImageResource.BTN, Config.TITLE_BTN_W, Config.TITLE_BTN_H);
 		btnNewGame.setTextFill(Color.WHITE);
 		btnNewGame.setOnMouseClicked((e) -> {
 			Logger.log("Button New Game Click");

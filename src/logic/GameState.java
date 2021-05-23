@@ -24,7 +24,7 @@ public class GameState {
 		NORMAL(0, "Normal", ImageResource.INFO_NORMALMODE,
 				"Survive 30 waves to win\n" + "Elite enemies every 10 waves"),
 		ENDLESS(1, "Endless", ImageResource.INFO_ENDLESSMODE,
-				"Survive as long as you can!\n" + "Elite enemies every 15 waves");
+				"Survive as long as you can!\n" + "Elite enemies every 10 waves");
 
 		/**
 		 * Game Mode Code
