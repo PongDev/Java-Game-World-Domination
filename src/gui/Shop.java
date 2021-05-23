@@ -139,7 +139,7 @@ public class Shop extends StackPane {
 					selectedItem = itemResource;
 					itemButton.setBackground(new Background(
 							new BackgroundFill(Color.rgb(0, 0, 0, 0.3), CornerRadii.EMPTY, new Insets(5))));
-					if (selectedButton != null) {
+					if (selectedButton != null && selectedButton != itemButton) {
 						selectedButton.setBackground(Background.EMPTY);
 					}
 					selectedButton = itemButton;
