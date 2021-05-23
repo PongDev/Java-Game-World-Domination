@@ -15,19 +15,67 @@ import weapon.Gun;
 
 public class WaveManager {
 
+	/**
+	 * ArrayList Contains All Enemy Spawned In Current Wave
+	 */
 	private static ArrayList<Enemy> enemyList = new ArrayList<Enemy>();
+	/**
+	 * ArrayList Contains Number Of Enemy Per Wave For Normal Mode
+	 */
 	private static int[] enemyPerWaveList = { 1, 2, 2, 3, 3, 4, 4, 5, 5, 5, 7, 7, 8, 8, 9, 9, 10, 10, 11, 11, 13,
 			13, 14, 14, 15, 15, 16, 16, 17, 17, 0 };
+	/**
+	 * Wave Amount
+	 */
 	private static int wave = 0;
+	/**
+	 * Text To Display When Start Wave
+	 */
 	private static String displayWaveText = "";
-	private static long displayWaveTextTimestamp = 0, waveEndTimestamp = 0;
-	private static long enemySpawnTimeDelay = 0, lastEnemySpawnTime = 0;
+	/**
+	 * Display Wave Text Timestamp
+	 */
+	private static long displayWaveTextTimestamp = 0;
+	/**
+	 * Wave End Timestamp
+	 */
+	private static long waveEndTimestamp = 0;
+	/**
+	 * Enemy Spawn Time Delay
+	 */
+	private static long enemySpawnTimeDelay = 0;
+	/**
+	 * Last Enemy Spawn Timestamp
+	 */
+	private static long lastEnemySpawnTime = 0;
+	/**
+	 * Is Wave End
+	 */
 	private static boolean isWaveEnd = false;
+	/**
+	 * Is Pause Between Wave End
+	 */
 	private static boolean isPauseBetweenWaveEnd = false;
+	/**
+	 * Is Spawning Enemy
+	 */
 	private static boolean isSpawningEnemy = false;
-	private static boolean isEliteSpawn = false;
-	private static int enemyPerWave, enemySpawnedInCurrentWave;
+	/**
+	 * Has Elite Spawn In Current Wave
+	 */
+	private static boolean hasEliteSpawn = false;
+	/**
+	 * Total Enemy Need To Spawn Per Wave
+	 */
+	private static int enemyPerWave;
+	/**
+	 * Amount Of Enemy That Has Spawned In Current Wave
+	 */
+	private static int enemySpawnedInCurrentWave;
 
+	/**
+	 * Initialize Value
+	 */
 	public static void initialize() {
 		wave = 0;
 		displayWaveText = "";
@@ -35,10 +83,13 @@ public class WaveManager {
 		startNewWave();
 	}
 
+	/**
+	 * Start New Wave, Set IsWaveEnd To False
+	 */
 	private static void startNewWave() {
 		isWaveEnd = false;
 		wave += 1;
-		isEliteSpawn = false;
+		hasEliteSpawn = false;
 		// End game
 		if (GameState.getGameMode().getGameModeName() == "Normal" && wave == 31) {
 			SoundManager.playSoundEffect(SoundResource.ENDING_GOOD, 0.5);
@@ -62,6 +113,9 @@ public class WaveManager {
 		Logger.log("Start Wave " + wave);
 	}
 
+	/**
+	 * Spawn An Enemy According To Value From randomEnemyType 
+	 */
 	private static void spawnEnemy() {
 		int randomSpawnTile = (int) (Math.random() * GameMap.getEnemySpawnableTile().size());
 		Position spawnLocation = new Position(
@@ -144,19 +198,28 @@ public class WaveManager {
 						Config.ENEMY_TEAM, moneyDrop, spawnLocation));
 	}
 
+	/**
+	 * Calculate Enemy Stat By Wave Number
+	 * @param normalStat Enemy Stat In First Wave
+	 * @return Enemy Stat Of Current Wave
+	 */
 	public static int calculateStat(int normalStat) {
 		return normalStat + ((normalStat / 2) * (wave / 10));
 	}
 
+	/**
+	 * Random Enemy Type Algorithm
+	 * @return Integer That Represent Enemy Type
+	 */
 	public static int randomEnemyType() {
 		int randomEnemyType = (Math.random() > 0.7 ? 1 : 0);
-		if (!isEliteSpawn) {
+		if (!hasEliteSpawn) {
 			if (wave % 10 == 0) {
 				randomEnemyType = 3;
-				isEliteSpawn = true;
+				hasEliteSpawn = true;
 			} else if ((wave == 5 || wave == 15)) {
 				randomEnemyType = 2;
-				isEliteSpawn = true;
+				hasEliteSpawn = true;
 			}
 		} else if (wave > 20 && randomEnemyType == 1) {
 			randomEnemyType = 1 + (Math.random() > 0.7 ? 1 : 0);
@@ -164,14 +227,25 @@ public class WaveManager {
 		return randomEnemyType;
 	}
 
+	/**
+	 * Getter Of Wave
+	 * @return Wave
+	 */
 	public static int getWave() {
 		return wave;
 	}
 
+	/**
+	 * Getter Of DisplayWaveText
+	 * @return DisplayWaveText
+	 */
 	public static String getDisplayWaveText() {
 		return displayWaveText;
 	}
 
+	/**
+	 * Spawn Enemy When Start Wave, Check If Wave Has End
+	 */
 	public static void update() {
 		if (GameState.getSceneResource() == SceneResource.PLAYING) {
 			if (!GameState.isPause()) {
@@ -217,10 +291,18 @@ public class WaveManager {
 		}
 	}
 
+	/**
+	 * Getter Of IsWaveEnd
+	 * @return IsWaveEnd
+	 */
 	public static boolean isWaveEnd() {
 		return isWaveEnd;
 	}
 
+	/**
+	 * Force Start NewWave
+	 * @return Time Left Before New Wave Start Normally
+	 */
 	public static int forceStartNewWave() {
 		if (isWaveEnd) {
 			int timeLeft = (int) (Config.DELAY_BETWEEN_WAVE - ((new Date()).getTime() - waveEndTimestamp)) / 1000;
